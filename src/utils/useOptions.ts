@@ -51,13 +51,13 @@ export default function useOptions(props: any, context: any, dependancies: any) 
 
     function select(option: Option) {
         selectedValues.value.push(option.value)
-        context.emit('select')
+        context.emit('select', option)
     }
 
     function deselect(option: Option) {
         const index = selectedValues.value.indexOf(option.value)
         selectedValues.value.splice(index, 1)
-        context.emit('deselect')
+        context.emit('deselect', option)
     }
 
     function handleOptionClick(option: Option) {

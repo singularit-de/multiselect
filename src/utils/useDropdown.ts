@@ -6,10 +6,12 @@ export default function useDropdown(props: any, context: any) {
 
     function openDropdown() {
         dropdownOpen.value = true
+        context.emit('open')
     }
 
     function closeDropdown() {
         dropdownOpen.value = false
+        context.emit('close')
     }
 
 
