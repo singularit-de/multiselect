@@ -61,7 +61,7 @@
 
     <!-- clear -->
     <slot v-if="!noSelection && canClear" :clear="clear" name="clear">
-    <span class="multiselect-clear" @click="clear"><span
+    <span class="multiselect-clear" @mousedown="clear"><span
         class="multiselect-clear-x"><!-- clear icon? --> x</span></span>
     </slot>
 
@@ -77,9 +77,14 @@ import useDropdown from "./utils/useDropdown";
 import useSearch from "./utils/useSearch";
 import useOptions from "./utils/useOptions";
 import useValue from "./utils/useValue";
+import "./style/style.css"
 
 export default defineComponent({
   name: 'Multiselect',
+  emits: [
+    'open', 'close', 'select', 'deselect',
+    'search-change', 'update:modelValue', 'clear'
+  ],
   props: {
     modelValue: {
       default: [],
@@ -145,65 +150,5 @@ export default defineComponent({
 </script>
 
 <style>
-.multiselect {
-  @apply relative mx-auto w-full flex items-center justify-end box-border cursor-pointer border border-gray-300 rounded bg-white text-base leading-snug outline-none;
-}
-
-.multiselect.is-active {
-  @apply ring ring-green-500 ring-opacity-30;
-}
-
-.multiselect.dropdown-open {
-  @apply rounded-b-none
-}
-
-.multiselect-search {
-  @apply w-full absolute inset-0 outline-none appearance-none box-border border-0 text-base font-sans bg-white rounded pl-3.5;
-}
-
-
-.multiselect-dropdown {
-  @apply max-h-60 absolute -left-px -right-px bottom-0 transform translate-y-full border border-gray-300 -mt-px overflow-y-scroll z-50 bg-white flex flex-col rounded-b;
-}
-
-.multiselect-dropdown.is-hidden {
-  @apply hidden
-}
-
-.multiselect-options {
-  @apply flex flex-col p-0 m-0 list-none;
-}
-
-.multiselect-option {
-  @apply flex items-center justify-start box-border text-left cursor-pointer text-base leading-snug py-2 px-3 hover:text-gray-800 hover:bg-gray-100;
-}
-
-.multiselect-option.is-selected {
-  @apply text-white bg-green-500 hover:bg-green-600;
-}
-
-.multiselect-option.is-hidden{
-  @apply hidden;
-}
-
-.multiselect-clear {
-  @apply pr-3.5 relative z-10 opacity-40 transition duration-300 flex-shrink-0 flex-grow-0 flex hover:opacity-80;
-}
-
-.multiselect-clear-x {
-  @apply text-lg font-bold text-center
-}
-
-.multiselect-label {
-  @apply flex items-center h-full absolute left-0 top-0 pointer-events-none bg-transparent leading-snug pl-3.5;
-}
-
-.multiselect-placeholder {
-  @apply flex items-center h-full absolute left-0 top-0 pointer-events-none bg-transparent leading-snug pl-3.5 text-gray-400;
-}
-
-.multiselect-spacer {
-  @apply h-9 py-px box-content;
-}
 
 </style>
