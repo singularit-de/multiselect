@@ -14,9 +14,12 @@ export default function useOptions(props: any, context: any, dependancies: any) 
     const selectedOptions = computed(() => {
         const selected = []
         for (const option of props.selectOptions) {
-            if (selectedValues.value.includes((option as Option).value)) {
+            if (isSelected(option)) {
                 selected.push(option)
             }
+        }
+        if (selected.length < selectedValues.value.length) {
+            selectedValues.value.pop()
         }
         return selected
     })
