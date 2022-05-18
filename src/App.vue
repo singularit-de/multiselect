@@ -34,13 +34,6 @@ const options = [
   // {value: 3, label: 'sheesh'}
 ]
 
-function addRandomNumber(){
-  const number = Math.floor(Math.random()*3 + 1);
-  if (selected.value.indexOf(number) === -1) {
-    (selected.value as any[]).push(number)
-  }
-}
-
 function push(value: Object) {
   if (selected.value.indexOf(value) === -1) {
     selected.value.push(value)
