@@ -16,6 +16,7 @@
           v-model="search"
           class="multiselect-search"
           type="text"
+          @input="handleInput"
       />
     </template>
 
@@ -45,13 +46,13 @@
     >
       <ul class="multiselect-options">
         <li
-            v-for="(option) in selectOptions"
+            v-for="(option) in shownOptions"
             :key=option.value
             class=""
             @click="handleOptionClick(option)"
         >
           <slot :option="option" name="optionLabel">
-            <span :class="{'is-selected': isSelected(option)}" class="multiselect-option">{{ option.label }}</span>
+            <span :class="{'is-selected': isSelected(option), 'is-hidden': isNotShown(option)}" class="multiselect-option">{{ option.label }}</span>
           </slot>
         </li>
       </ul>
@@ -119,7 +120,8 @@ export default defineComponent({
     const dropdown = useDropdown(props, context)
     const search = useSearch(props, context)
     const options = useOptions(props, context, {
-      selectedValues: value.selectedValues
+      selectedValues: value.selectedValues,
+      search: search.search
     })
     const multiselect = useMultiselect(props, context, {
       selectedValues: value.selectedValues,
@@ -178,6 +180,10 @@ export default defineComponent({
 
 .multiselect-option.is-selected {
   @apply text-white bg-green-500 hover:bg-green-600;
+}
+
+.multiselect-option.is-hidden{
+  @apply hidden;
 }
 
 .multiselect-clear {

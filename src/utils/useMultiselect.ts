@@ -22,8 +22,13 @@ export default function useMultiselect(props: any, context: any, dependancies: a
 
     function deactivate() {
         isActive.value = false
-        closeDropdown()
-        clearSearch()
+
+        setTimeout(() => {
+            if (!isActive.value) {
+                closeDropdown()
+                clearSearch()
+            }
+        }, 1)
     }
 
     function clear() {

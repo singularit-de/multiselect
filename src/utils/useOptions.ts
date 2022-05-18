@@ -1,10 +1,15 @@
 import Option from "../types/option.type";
 import _ from "lodash";
-import {computed, watch} from "vue";
+import {computed, ref, toRef} from "vue";
 
 export default function useOptions(props: any, context: any, dependancies: any) {
 
+    const selectOptions = toRef(props, 'selectOptions')
+
     const selectedValues = dependancies.selectedValues
+    const search = dependancies.search
+
+    const shownOptions = ref<Option[]>(selectOptions.value)
 
     const selectedOptions = computed(() => {
         const selected = []
@@ -16,15 +21,6 @@ export default function useOptions(props: any, context: any, dependancies: any) 
         return selected
     })
 
-    watch(selectedOptions, (newSelected, oldSelected) => {
-        if (newSelected.length < oldSelected.length) {
-            context.emit('deselect')
-        } else {
-            context.emit('select')
-        }
-    })
-
-
     function isSelected(option: Option) {
         let find = null
         if (selectedValues.value && selectedValues.value.length > 0) {
@@ -34,7 +30,7 @@ export default function useOptions(props: any, context: any, dependancies: any) 
             find = selectedValues.value.find((value: any, index: number) => {
                 if (_.isEqual(value, option.value)) {
                     if (selectedValues.value[index] !== option.value) {
-                        //option update hack
+                        //value update
                         option.value = selectedValues.value[index]
                         selectedValues.value.push(option.value)
                         selectedValues.value.pop()
@@ -46,20 +42,35 @@ export default function useOptions(props: any, context: any, dependancies: any) 
         return !!find;
     }
 
+    function isNotShown(option: Option) {
+        return !option.label.includes(search.value)
+    }
+
+    function select(option: Option) {
+        selectedValues.value.push(option.value)
+        context.emit('select')
+    }
+
+    function deselect(option: Option) {
+        const index = selectedValues.value.indexOf(option.value)
+        selectedValues.value.splice(index, 1)
+        context.emit('deselect')
+    }
+
     function handleOptionClick(option: Option) {
         if (isSelected(option)) {
-            const index = selectedValues.value.indexOf(option.value)
-            selectedValues.value.splice(index, 1)
+            deselect(option)
         } else {
-            selectedValues.value.push(option.value)
+            select(option)
         }
     }
 
 
-
     return {
         selectedOptions,
+        shownOptions,
         isSelected,
+        isNotShown,
         handleOptionClick
     }
 }

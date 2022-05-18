@@ -1,4 +1,4 @@
-import {ref} from "vue";
+import {ref, watch} from "vue";
 
 export default function useSearch(props: any, context: any) {
     const search = ref('')
@@ -7,8 +7,17 @@ export default function useSearch(props: any, context: any) {
         search.value = ''
     }
 
+    function handleInput(e: any) {
+        search.value = e.target.value
+    }
+
+    watch(search, (val) => {
+        context.emit('search-change', val)
+    })
+
     return {
         search,
-        clearSearch
+        clearSearch,
+        handleInput
     }
 }

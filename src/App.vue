@@ -1,6 +1,5 @@
 <template>
   <div class="w-60 mx-20 my-10">
-    <p>Hey</p>
     <Multiselect
         class=""
         searchable
@@ -9,10 +8,10 @@
         placeholder="test"
         :multiple-label="multipleLabel"
     />
+    <button @click="push(value)" class="mt-4 text-center w-full border-2 bg-gray-100">Push a value</button>
     <ul>
-      <li v-for="(select, id) in selected" :key="id">{{select}}</li>
+      <li v-if="selected" v-for="(select, id) in selected" :key="id">{{select}}</li>
     </ul>
-    <button @click="push(value)">try sth</button>
   </div>
 
 </template>

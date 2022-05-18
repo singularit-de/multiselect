@@ -1,4 +1,4 @@
 export default class Option{
     value: any;
-    label?: String;
+    label: String = '';
 }
