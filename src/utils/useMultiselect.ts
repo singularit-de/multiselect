@@ -1,14 +1,14 @@
-import {computed, ref, toRef, toRefs} from "vue";
+import {computed, ref, toRefs} from "vue";
 
-export default function useMultiselect(props: any, context: any, dependancies: any) {
+export default function useMultiselect(props: any, context: any, dependencies: any) {
 
-    const selectedValues = dependancies.selectedValues
-    const selectedOptions = dependancies.selectedOptions
-    const openDropdown = dependancies.openDropdown
-    const closeDropdown = dependancies.closeDropdown
-    const clearSearch = dependancies.clearSearch
+    const selectedValues = dependencies.selectedValues
+    const selectedOptions = dependencies.selectedOptions
+    const openDropdown = dependencies.openDropdown
+    const closeDropdown = dependencies.closeDropdown
+    const clearSearch = dependencies.clearSearch
 
-    const {searchable, disabled} = toRefs(props)
+    const {searchable, disabled, multipleLabel} = toRefs(props)
 
     const multiselect = ref(null)
     const isActive = ref(false)
@@ -40,9 +40,13 @@ export default function useMultiselect(props: any, context: any, dependancies: a
     }
 
     const multipleLabelText = computed(() => {
-        const multipleLabelRef = toRef(props, 'multipleLabel')
-        if (multipleLabelRef && multipleLabelRef.value) {
-            return multipleLabelRef.value(selectedOptions.value)
+
+        if (multipleLabel && multipleLabel.value) {
+            if (typeof multipleLabel.value === 'string' || multipleLabel.value instanceof String) {
+                return multipleLabel.value
+            } else {
+                return multipleLabel.value(selectedOptions.value)
+            }
         } else {
             return selectedValues.value && selectedValues.value.length > 1 ? `${selectedValues.value.length} Optionen gewählt` : '1 Option gewählt'
         }

@@ -2,13 +2,13 @@ import Option from "../types/option.type";
 import _ from "lodash";
 import {computed, ref, toRefs} from "vue";
 
-export default function useOptions(props: any, context: any, dependancies: any) {
+export default function useOptions(props: any, context: any, dependencies: any) {
 
-    const {selectOptions, closeOnSelect} = toRefs(props)
+    const {selectOptions, closeOnSelect, singleSelect} = toRefs(props)
 
-    const selectedValues = dependancies.selectedValues
-    const search = dependancies.search
-    const closeDropdown = dependancies.closeDropdown
+    const selectedValues = dependencies.selectedValues
+    const search = dependencies.search
+    const closeDropdown = dependencies.closeDropdown
 
     const shownOptions = ref<Option[]>(selectOptions.value)
 
@@ -57,6 +57,10 @@ export default function useOptions(props: any, context: any, dependancies: any) 
         context.emit('select', option)
         if (closeOnSelect.value) {
             closeDropdown()
+        }
+        if (singleSelect.value && selectedValues.value.length > 1) {
+            console.log('yo')
+            selectedValues.value.shift()
         }
     }
 

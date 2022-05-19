@@ -121,6 +121,11 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false,
+    },
+    singleSelect: {
+      type: Boolean,
+      required: false,
+      default: false,
     }
   },
   computed: {},
@@ -132,7 +137,7 @@ export default defineComponent({
     const options = useOptions(props, context, {
       selectedValues: value.selectedValues,
       search: search.search,
-      closeDropdown: dropdown.closeDropdown
+      closeDropdown: dropdown.closeDropdown,
     })
     const multiselect = useMultiselect(props, context, {
       selectedValues: value.selectedValues,

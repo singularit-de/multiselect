@@ -9,6 +9,8 @@ declare class Multiselect {
     canClear?: boolean;
     disabled?: boolean;
     searchable?: boolean;
+    closeOnSelect?: boolean;
+    singleSelect?: boolean;
 
     $emit(eventName: 'select', e: { originalEvent: Event,  option: Option }): this;
     $emit(eventName: 'deselect', e: { originalEvent: Event, option: Option }): this;
