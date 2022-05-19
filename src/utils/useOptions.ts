@@ -18,6 +18,7 @@ export default function useOptions(props: any, context: any, dependancies: any) 
                 selected.push(option)
             }
         }
+        //prevents pushing objects that aren't options into modelValue
         if (selected.length < selectedValues.value.length) {
             selectedValues.value.pop()
         }
@@ -30,6 +31,7 @@ export default function useOptions(props: any, context: any, dependancies: any) 
             if (selectedValues.value.includes(option.value)) {
                 return true
             }
+            //enable pushing values into modelValue correctly
             find = selectedValues.value.find((value: any, index: number) => {
                 if (_.isEqual(value, option.value)) {
                     if (selectedValues.value[index] !== option.value) {

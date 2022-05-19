@@ -2,6 +2,10 @@
     @apply relative mx-auto w-full flex items-center justify-end box-border cursor-pointer border border-gray-300 rounded bg-white text-base leading-snug outline-none;
 }
 
+.multiselect.is-disabled {
+    @apply cursor-default bg-gray-100;
+}
+
 .multiselect.is-active {
     @apply ring ring-green-500 ring-opacity-30;
 }

@@ -16,8 +16,10 @@ export default function useMultiselect(props: any, context: any, dependancies: a
     const tabindex = computed(() => searchable.value || disabled.value ? -1 : 0)
 
     function activate() {
-        isActive.value = true
-        openDropdown()
+        if (!disabled.value) {
+            isActive.value = true
+            openDropdown()
+        }
     }
 
     function deactivate() {

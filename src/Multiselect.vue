@@ -2,7 +2,7 @@
   <div
       id="multiselect"
       ref="multiselect"
-      :class="{'is-active': isActive, 'dropdown-open': dropdownOpen}"
+      :class="{'is-active': isActive, 'dropdown-open': dropdownOpen, 'is-disabled': disabled}"
       class="multiselect"
       :tabindex="tabindex"
       @focusin="activate"
@@ -60,7 +60,7 @@
 
 
     <!-- clear -->
-    <slot v-if="!noSelection && canClear" :clear="clear" name="clear">
+    <slot v-if="!noSelection && canClear && !disabled" :clear="clear" name="clear">
     <span class="multiselect-clear" @mousedown="clear"><span
         class="multiselect-clear-x"><!-- clear icon? --> x</span></span>
     </slot>
