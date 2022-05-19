@@ -1,5 +1,5 @@
 .multiselect {
-    @apply relative mx-auto w-full flex items-center justify-end box-border cursor-pointer border border-gray-300 rounded bg-white text-base leading-snug outline-none;
+    @apply h-auto relative mx-auto w-full flex items-center justify-end box-border cursor-pointer border border-gray-300 rounded bg-white text-base leading-snug outline-none;
 }
 
 .multiselect.is-disabled {
@@ -7,7 +7,7 @@
 }
 
 .multiselect.is-active {
-    @apply ring ring-green-500 ring-opacity-30;
+    @apply ring ring-orange-400 ring-opacity-70;
 }
 
 .multiselect.dropdown-open {
@@ -36,7 +36,7 @@
 }
 
 .multiselect-option.is-selected {
-    @apply text-white bg-green-500 hover:bg-green-600;
+    @apply text-white bg-orange-400 hover:bg-orange-500;
 }
 
 .multiselect-option.is-hidden{
