@@ -116,6 +116,11 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false,
+    },
+    closeOnSelect: {
+      type: Boolean,
+      required: false,
+      default: false,
     }
   },
   computed: {},
@@ -126,7 +131,8 @@ export default defineComponent({
     const search = useSearch(props, context)
     const options = useOptions(props, context, {
       selectedValues: value.selectedValues,
-      search: search.search
+      search: search.search,
+      closeDropdown: dropdown.closeDropdown
     })
     const multiselect = useMultiselect(props, context, {
       selectedValues: value.selectedValues,

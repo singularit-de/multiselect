@@ -1,13 +1,14 @@
 import Option from "../types/option.type";
 import _ from "lodash";
-import {computed, ref, toRef} from "vue";
+import {computed, ref, toRefs} from "vue";
 
 export default function useOptions(props: any, context: any, dependancies: any) {
 
-    const selectOptions = toRef(props, 'selectOptions')
+    const {selectOptions, closeOnSelect} = toRefs(props)
 
     const selectedValues = dependancies.selectedValues
     const search = dependancies.search
+    const closeDropdown = dependancies.closeDropdown
 
     const shownOptions = ref<Option[]>(selectOptions.value)
 
@@ -54,12 +55,18 @@ export default function useOptions(props: any, context: any, dependancies: any) 
     function select(option: Option) {
         selectedValues.value.push(option.value)
         context.emit('select', option)
+        if (closeOnSelect.value) {
+            closeDropdown()
+        }
     }
 
     function deselect(option: Option) {
         const index = selectedValues.value.indexOf(option.value)
         selectedValues.value.splice(index, 1)
         context.emit('deselect', option)
+        if (closeOnSelect.value) {
+            closeDropdown()
+        }
     }
 
     function handleOptionClick(option: Option) {
