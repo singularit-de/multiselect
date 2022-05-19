@@ -1,9 +1,8 @@
 import Option from "../types/option.type";
 import _ from "lodash";
-import {computed, ref, toRefs} from "vue";
+import {computed, ref, toRefs, watch} from "vue";
 
 export default function useOptions(props: any, context: any, dependencies: any) {
-
     const {selectOptions, closeOnSelect, singleSelect} = toRefs(props)
 
     const selectedValues = dependencies.selectedValues
@@ -19,10 +18,6 @@ export default function useOptions(props: any, context: any, dependencies: any) 
                 selected.push(option)
             }
         }
-        //prevents pushing objects that aren't options into modelValue
-        if (selected.length < selectedValues.value.length) {
-            selectedValues.value.pop()
-        }
         return selected
     })
 
@@ -35,11 +30,9 @@ export default function useOptions(props: any, context: any, dependencies: any) 
             //enable pushing values into modelValue correctly
             find = selectedValues.value.find((value: any, index: number) => {
                 if (_.isEqual(value, option.value)) {
+                    //update value if option was pushed externally, because identical objects aren't equal
                     if (selectedValues.value[index] !== option.value) {
-                        //value update
-                        option.value = selectedValues.value[index]
-                        selectedValues.value.push(option.value)
-                        selectedValues.value.pop()
+                        selectedValues.value.splice(index, 1, option.value)
                     }
                     return true
                 }
@@ -47,6 +40,17 @@ export default function useOptions(props: any, context: any, dependencies: any) 
         }
         return !!find;
     }
+
+    watch(props.modelValue, (value)=>{
+        //basically does single select
+        if (singleSelect.value && value.length > 1) {
+            selectedValues.value.shift()
+        }
+        //prevents from pushing things that aren't options
+        else if (selectedOptions.value.length < selectedValues.value.length) {
+            selectedValues.value.pop()
+        }
+    })
 
     function isNotShown(option: Option) {
         return !option.label.includes(search.value)
@@ -57,10 +61,6 @@ export default function useOptions(props: any, context: any, dependencies: any) 
         context.emit('select', option)
         if (closeOnSelect.value) {
             closeDropdown()
-        }
-        if (singleSelect.value && selectedValues.value.length > 1) {
-            console.log('yo')
-            selectedValues.value.shift()
         }
     }
 

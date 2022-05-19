@@ -3,8 +3,8 @@
       id="multiselect"
       ref="multiselect"
       :class="{'is-active': isActive, 'dropdown-open': dropdownOpen, 'is-disabled': disabled}"
-      class="multiselect"
       :tabindex="tabindex"
+      class="multiselect"
       @focusin="activate"
       @focusout="deactivate"
   >
@@ -52,7 +52,8 @@
             @click="handleOptionClick(option)"
         >
           <slot :option="option" name="optionLabel">
-            <span :class="{'is-selected': isSelected(option), 'is-hidden': isNotShown(option)}" class="multiselect-option">{{ option.label }}</span>
+            <span :class="{'is-selected': isSelected(option), 'is-hidden': isNotShown(option)}"
+                  class="multiselect-option">{{ option.label }}</span>
           </slot>
         </li>
       </ul>
@@ -130,7 +131,6 @@ export default defineComponent({
   },
   computed: {},
   setup(props, context) {
-
     const value = useValue(props, context)
     const dropdown = useDropdown(props, context)
     const search = useSearch(props, context)
