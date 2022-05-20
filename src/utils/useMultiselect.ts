@@ -40,7 +40,6 @@ export default function useMultiselect(props: any, context: any, dependencies: a
     }
 
     const multipleLabelText = computed(() => {
-
         if (multipleLabel && multipleLabel.value) {
             if (typeof multipleLabel.value === 'string' || multipleLabel.value instanceof String) {
                 return multipleLabel.value
