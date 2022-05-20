@@ -34,7 +34,7 @@ export default function useMultiselect(props: any, context: any, dependencies: a
     }
 
     function clear() {
-        selectedValues.value = []
+        selectedValues.value.length = 0
         deactivate()
         context.emit('clear')
     }
