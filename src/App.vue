@@ -20,7 +20,7 @@
 <script setup lang="ts">
 import Multiselect from "./Multiselect.vue";
 import {ref} from "vue";
-import Option from "./types/option.type";
+import Option from "./types/option";
 
 const selected = ref<any[]>([])
 

@@ -1,5 +1,5 @@
 import {VNode} from 'vue';
-import Option from "./option.type";
+import Option from "./option";
 
 declare class Multiselect {
     modelValue?: any;

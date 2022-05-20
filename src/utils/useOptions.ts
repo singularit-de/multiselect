@@ -1,4 +1,4 @@
-import Option from "../types/option.type";
+import Option from "../types/option";
 import _ from "lodash";
 import {computed, ref, toRefs, watch} from "vue";
 
