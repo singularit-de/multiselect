@@ -46,7 +46,7 @@ export default function useOptions(props: any, context: any, dependencies: any) 
         if (singleSelect.value && value.length > 1) {
             selectedValues.value.shift()
         }
-        //prevents from pushing things that aren't options
+        //prevents from pushing things that aren't options and pushing the same option multiple times
         else if (selectedOptions.value.length < selectedValues.value.length) {
             selectedValues.value.pop()
         }
