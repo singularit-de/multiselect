@@ -15,7 +15,7 @@
           ref="input"
           v-model="search"
           class="multiselect-search"
-          type="text"
+          :type="inputType"
           @input="handleInput"
       />
     </template>
@@ -127,6 +127,11 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false,
+    },
+    inputType: {
+      type: String,
+      required: false,
+      default: 'text',
     }
   },
   computed: {},

@@ -53,7 +53,7 @@ export default function useOptions(props: any, context: any, dependencies: any) 
     })
 
     function isNotShown(option: Option) {
-        return !option.label.includes(search.value)
+        return !option.label.toLowerCase().includes(search.value.toLowerCase())
     }
 
     function select(option: Option) {
