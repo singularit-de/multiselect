@@ -1,7 +1,8 @@
+<!--Test-->
 <template>
   <div class="w-60 mx-20 my-10">
     <Multiselect
-        class=""
+        class="h-12"
         searchable
         v-model="selected"
         :select-options="options"
@@ -26,18 +27,13 @@ const selected = ref<any[]>([])
 const value = {cool: 'yes', swag: 'no', number: 1, nested: {ahoy: 'yeah'}}
 
 const options = [
-  {value: {cool: 'yes', swag: 'no', number: 1, nested: {ahoy: 'yeah'}}, label: 'huhu'},
-  {value: {cool: 'no', swag: 'no', number: 2, nested: {ahoy: 'flippi'}}, label: 'okok', },
-  {value: {cool: 'yes', swag: 'yes', number: 3, nested: {ahoy: 'heckin chomker'}}, label: 'whhaaaat'},
-  // {value: 1, label: 'nice'},
-  // {value: 2, label: 'aha'},
-  // {value: 3, label: 'sheesh'}
+  {value: {cool: 'yes', swag: 'no', number: 1, nested: {ahoy: 'yeah'}}, label: 'Click'},
+  {value: {cool: 'no', swag: 'no', number: 2, nested: {ahoy: 'flippi'}}, label: 'Me', },
+  {value: {cool: 'yes', swag: 'yes', number: 3, nested: {ahoy: 'heckin chomker'}}, label: 'Friend'},
 ]
 
 function push(value: Object) {
-  if (selected.value.indexOf(value) === -1) {
     selected.value.push(value)
-  }
 }
 
 function multipleLabel(selectedOptions: Option[]) {
@@ -49,6 +45,8 @@ function multipleLabel(selectedOptions: Option[]) {
   }
   return label.slice(0, label.length-2)
 }
+
+// const multipleLabel = 'HALLO!!! <3'
 </script>
 
 <style scoped>
