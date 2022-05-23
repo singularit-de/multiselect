@@ -10,15 +10,15 @@
   >
 
 
-    <select class="hidden" v-model="selectedValues" :multiple="multiple"/>
+    <select v-model="selectedValues" :multiple="multiple" class="hidden"/>
 
     <!-- search -->
     <template v-if="searchable && !disabled">
       <input
           ref="input"
           v-model="search"
-          class="multiselect-search"
           :type="inputType"
+          class="multiselect-search"
           @input="handleInput"
       />
     </template>
@@ -36,7 +36,7 @@
     <template v-if="!noSelection && !search">
       <slot :values="selectedValues" name="multipleLabel">
         <div class="multiselect-label">
-          {{ multipleLabelText }}
+          {{ labelText }}
         </div>
       </slot>
     </template>
@@ -91,7 +91,7 @@ export default defineComponent({
   ],
   props: {
     modelValue: {
-      default: [],
+      default: null,
     },
     selectOptions: {
       type: Array,
@@ -103,7 +103,7 @@ export default defineComponent({
       required: false,
     },
     multipleLabel: {
-      type: [Function,String],
+      type: [Function, String],
       required: false,
     },
     canClear: {

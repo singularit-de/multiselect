@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "cypress": "^9.6.1",
     "lodash": "^4.17.21",
     "vue": "^3.2.25"
   },

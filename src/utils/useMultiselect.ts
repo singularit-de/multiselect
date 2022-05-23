@@ -1,4 +1,5 @@
 import {computed, ref, toRefs} from "vue";
+import Option from "../types/option";
 
 export default function useMultiselect(props: any, context: any, dependencies: any) {
 
@@ -8,7 +9,7 @@ export default function useMultiselect(props: any, context: any, dependencies: a
     const closeDropdown = dependencies.closeDropdown
     const clearSearch = dependencies.clearSearch
 
-    const {searchable, disabled, multipleLabel} = toRefs(props)
+    const {searchable, disabled, multipleLabel, multiple} = toRefs(props)
 
     const multiselect = ref(null)
     const isActive = ref(false)
@@ -34,20 +35,28 @@ export default function useMultiselect(props: any, context: any, dependencies: a
     }
 
     function clear() {
-        selectedValues.value.length = 0
+        if (multiple.value) {
+            selectedValues.value.length = 0
+        } else {
+            selectedValues.value = null
+        }
         deactivate()
         context.emit('clear')
     }
 
-    const multipleLabelText = computed(() => {
-        if (multipleLabel && multipleLabel.value) {
-            if (typeof multipleLabel.value === 'string' || multipleLabel.value instanceof String) {
-                return multipleLabel.value
+    const labelText = computed(() => {
+        if (multiple.value) {
+            if (multipleLabel && multipleLabel.value) {
+                if (typeof multipleLabel.value === 'string' || multipleLabel.value instanceof String) {
+                    return multipleLabel.value
+                } else {
+                    return multipleLabel.value(selectedOptions.value)
+                }
             } else {
-                return multipleLabel.value(selectedOptions.value)
+                return selectedValues.value && selectedValues.value.length > 1 ? `${selectedValues.value.length} Optionen gewählt` : '1 Option gewählt'
             }
         } else {
-            return selectedValues.value && selectedValues.value.length > 1 ? `${selectedValues.value.length} Optionen gewählt` : '1 Option gewählt'
+            return (selectedOptions.value as Option).label
         }
     })
 
@@ -58,6 +67,6 @@ export default function useMultiselect(props: any, context: any, dependencies: a
         activate,
         deactivate,
         clear,
-        multipleLabelText,
+        labelText,
     }
 }

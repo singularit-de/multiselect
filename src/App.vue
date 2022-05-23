@@ -22,7 +22,9 @@ import Multiselect from "./Multiselect.vue";
 import {ref} from "vue";
 import Option from "./types/option";
 
-const selected = ref<any[]>([])
+
+//has to initialize as array if multiple mode is used
+const selected = ref<any>()
 
 const value = {cool: 'yes', swag: 'no', number: 1, nested: {ahoy: 'yeah'}}
 
@@ -33,7 +35,8 @@ const options = [
 ]
 
 function push(value: Object) {
-    selected.value.push(value)
+   // selected.value.push(value)
+  selected.value = value
 }
 
 function multipleLabel(selectedOptions: Option[]) {
