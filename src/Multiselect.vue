@@ -9,6 +9,9 @@
       @focusout="deactivate"
   >
 
+
+    <select class="hidden" v-model="selectedValues" :multiple="multiple"/>
+
     <!-- search -->
     <template v-if="searchable && !disabled">
       <input
@@ -100,7 +103,7 @@ export default defineComponent({
       required: false,
     },
     multipleLabel: {
-      type: Function,
+      type: [Function,String],
       required: false,
     },
     canClear: {
@@ -123,7 +126,7 @@ export default defineComponent({
       required: false,
       default: false,
     },
-    singleSelect: {
+    multiple: {
       type: Boolean,
       required: false,
       default: false,

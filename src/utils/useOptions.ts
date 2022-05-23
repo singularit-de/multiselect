@@ -3,7 +3,7 @@ import _ from "lodash";
 import {computed, ref, toRefs, watch} from "vue";
 
 export default function useOptions(props: any, context: any, dependencies: any) {
-    const {selectOptions, closeOnSelect, singleSelect} = toRefs(props)
+    const {selectOptions, closeOnSelect, multiple} = toRefs(props)
 
     const selectedValues = dependencies.selectedValues
     const search = dependencies.search
@@ -43,7 +43,7 @@ export default function useOptions(props: any, context: any, dependencies: any) 
 
     watch(props.modelValue, (value)=>{
         //basically does single select
-        if (singleSelect.value && value.length > 1) {
+        if (!multiple.value && value.length > 1) {
             selectedValues.value.shift()
         }
         //prevents from pushing things that aren't options and pushing the same option multiple times
