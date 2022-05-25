@@ -7,6 +7,7 @@
       class="multiselect"
       @focusin="activate"
       @focusout="deactivate"
+      data-cy="multiselect"
   >
 
 
@@ -20,13 +21,14 @@
           :type="inputType"
           class="multiselect-search"
           @input="handleInput"
+          data-cy="searchInput"
       />
     </template>
 
     <!-- placeholder -->
     <template v-if="placeholder && noSelection && !search">
       <slot name="placeholder">
-        <div class="multiselect-placeholder">
+        <div class="multiselect-placeholder" data-cy="placeholder">
           {{ placeholder }}
         </div>
       </slot>
@@ -34,8 +36,8 @@
 
     <!-- Label -->
     <template v-if="!noSelection && !search">
-      <slot :values="selectedValues" name="multipleLabel">
-        <div class="multiselect-label">
+      <slot :values="selectedValues" name="label">
+        <div class="multiselect-label" data-cy="label">
           {{ labelText }}
         </div>
       </slot>
@@ -46,17 +48,21 @@
     <div
         :class="{'is-hidden': !dropdownOpen}"
         class="multiselect-dropdown"
+        data-cy="dropdown"
     >
-      <ul class="multiselect-options">
+      <ul class="multiselect-options" data-cy="optionList">
         <li
             v-for="(option) in shownOptions"
             :key=option.value
             class=""
             @click="handleOptionClick(option)"
+            data-cy="option"
         >
           <slot :option="option" name="optionLabel">
             <span :class="{'is-selected': isSelected(option), 'is-hidden': isNotShown(option)}"
-                  class="multiselect-option">{{ option.label }}</span>
+                  class="multiselect-option"
+                  data-cy="optionLabel"
+            >{{ option.label }}</span>
           </slot>
         </li>
       </ul>
@@ -65,12 +71,12 @@
 
     <!-- clear -->
     <slot v-if="!noSelection && canClear && !disabled" :clear="clear" name="clear">
-    <span class="multiselect-clear" @mousedown="clear"><span
+    <span class="multiselect-clear" @mousedown="clear" data-cy="clear"><span
         class="multiselect-clear-x"><!-- clear icon? --> x</span></span>
     </slot>
 
     <!-- space -->
-    <div class="multiselect-spacer"></div>
+    <div class="multiselect-spacer" data-cy="spacer"></div>
   </div>
 </template>
 
