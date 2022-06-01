@@ -46,7 +46,7 @@ export default function useOptions(props: any, context: any, dependencies: any) 
             }
             return !!find;
         } else {
-            if(!!props.modelValue && _.isEqual(props.modelValue, option.value)) {
+            if(!!selectedValues.value && _.isEqual(selectedValues.value, option.value)) {
                 if (selectedValues.value !== option.value) {
                     selectedValues.value = option.value
                 }

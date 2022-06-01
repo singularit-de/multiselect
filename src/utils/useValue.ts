@@ -6,7 +6,17 @@ export default function useValue(props: any, context: any) {
     const selectedValues = ref<any>(props.modelValue)
 
     watch(selectedValues, (newSelected) => {
-        context.emit('update:modelValue', newSelected)
+        if (newSelected !== props.modelValue) {
+            context.emit('update:modelValue', newSelected)
+        }
+    })
+
+    //for externally pushing things
+    watch(() => props.modelValue, (newValue) => {
+        if (newValue !== selectedValues.value) {
+            console.log('hey')
+            selectedValues.value = props.modelValue
+        }
     })
 
     const noSelection = computed(() => {

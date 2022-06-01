@@ -96,8 +96,14 @@ export default defineComponent({
     'search-change', 'update:modelValue', 'clear'
   ],
   props: {
+    multiple: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     modelValue: {
-      default: null,
+      required: false,
+      default: (props: any) => props.multiple ? [] : null
     },
     selectOptions: {
       type: Array,
@@ -128,11 +134,6 @@ export default defineComponent({
       default: false,
     },
     closeOnSelect: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    multiple: {
       type: Boolean,
       required: false,
       default: false,
