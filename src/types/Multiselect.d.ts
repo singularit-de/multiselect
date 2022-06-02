@@ -11,7 +11,9 @@ declare class Multiselect {
     searchable?: boolean;
     closeOnSelect?: boolean;
     multiple?: boolean;
+    inputType: string;
 
+    $emit(eventName: 'update:modelValue', e: { originalEvent: Event, option: Option }): this;
     $emit(eventName: 'select', e: { originalEvent: Event,  option: Option }): this;
     $emit(eventName: 'deselect', e: { originalEvent: Event, option: Option }): this;
     $emit(eventName: 'search-change', e: { originalEvent: Event, query: string }): this;
