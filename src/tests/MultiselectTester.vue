@@ -33,7 +33,7 @@
 <script lang="ts">
 import {defineComponent, ref, toRefs} from "vue";
 import Multiselect from "../Multiselect.vue";
-import Option from "../types/option";
+import Option from "../types/option.type";
 
 export default defineComponent({
   name: 'MultiselectTester',

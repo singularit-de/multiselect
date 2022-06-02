@@ -1,5 +1,5 @@
 import {computed, ref, toRefs} from "vue";
-import Option from "../types/option";
+import Option from "../types/option.type";
 
 export default function useMultiselect(props: any, context: any, dependencies: any) {
 
