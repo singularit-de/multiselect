@@ -28,9 +28,9 @@ describe('Multiselect Component', () => {
         })
 
         cy.get('[data-cy="multiselect"]').should('exist')
-        cy.get('[data-cy="dropdown"]').should('have.class', 'is-hidden')
+        cy.get('[data-cy="dropdown"]').should('not.be.visible')
         cy.get('[data-cy="multiselect"]').click()
-        cy.get('[data-cy="dropdown"]').should('not.have.class', 'is-hidden')
+        cy.get('[data-cy="dropdown"]').should('be.visible')
         cy.get('[data-cy="option"]').eq(3).click()
         cy.get('[data-cy="label"]').contains('test')
         cy.get('[data-cy="selected"]').contains('4')
@@ -41,7 +41,7 @@ describe('Multiselect Component', () => {
         cy.get('[data-cy="selected"]').not('4')
         cy.get('[data-cy="clear"]').click()
         cy.get('[data-cy="label"]').should('not.exist')
-        cy.get('[data-cy="dropdown"]').should('have.class', 'is-hidden')
+        cy.get('[data-cy="dropdown"]').should('not.be.visible')
         cy.get('[data-cy="pushButton"]').click()
         cy.get('[data-cy="label"]').should('exist')
         cy.get('[data-cy="selected"]').should('exist')
@@ -68,9 +68,9 @@ describe('Multiselect Component', () => {
             },
         })
 
-        cy.get('[data-cy="dropdown"]').should('have.class', 'is-hidden')
+        cy.get('[data-cy="dropdown"]').should('not.be.visible')
         cy.get('[data-cy="multiselect"]').click()
-        cy.get('[data-cy="dropdown"]').should('not.have.class', 'is-hidden')
+        cy.get('[data-cy="dropdown"]').should('be.visible')
         cy.get('[data-cy="option"]').eq(3).click()
         cy.get('[data-cy="label"]').contains('1 Option gewählt')
         cy.get('[data-cy="selected"]').contains(4)
@@ -94,7 +94,7 @@ describe('Multiselect Component', () => {
         cy.get('[data-cy="selected"]').not('test')
         cy.get('[data-cy="clear"]').click()
         cy.get('[data-cy="label"]').should('not.exist')
-        cy.get('[data-cy="dropdown"]').should('have.class', 'is-hidden')
+        cy.get('[data-cy="dropdown"]').should('not.be.visible')
         cy.get('[data-cy="pushButton"]').click()
         cy.get('[data-cy="label"]').should('exist')
         cy.get('[data-cy="label"]').contains('1 Option gewählt')
@@ -114,14 +114,14 @@ describe('Multiselect Component', () => {
             },
         })
 
-        cy.get('[data-cy="dropdown"]').should('have.class', 'is-hidden')
+        cy.get('[data-cy="dropdown"]').should('not.be.visible')
         cy.get('[data-cy="multiselect"]').click()
-        cy.get('[data-cy="dropdown"]').should('not.have.class', 'is-hidden')
+        cy.get('[data-cy="dropdown"]').should('be.visible')
         cy.get('[data-cy="option"]').eq(3).click()
-        cy.get('[data-cy="dropdown"]').should('have.class', 'is-hidden')
+        cy.get('[data-cy="dropdown"]').should('not.be.visible')
     })
 
-    it('Is can have an searchable input', ()=>{
+    it('Can have an input to search options', ()=>{
         const selectOptions = [{value: {abc: 'xyz', test: {xyz: 3}}, label: 'This'}, {value: 2, label: 'is'}, {value: 'test', label: 'a'}, {value: 4, label: 'test'}]
         mount(MultiselectTester, {
             props: {
@@ -130,9 +130,9 @@ describe('Multiselect Component', () => {
             },
         })
 
-        cy.get('[data-cy="dropdown"]').should('have.class', 'is-hidden')
+        cy.get('[data-cy="dropdown"]').should('not.be.visible')
         cy.get('[data-cy="multiselect"]').click()
-        cy.get('[data-cy="dropdown"]').should('not.have.class', 'is-hidden')
+        cy.get('[data-cy="dropdown"]').should('be.visible')
         cy.get('[data-cy="searchInput"').should('be.focused')
         cy.get('[data-cy="searchInput"').type('test')
         cy.get('[data-cy="dropdown"]').contains('test')
@@ -150,9 +150,9 @@ describe('Multiselect Component', () => {
             },
         })
 
-        cy.get('[data-cy="dropdown"]').should('have.class', 'is-hidden')
+        cy.get('[data-cy="dropdown"]').should('not.be.visible')
         cy.get('[data-cy="multiselect"]').click()
-        cy.get('[data-cy="dropdown"]').should('have.class', 'is-hidden')
+        cy.get('[data-cy="dropdown"]').should('not.be.visible')
 
     })
 })
