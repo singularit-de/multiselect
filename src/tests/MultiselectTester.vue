@@ -11,6 +11,7 @@
         :placeholder="placeholder"
         :searchable="searchable"
         :select-options="selectOptions"
+        :classes="classes"
     />
     <div v-if="vModel">
       <button class="mt-4 text-center w-full border-2 bg-gray-100" data-cy="pushButton" @click="pushValue">Push a random
@@ -31,9 +32,11 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, ref, toRefs} from "vue";
+import {defineComponent, PropType, ref, toRefs} from "vue";
 import Multiselect from "../Multiselect.vue";
 import Option from "../types/option.type";
+import Classes from "../types/classes.type";
+import "../index.css"
 
 export default defineComponent({
   name: 'MultiselectTester',
@@ -87,6 +90,11 @@ export default defineComponent({
       required: false,
       default: false,
     },
+    classes: {
+      type: Object as PropType<Classes>,
+      required: false,
+      default: ()=>({})
+    }
   },
   setup(props) {
     const {vModel, multiple, selectOptions} = toRefs(props)
@@ -131,6 +139,7 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
+<style src="../style/default.css"></style>
+<style>
 
 </style>

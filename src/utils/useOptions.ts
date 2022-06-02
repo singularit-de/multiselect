@@ -6,7 +6,6 @@ export default function useOptions(props: any, context: any, dependencies: any) 
     const {selectOptions, closeOnSelect, multiple} = toRefs(props)
 
     const selectedValues = dependencies.selectedValues
-    const search = dependencies.search
     const closeDropdown = dependencies.closeDropdown
 
     const shownOptions = ref<Option[]>(selectOptions.value)
@@ -68,10 +67,6 @@ export default function useOptions(props: any, context: any, dependencies: any) 
         }
     })
 
-    function isNotShown(option: Option) {
-        return search && search.value && !option.label.toLowerCase().includes(search.value.toLowerCase())
-    }
-
     function select(option: Option) {
         multiple.value ? selectedValues.value.push(option.value) : selectedValues.value = option.value
         context.emit('select', option)
@@ -106,7 +101,6 @@ export default function useOptions(props: any, context: any, dependencies: any) 
         selectedOptions,
         shownOptions,
         isSelected,
-        isNotShown,
         handleOptionClick
     }
 }

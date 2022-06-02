@@ -155,4 +155,25 @@ describe('Multiselect Component', () => {
         cy.get('[data-cy="dropdown"]').should('not.be.visible')
 
     })
+
+    it('Can be tailwind styled via classes prop', ()=> {
+        const selectOptions = [{value: {abc: 'xyz', test: {xyz: 3}}, label: 'This'}, {value: 2, label: 'is'}, {value: 'test', label: 'a'}, {value: 4, label: 'test'}]
+        mount(MultiselectTester, {
+            props: {
+                selectOptions: selectOptions,
+                classes: {
+                    spacer: 'h-20 py-px box-content',
+                    optionSelected: 'text-white bg-blue-400 hover:bg-blue-500'
+                }
+            },
+        })
+
+        cy.get('[data-cy="spacer"]').should('have.class', 'h-20')
+        cy.get('[data-cy="multiselect"]').should('have.class', 'multiselect')
+        cy.get('[data-cy="multiselect"]').click()
+        cy.get('[data-cy="option"]').eq(0).click()
+        cy.get('[data-cy="option"]').eq(0).should('have.class', 'bg-blue-400')
+        cy.get('[data-cy="option"]').eq(0).should('have.class', 'hover:bg-blue-500')
+        cy.get('[data-cy="option"]').eq(0).should('have.class', 'text-white')
+    })
 })

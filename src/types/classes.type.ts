@@ -1,0 +1,18 @@
+export default interface Classes {
+    container?: String,
+    containerDisabled?: String,
+    containerOpen?: String,
+    containerActive?: String,
+    label?: String,
+    search?: String,
+    placeholder?: String,
+    clear?: String,
+    clearCross?: String,
+    dropdown?: String,
+    dropdownHidden?: String,
+    options?: String,
+    option?: String,
+    optionSelected?: String,
+    optionNotShown?: String,
+    spacer?: String,
+}

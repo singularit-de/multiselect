@@ -2,9 +2,8 @@
   <div
       id="multiselect"
       ref="multiselect"
-      :class="{'is-active': isActive, 'dropdown-open': dropdownOpen, 'is-disabled': disabled}"
+      :class="classList.container"
       :tabindex="tabindex"
-      class="multiselect"
       @focusin="activate"
       @focusout="deactivate"
       data-cy="multiselect"
@@ -19,7 +18,7 @@
           ref="input"
           v-model="search"
           :type="inputType"
-          class="multiselect-search"
+          :class="classList.search"
           @input="handleInput"
           data-cy="searchInput"
       />
@@ -28,7 +27,7 @@
     <!-- placeholder -->
     <template v-if="placeholder && noSelection && !search">
       <slot name="placeholder">
-        <div class="multiselect-placeholder" data-cy="placeholder">
+        <div :class="classList.placeholder" data-cy="placeholder">
           {{ placeholder }}
         </div>
       </slot>
@@ -37,7 +36,7 @@
     <!-- Label -->
     <template v-if="!noSelection && !search">
       <slot :values="selectedValues" name="label">
-        <div class="multiselect-label" data-cy="label">
+        <div :class="classList.label" data-cy="label">
           {{ labelText }}
         </div>
       </slot>
@@ -46,22 +45,19 @@
 
     <!--option dropdown-->
     <div
-        :class="{'is-hidden': !dropdownOpen}"
-        class="multiselect-dropdown"
+        :class="classList.dropdown"
         data-cy="dropdown"
     >
-      <ul class="multiselect-options" data-cy="optionList">
+      <ul :class="classList.options" data-cy="optionList">
         <li
             v-for="(option) in shownOptions"
             :key=option.value
-            class=""
+            :class="classList.option(option)"
             @click="handleOptionClick(option)"
             data-cy="option"
         >
           <slot :option="option" name="optionLabel">
-            <span :class="{'is-selected': isSelected(option), 'is-hidden': isNotShown(option)}"
-                  class="multiselect-option"
-                  data-cy="optionLabel"
+            <span data-cy="optionLabel"
             >{{ option.label }}</span>
           </slot>
         </li>
@@ -71,23 +67,25 @@
 
     <!-- clear -->
     <slot v-if="!noSelection && canClear && !disabled" :clear="clear" name="clear">
-    <span class="multiselect-clear" @mousedown="clear" data-cy="clear"><span
-        class="multiselect-clear-x"><!-- clear icon? --> x</span></span>
+    <span :class="classList.clear" @mousedown="clear" data-cy="clear"><span
+        :class="classList.clearCross"><!-- clear icon? --> x</span></span>
     </slot>
 
     <!-- space -->
-    <div class="multiselect-spacer" data-cy="spacer"></div>
+    <div :class="classList.spacer" data-cy="spacer"></div>
   </div>
 </template>
 
 <script lang="ts">
-import {defineComponent} from "vue";
+import {defineComponent, PropType} from "vue";
 import useMultiselect from "./utils/useMultiselect";
 import useDropdown from "./utils/useDropdown";
 import useSearch from "./utils/useSearch";
 import useOptions from "./utils/useOptions";
 import useValue from "./utils/useValue";
-import "./style/style.css"
+import useClasses from "./utils/useClasses";
+import Classes from "./types/classes.type";
+
 
 export default defineComponent({
   name: 'Multiselect',
@@ -142,6 +140,11 @@ export default defineComponent({
       type: String,
       required: false,
       default: 'text',
+    },
+    classes: {
+      type: Object as PropType<Classes>,
+      required: false,
+      default: () => ({})
     }
   },
   computed: {},
@@ -151,7 +154,6 @@ export default defineComponent({
     const search = useSearch(props, context)
     const options = useOptions(props, context, {
       selectedValues: value.selectedValues,
-      search: search.search,
       closeDropdown: dropdown.closeDropdown,
     })
     const multiselect = useMultiselect(props, context, {
@@ -161,6 +163,12 @@ export default defineComponent({
       closeDropdown: dropdown.closeDropdown,
       clearSearch: search.clearSearch,
     })
+    const classList = useClasses(props, context, {
+      dropdownOpen: dropdown.dropdownOpen,
+      isSelected: options.isSelected,
+      isActive: multiselect.isActive,
+      search: search.search
+    })
 
     return {
       ...value,
@@ -168,6 +176,7 @@ export default defineComponent({
       ...search,
       ...options,
       ...multiselect,
+      ...classList,
     }
 
   }
