@@ -11,10 +11,9 @@ export default function useValue(props: any, context: any) {
         }
     })
 
-    //for externally pushing things
+    //for externally pushing things -> updates selectedValues
     watch(() => props.modelValue, (newValue) => {
         if (newValue !== selectedValues.value) {
-            console.log('hey')
             selectedValues.value = props.modelValue
         }
     })

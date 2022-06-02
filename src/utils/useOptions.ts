@@ -23,6 +23,10 @@ export default function useOptions(props: any, context: any, dependencies: any) 
                 }
             }
         }
+        //prevents from pushing illegal stuff in single mode
+        if (!multiple.value && Array.isArray(selected)) {
+            selectedValues.value = null
+        }
         return selected
     })
 
@@ -58,7 +62,7 @@ export default function useOptions(props: any, context: any, dependencies: any) 
     }
 
     watch(props.modelValue, ()=>{
-        //prevents from pushing things that aren't options and pushing the same option multiple times
+        //prevents from pushing things that aren't options and pushing the same option multiple times in multiple mode
         if (multiple.value && (selectedOptions.value as Option[]).length < selectedValues.value.length) {
             selectedValues.value.pop()
         }
