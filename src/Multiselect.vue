@@ -128,9 +128,18 @@ export default defineComponent({
       required: false,
     },
     /**
+     * Determines which value of the selected option Object should be displayed as label.
+     */
+    label: {
+      type: String,
+      required: false,
+      default: 'label'
+    },
+    /**
      * Alters the displayed label if multiple selection mode is active.
      * Can be a string or a function returning a string.
      * The passed parameter of the function is an array of the selected options.
+     * By default it displays the amount of selected options
      */
     multipleLabel: {
       type: [Function, String],

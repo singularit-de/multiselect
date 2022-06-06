@@ -1,5 +1,4 @@
 import {computed, ref, toRefs} from "vue";
-import Option from "../types/option.type";
 
 export default function useMultiselect(props: any, context: any, dependencies: any) {
 
@@ -9,7 +8,7 @@ export default function useMultiselect(props: any, context: any, dependencies: a
     const closeDropdown = dependencies.closeDropdown
     const clearSearch = dependencies.clearSearch
 
-    const {searchable, disabled, multipleLabel, multiple} = toRefs(props)
+    const {searchable, disabled, label, multipleLabel, multiple} = toRefs(props)
 
     const multiselect = ref(null)
     const isActive = ref(false)
@@ -56,7 +55,7 @@ export default function useMultiselect(props: any, context: any, dependencies: a
                 return selectedValues.value && selectedValues.value.length > 1 ? `${selectedValues.value.length} Optionen gewählt` : '1 Option gewählt'
             }
         } else {
-            return (selectedOptions.value as Option).label
+            return (selectedOptions.value[label.value])
         }
     })
 
