@@ -178,6 +178,14 @@ export default defineComponent({
       default: 'text',
     },
     /**
+     * The value of the option object which is searched if searchable is true.
+     */
+    trackBy: {
+      type: String,
+      required: false,
+      default: 'label'
+    },
+    /**
      * The selection dropdown is automatically closed after selecting/deselecting an option
      */
     closeOnSelect: {

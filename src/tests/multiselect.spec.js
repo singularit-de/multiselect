@@ -189,6 +189,28 @@ describe('Multiselect Component', () => {
         cy.get('[data-cy="option"]').eq(2).should('not.be.visible')
     })
 
+    it('Can be searched by values different to label', ()=>{
+        const selectOptions = [{value: {abc: 'xyz', test: {xyz: 3}}, label: 'This', displayLabel:'Was'}, {value: 2, label: 'is', displayLabel: 'geht'}, {value: 'haha', label: 'a', displayLabel: 'denn'}, {value: 4, label: 'test', displayLabel: 'ab'}]
+        mount(MultiselectTester, {
+            props: {
+                selectOptions: selectOptions,
+                searchable: true,
+                label: 'displayLabel',
+                trackBy: 'displayLabel'
+            },
+        })
+
+        cy.get('[data-cy="dropdown"]').should('not.be.visible')
+        cy.get('[data-cy="multiselect"]').click()
+        cy.get('[data-cy="dropdown"]').should('be.visible')
+        cy.get('[data-cy="searchInput"').should('be.focused')
+        cy.get('[data-cy="searchInput"').type('geht')
+        cy.get('[data-cy="dropdown"]').contains('is')
+        cy.get('[data-cy="option"]').eq(0).should('not.be.visible')
+        cy.get('[data-cy="option"]').eq(2).should('not.be.visible')
+        cy.get('[data-cy="option"]').eq(3).should('not.be.visible')
+    })
+
     it('Can be disabled', ()=> {
         const selectOptions = [{value: {abc: 'xyz', test: {xyz: 3}}, label: 'This'}, {value: 2, label: 'is'}, {value: 'haha', label: 'a'}, {value: 4, label: 'test'}]
         mount(MultiselectTester, {

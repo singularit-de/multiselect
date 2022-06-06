@@ -1,10 +1,11 @@
-import {computed, toRef, toRefs} from "vue";
+import {computed, toRefs} from "vue";
 import Option from "../types/option.type";
 import "../index.css"
 
 export default function useClasses(props: any, context: any, dependencies: any) {
     const refs = toRefs(props)
-    const disabled = toRef(props, 'disabled')
+    const disabled = refs.disabled
+    const trackBy = refs.trackBy
 
     const dropdownOpen = dependencies.dropdownOpen
     const isSelected = dependencies.isSelected
@@ -50,7 +51,7 @@ export default function useClasses(props: any, context: any, dependencies: any) 
                 if (isSelected(o)) {
                     option.push(classes.optionSelected)
                 }
-                if (search && search.value && !o.label.toLowerCase().includes(search.value.toLowerCase())) {
+                if (search && search.value && !o[trackBy.value].toLowerCase().includes(search.value.toLowerCase())) {
                     option.push(classes.optionNotShown)
                 }
                 return option

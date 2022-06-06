@@ -11,6 +11,7 @@
         :multiple-label="multipleLabel"
         :placeholder="placeholder"
         :searchable="searchable"
+        :track-by="trackBy"
         :select-options="selectOptions"
         :classes="classes"
     />
@@ -90,6 +91,11 @@ export default defineComponent({
       type: String,
       required: false,
       default: 'text',
+    },
+    trackBy: {
+      type: String,
+      required: false,
+      default: 'label'
     },
     closeOnSelect: {
       type: Boolean,
