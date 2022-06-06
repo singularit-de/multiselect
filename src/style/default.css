@@ -17,6 +17,7 @@
     --ms-dropdown-bg: #fff;
     --ms-dropdown-radius: 4px;
     --ms-max-height: 10rem;
+    --ms-option-bg-hover: rgb(243 244 246);
     --ms-option-py: .5rem;
     --ms-option-px: .75rem;
     --ms-option-font-size: 1rem;
@@ -163,6 +164,10 @@
     align-items: center;
     justify-content: flex-start;
     text-align: left
+}
+
+.multiselect-option:hover {
+    background-color: var(--ms-option-bg-hover);
 }
 
 .multiselect-option.is-selected {
