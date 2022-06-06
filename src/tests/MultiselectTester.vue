@@ -7,6 +7,7 @@
         :disabled="disabled"
         :input-type="inputType"
         :multiple="multiple"
+        :label="label"
         :multiple-label="multipleLabel"
         :placeholder="placeholder"
         :searchable="searchable"
@@ -51,6 +52,11 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false,
+    },
+    label: {
+      type: String,
+      required: false,
+      default: 'label',
     },
     multipleLabel: {
       type: [Function, String],

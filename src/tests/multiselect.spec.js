@@ -105,6 +105,54 @@ describe('Multiselect Component', () => {
         cy.get('[data-cy="label"]').contains('1 Option gewählt')
     })
 
+    it('Can have a different label in single selection mode', ()=>{
+        const selectOptions = [{value: {abc: 'xyz', test: {xyz: 3}}, label: 'This', displayLabel:'Was'}, {value: 2, label: 'is', displayLabel: 'geht'}, {value: 'haha', label: 'a', displayLabel: 'denn'}, {value: 4, label: 'test', displayLabel: 'ab'}]
+        mount(MultiselectTester, {
+            props: {
+                selectOptions: selectOptions,
+                label: 'displayLabel'
+            },
+        })
+
+        cy.get('[data-cy="multiselect"]').click()
+        cy.get('[data-cy="dropdown"]').should('be.visible')
+        cy.get('[data-cy="option"]').eq(3).click()
+        cy.get('[data-cy="label"]').contains('ab')
+        cy.get('[data-cy="option"]').eq(0).click()
+        cy.get('[data-cy="label"]').contains('Was')
+        cy.get('[data-cy="option"]').eq(1).click()
+        cy.get('[data-cy="label"]').contains('geht')
+    })
+
+    it('Can have a different label in multiple selection mode', ()=>{
+        const selectOptions = [{value: {abc: 'xyz', test: {xyz: 3}}, label: 'This', displayLabel:'Was'}, {value: 2, label: 'is', displayLabel: 'geht'}, {value: 'haha', label: 'a', displayLabel: 'denn'}, {value: 4, label: 'test', displayLabel: 'ab'}]
+        function multipleLabelFunc(selectedOptions) {
+            let label = ''
+            for (const option of selectedOptions) {
+                label += `${option['displayLabel']} `
+            }
+            return label.slice(0, label.length-1)
+        }
+        mount(MultiselectTester, {
+            props: {
+                selectOptions: selectOptions,
+                multiple: true,
+                multipleLabel: multipleLabelFunc
+            },
+        })
+
+        cy.get('[data-cy="multiselect"]').click()
+        cy.get('[data-cy="dropdown"]').should('be.visible')
+        cy.get('[data-cy="option"]').eq(0).click()
+        cy.get('[data-cy="label"]').contains('Was')
+        cy.get('[data-cy="option"]').eq(1).click()
+        cy.get('[data-cy="label"]').contains('Was geht')
+        cy.get('[data-cy="option"]').eq(2).click()
+        cy.get('[data-cy="label"]').contains('Was geht denn')
+        cy.get('[data-cy="option"]').eq(3).click()
+        cy.get('[data-cy="label"]').contains('Was geht denn ab')
+    })
+
     it('Can close the dropdown on selection', ()=>{
         const selectOptions = [{value: {abc: 'xyz', test: {xyz: 3}}, label: 'This'}, {value: 2, label: 'is'}, {value: 'haha', label: 'a'}, {value: 4, label: 'test'}]
         mount(MultiselectTester, {
