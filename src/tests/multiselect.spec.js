@@ -18,7 +18,7 @@ describe('Multiselect Component', () => {
     })
 
     it('Works as select input for single selections', () => {
-        const selectOptions = [{value: {abc: 'xyz', test: {xyz: 3}}, label: 'This'}, {value: 2, label: 'is'}, {value: 'test', label: 'a'}, {value: 4, label: 'test'}]
+        const selectOptions = [{value: {abc: 'xyz', test: {xyz: 3}}, label: 'This'}, {value: 2, label: 'is'}, {value: 'haha', label: 'a'}, {value: 4, label: 'test'}]
 
         mount(MultiselectTester, {
             props: {
@@ -36,9 +36,9 @@ describe('Multiselect Component', () => {
         cy.get('[data-cy="selected"]').contains('4')
         cy.get('[data-cy="option"]').eq(0).click()
         cy.get('[data-cy="label"]').contains('This')
-        cy.get('[data-cy="label"]').not('test')
+        cy.get('[data-cy="label"]').should('not.contain', 'test')
         cy.get('[data-cy="selected"]').contains('{ \"abc\": \"xyz\", \"test\": { \"xyz\": 3 } }')
-        cy.get('[data-cy="selected"]').not('4')
+        cy.get('[data-cy="selected"]').should('not.contain', 4)
         cy.get('[data-cy="clear"]').click()
         cy.get('[data-cy="label"]').should('not.exist')
         cy.get('[data-cy="dropdown"]').should('not.be.visible')
@@ -59,7 +59,7 @@ describe('Multiselect Component', () => {
     })
 
     it('Works as select input for multiple selections', () => {
-        const selectOptions = [{value: {abc: 'xyz', test: {xyz: 3}}, label: 'This'}, {value: 2, label: 'is'}, {value: 'test', label: 'a'}, {value: 4, label: 'test'}]
+        const selectOptions = [{value: {abc: 'xyz', test: {xyz: 3}}, label: 'This'}, {value: 2, label: 'is'}, {value: 'haha', label: 'a'}, {value: 4, label: 'test'}]
         mount(MultiselectTester, {
             props: {
                 vModel: true,
@@ -77,21 +77,21 @@ describe('Multiselect Component', () => {
         cy.get('[data-cy="option"]').eq(2).click()
         cy.get('[data-cy="label"]').contains('2 Optionen gewählt')
         cy.get('[data-cy="selected"]').contains(4)
-        cy.get('[data-cy="selected"]').contains('test')
+        cy.get('[data-cy="selected"]').contains('haha')
         cy.get('[data-cy="option"]').eq(0).click()
         cy.get('[data-cy="label"]').contains('3 Optionen gewählt')
         cy.get('[data-cy="selected"]').contains(4)
-        cy.get('[data-cy="selected"]').contains('test')
+        cy.get('[data-cy="selected"]').contains('haha')
         cy.get('[data-cy="selected"]').contains('{ "abc": "xyz", "test": { "xyz": 3 } }')
         cy.get('[data-cy="option"]').eq(1).click()
         cy.get('[data-cy="label"]').contains('4 Optionen gewählt')
         cy.get('[data-cy="selected"]').contains(4)
-        cy.get('[data-cy="selected"]').contains('test')
+        cy.get('[data-cy="selected"]').contains('haha')
         cy.get('[data-cy="selected"]').contains('{ "abc": "xyz", "test": { "xyz": 3 } }')
         cy.get('[data-cy="selected"]').contains(2)
         cy.get('[data-cy="option"]').eq(2).click()
         cy.get('[data-cy="label"]').contains('3 Optionen gewählt')
-        cy.get('[data-cy="selected"]').not('test')
+        cy.get('[data-cy="selected"]').should('not.contain', 'haha')
         cy.get('[data-cy="clear"]').click()
         cy.get('[data-cy="label"]').should('not.exist')
         cy.get('[data-cy="dropdown"]').should('not.be.visible')
@@ -106,7 +106,7 @@ describe('Multiselect Component', () => {
     })
 
     it('Can close the dropdown on selection', ()=>{
-        const selectOptions = [{value: {abc: 'xyz', test: {xyz: 3}}, label: 'This'}, {value: 2, label: 'is'}, {value: 'test', label: 'a'}, {value: 4, label: 'test'}]
+        const selectOptions = [{value: {abc: 'xyz', test: {xyz: 3}}, label: 'This'}, {value: 2, label: 'is'}, {value: 'haha', label: 'a'}, {value: 4, label: 'test'}]
         mount(MultiselectTester, {
             props: {
                 selectOptions: selectOptions,
@@ -122,7 +122,7 @@ describe('Multiselect Component', () => {
     })
 
     it('Can have an input to search options', ()=>{
-        const selectOptions = [{value: {abc: 'xyz', test: {xyz: 3}}, label: 'This'}, {value: 2, label: 'is'}, {value: 'test', label: 'a'}, {value: 4, label: 'test'}]
+        const selectOptions = [{value: {abc: 'xyz', test: {xyz: 3}}, label: 'This'}, {value: 2, label: 'is'}, {value: 'haha', label: 'a'}, {value: 4, label: 'test'}]
         mount(MultiselectTester, {
             props: {
                 selectOptions: selectOptions,
@@ -142,7 +142,7 @@ describe('Multiselect Component', () => {
     })
 
     it('Can be disabled', ()=> {
-        const selectOptions = [{value: {abc: 'xyz', test: {xyz: 3}}, label: 'This'}, {value: 2, label: 'is'}, {value: 'test', label: 'a'}, {value: 4, label: 'test'}]
+        const selectOptions = [{value: {abc: 'xyz', test: {xyz: 3}}, label: 'This'}, {value: 2, label: 'is'}, {value: 'haha', label: 'a'}, {value: 4, label: 'test'}]
         mount(MultiselectTester, {
             props: {
                 selectOptions: selectOptions,
@@ -157,7 +157,7 @@ describe('Multiselect Component', () => {
     })
 
     it('Can be tailwind styled via classes prop', ()=> {
-        const selectOptions = [{value: {abc: 'xyz', test: {xyz: 3}}, label: 'This'}, {value: 2, label: 'is'}, {value: 'test', label: 'a'}, {value: 4, label: 'test'}]
+        const selectOptions = [{value: {abc: 'xyz', test: {xyz: 3}}, label: 'This'}, {value: 2, label: 'is'}, {value: 'haha', label: 'a'}, {value: 4, label: 'test'}]
         mount(MultiselectTester, {
             props: {
                 selectOptions: selectOptions,
