@@ -4,9 +4,9 @@
       ref="multiselect"
       :class="classList.container"
       :tabindex="tabindex"
+      data-cy="multiselect"
       @focusin="activate"
       @focusout="deactivate"
-      data-cy="multiselect"
   >
 
 
@@ -17,10 +17,10 @@
       <input
           ref="input"
           v-model="search"
-          :type="inputType"
           :class="classList.search"
-          @input="handleInput"
+          :type="inputType"
           data-cy="searchInput"
+          @input="handleInput"
       />
     </template>
 
@@ -53,8 +53,8 @@
             v-for="(option) in shownOptions"
             :key=option.value
             :class="classList.option(option)"
-            @click="handleOptionClick(option)"
             data-cy="option"
+            @click="handleOptionClick(option)"
         >
           <slot :option="option" name="optionLabel">
             <span data-cy="optionLabel"
@@ -67,7 +67,7 @@
 
     <!-- clear -->
     <slot v-if="!noSelection && canClear && !disabled" :clear="clear" name="clear">
-    <span :class="classList.clear" @mousedown="clear" data-cy="clear"><span
+    <span :class="classList.clear" data-cy="clear" @mousedown="clear"><span
         :class="classList.clearCross"><!-- clear icon? --> x</span></span>
     </slot>
 
@@ -94,53 +94,91 @@ export default defineComponent({
     'search-change', 'update:modelValue', 'clear'
   ],
   props: {
+    /**
+     * Allows selecting multiple options. If true, the model value will be an array of selected values,
+     * otherwise it is a single selected value
+     */
     multiple: {
       type: Boolean,
       required: false,
       default: false,
     },
+    /**
+     * Is the value, that's used externally.
+     */
     modelValue: {
       required: false,
       default: (props: any) => props.multiple ? [] : null
     },
+    /**
+     * Array of options that can be selected.
+     * An Option should look like this: {value: <String|Number|Object|...>, label: <String>}.
+     * The label will be displayed in the selection dropdown.
+     */
     selectOptions: {
       type: Array,
       required: false,
       default: () => ([])
     },
+    /**
+     * The placeholder string will be displayed if no option is selected.
+     */
     placeholder: {
       type: String,
       required: false,
     },
+    /**
+     * Alters the displayed label if multiple selection mode is active.
+     * Can be a string or a function returning a string.
+     * The passed parameter of the function is an array of the selected options.
+     */
     multipleLabel: {
       type: [Function, String],
       required: false,
     },
+    /**
+     * Allows clearing all selected options
+     */
     canClear: {
       type: Boolean,
       required: false,
       default: true,
     },
+    /**
+     * Disables the component. Values can still be pushed into model value externally.
+     */
     disabled: {
       type: Boolean,
       required: false,
       default: false,
     },
+    /**
+     * Allows searching options by label.
+     */
     searchable: {
       type: Boolean,
       required: false,
       default: false,
     },
-    closeOnSelect: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
+    /**
+     * Input type of the search input.
+     */
     inputType: {
       type: String,
       required: false,
       default: 'text',
     },
+    /**
+     * The selection dropdown is automatically closed after selecting/deselecting an option
+     */
+    closeOnSelect: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    /**
+     * Used to style the component via tailwind classes.
+     */
     classes: {
       type: Object as PropType<Classes>,
       required: false,
