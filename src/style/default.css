@@ -170,6 +170,10 @@
     color: var(--ms-option-color-selected)
 }
 
+.multiselect-option.is-hidden {
+    display: none;
+}
+
 .multiselect-option.is-selected:hover {
     background: var(--ms-option-bg-selected-hover);
     color: var(--ms-option-color-selected-hover);

@@ -136,9 +136,9 @@ describe('Multiselect Component', () => {
         cy.get('[data-cy="searchInput"').should('be.focused')
         cy.get('[data-cy="searchInput"').type('test')
         cy.get('[data-cy="dropdown"]').contains('test')
-        cy.get('[data-cy="dropdown"]').not('this')
-        cy.get('[data-cy="dropdown"]').not('is')
-        cy.get('[data-cy="dropdown"]').not('a')
+        cy.get('[data-cy="option"]').eq(0).should('not.be.visible')
+        cy.get('[data-cy="option"]').eq(1).should('not.be.visible')
+        cy.get('[data-cy="option"]').eq(2).should('not.be.visible')
     })
 
     it('Can be disabled', ()=> {
