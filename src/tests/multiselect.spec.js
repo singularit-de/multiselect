@@ -1,6 +1,7 @@
 import {mount} from '@cypress/vue'
 import MultiselectTester from "./MultiselectTester.vue"
 import '../index.css'
+import './testStyling.css'
 import {defaultTailwind} from "../utils/defaultTailwind";
 
 describe('Multiselect Component', () => {
@@ -238,12 +239,12 @@ describe('Multiselect Component', () => {
                 }
             },
         })
-
         cy.get('[data-cy="spacer"]').should('have.class', 'newHeight')
+        cy.get('[data-cy="spacer"]').should('have.css', 'height', '60px')
         cy.get('[data-cy="spacer"]').should('have.class', 'h-9')
         cy.get('[data-cy="multiselect"]').click()
         cy.get('[data-cy="option"]').eq(0).click()
-        cy.get('[data-cy="option"]').eq(0).should('have.class', 'newSelected')
+        cy.get('[data-cy="option"]').eq(0).should('have.css', 'background-color','rgb(96, 165, 250)')
         cy.get('[data-cy="option"]').eq(0).should('have.class', 'text-white')
     })
 })

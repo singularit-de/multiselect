@@ -1,0 +1,7 @@
+.newHeight {
+    @apply h-[60px];
+}
+
+.newSelected {
+    @apply bg-blue-400 hover:bg-blue-500;
+}
