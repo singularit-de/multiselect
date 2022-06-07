@@ -1,6 +1,7 @@
 import {mount} from '@cypress/vue'
 import MultiselectTester from "./MultiselectTester.vue"
 import '../index.css'
+import {defaultTailwind} from "../utils/defaultTailwind";
 
 describe('Multiselect Component', () => {
     it('Can be mounted', () => {
@@ -14,7 +15,7 @@ describe('Multiselect Component', () => {
                 placeholder: 'test',
             }
         })
-        cy.get('.multiselect-placeholder').should('be.visible')
+        cy.get('[data-cy="placeholder"]').should('be.visible')
     })
 
     it('Works as select input for single selections', () => {
@@ -232,18 +233,17 @@ describe('Multiselect Component', () => {
             props: {
                 selectOptions: selectOptions,
                 classes: {
-                    spacer: 'h-20 py-px box-content',
-                    optionSelected: 'text-white bg-blue-400 hover:bg-blue-500'
+                    spacer: [defaultTailwind.spacer, 'newHeight'],
+                    optionSelected: [defaultTailwind.optionSelected, 'newSelected']
                 }
             },
         })
 
-        cy.get('[data-cy="spacer"]').should('have.class', 'h-20')
-        cy.get('[data-cy="multiselect"]').should('have.class', 'multiselect')
+        cy.get('[data-cy="spacer"]').should('have.class', 'newHeight')
+        cy.get('[data-cy="spacer"]').should('have.class', 'h-9')
         cy.get('[data-cy="multiselect"]').click()
         cy.get('[data-cy="option"]').eq(0).click()
-        cy.get('[data-cy="option"]').eq(0).should('have.class', 'bg-blue-400')
-        cy.get('[data-cy="option"]').eq(0).should('have.class', 'hover:bg-blue-500')
+        cy.get('[data-cy="option"]').eq(0).should('have.class', 'newSelected')
         cy.get('[data-cy="option"]').eq(0).should('have.class', 'text-white')
     })
 })

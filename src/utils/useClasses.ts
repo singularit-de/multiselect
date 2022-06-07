@@ -1,6 +1,9 @@
 import {computed, toRefs} from "vue";
 import Option from "../types/option.type";
 import "../index.css"
+import {defaultTailwind} from "./defaultTailwind";
+
+
 
 export default function useClasses(props: any, context: any, dependencies: any) {
     const refs = toRefs(props)
@@ -13,22 +16,23 @@ export default function useClasses(props: any, context: any, dependencies: any) 
     const search = dependencies.search
 
     const classes = {
-        container: 'multiselect',
-        containerDisabled: 'is-disabled',
-        containerOpen: 'dropdown-open',
-        containerActive: 'isActive',
-        label: 'multiselect-label',
-        search: 'multiselect-search',
-        placeholder: 'multiselect-placeholder',
-        clear: 'multiselect-clear',
-        clearCross: 'multiselect-clear-x',
-        dropdown: 'multiselect-dropdown',
-        dropdownHidden: 'is-hidden',
-        options: 'multiselect-options',
-        option: 'multiselect-option',
-        optionSelected: 'is-selected',
-        optionNotShown: 'is-hidden',
-        spacer: 'multiselect-spacer',
+        // container: 'multiselect',
+        // containerDisabled: 'is-disabled',
+        // containerOpen: 'dropdown-open',
+        // containerActive: 'isActive',
+        // label: 'multiselect-label',
+        // search: 'multiselect-search',
+        // placeholder: 'multiselect-placeholder',
+        // clear: 'multiselect-clear',
+        // clearCross: 'multiselect-clear-x',
+        // dropdown: 'multiselect-dropdown',
+        // dropdownHidden: 'is-hidden',
+        // options: 'multiselect-options',
+        // option: 'multiselect-option',
+        // optionSelected: 'is-selected',
+        // optionNotShown: 'is-hidden',
+        // spacer: 'multiselect-spacer',
+        ...defaultTailwind,
         ...refs.classes.value
     }
 
@@ -60,6 +64,7 @@ export default function useClasses(props: any, context: any, dependencies: any) 
         }
     })
     return {
-        classList
+        defaultTailwind,
+        classList,
     }
 }

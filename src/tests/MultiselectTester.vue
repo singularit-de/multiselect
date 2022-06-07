@@ -151,7 +151,6 @@ export default defineComponent({
 })
 </script>
 
-<style src="../style/default.css"></style>
 <style>
 
 </style>
