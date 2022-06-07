@@ -2,7 +2,7 @@ export const defaultTailwind = {
     container: 'h-auto relative mx-auto w-full flex items-center justify-end box-border cursor-pointer border border-gray-300 bg-white rounded text-base leading-snug outline-none',
     containerDisabled: 'cursor-default',
     containerOpen: 'rounded-b-none',
-    containerActive: 'ring ring-opacity-70 bg-orange-400',
+    containerActive: 'ring ring-opacity-70 ring-orange-400',
     label: 'flex items-center h-full absolute left-0 top-0 pointer-events-none bg-transparent leading-snug pl-3.5',
     search: 'w-full absolute inset-0 outline-none appearance-none box-border border-0 text-base font-sans bg-white rounded pl-3.5',
     placeholder: 'flex items-center h-full absolute left-0 top-0 pointer-events-none bg-transparent leading-snug pl-3.5 text-gray-400',
