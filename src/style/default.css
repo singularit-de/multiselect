@@ -1,20 +1,20 @@
 :root {
     --ms-border-width: 1px;
-    --ms-border-color: #d1d5db;
+    --ms-border-color: rgb(209, 213, 219);
     --ms-radius: 4px;
-    --ms-bg: #fff;
+    --ms-bg: rgb(255, 255, 255);
     --ms-font-size: 1rem;
     --ms-line-height: 1.375;
     --ms-px: .875rem;
     --ms-py: .5rem;
-    --ms-bg-disabled: #f3f4f6;
+    --ms-bg-disabled: rgb(243, 244, 246);
     --ms-ring-width: 3px;
     --ms-ring-color: rgba(16, 185, 129, .18823529411764706);
-    --ms-placeholder-color: #9ca3af;
-    --ms-clear-color-hover: darkgray;
+    --ms-placeholder-color: rgb(156, 163, 175);
+    --ms-clear-color-hover: rgb(169,169,169);
     --ms-dropdown-border-width: 1px;
     --ms-dropdown-border-color: #d1d5db;
-    --ms-dropdown-bg: #fff;
+    --ms-dropdown-bg: rgb(255, 255, 255);
     --ms-dropdown-radius: 4px;
     --ms-max-height: 10rem;
     --ms-option-bg-hover: rgb(243 244 246);
@@ -22,10 +22,10 @@
     --ms-option-px: .75rem;
     --ms-option-font-size: 1rem;
     --ms-option-line-height: 1.375;
-    --ms-option-bg-selected: orange;
-    --ms-option-color-selected: #fff;
-    --ms-option-bg-selected-hover: darkorange;
-    --ms-option-color-selected-hover: #fff;
+    --ms-option-bg-selected: rgb(255,165,0);
+    --ms-option-color-selected: rgb(255, 255, 255);
+    --ms-option-bg-selected-hover: rgb(255,140,0);
+    --ms-option-color-selected-hover: rgb(255, 255, 255);
 }
 
 .multiselect {
