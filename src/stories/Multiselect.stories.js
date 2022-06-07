@@ -4,6 +4,29 @@ import '../index.css';
 export default {
     title: 'Component/Multiselect',
     component: Multiselect,
+    argTypes: {
+        onSelect: {
+            action: 'selected'
+        },
+        onDeselect: {
+            action: 'deselect'
+        },
+        onOpen: {
+            action: 'open'
+        },
+        onClose: {
+            action: 'close'
+        },
+        'onSearch-change': {
+            action: 'search-change'
+        },
+        onClear: {
+            action: 'clear'
+        },
+        'onUpdate:modelValue': {
+            action: 'update:modelValue'
+        }
+    }
 }
 
 const Template = (args) => ({
