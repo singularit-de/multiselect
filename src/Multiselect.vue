@@ -96,7 +96,7 @@ export default defineComponent({
   props: {
     /**
      * Allows selecting multiple options. If true, the model value will be an array of selected values,
-     * otherwise it is a single selected value
+     * otherwise it is a single value.
      */
     multiple: {
       type: Boolean,
@@ -112,7 +112,7 @@ export default defineComponent({
     },
     /**
      * Array of options that can be selected.
-     * An Option should look like this: {value: <String|Number|Object|...>, label: <String>}.
+     * An Option should look like this: {value: <String|Number|Object|...>, label: <String>, ...}.
      * The label will be displayed in the selection dropdown.
      */
     selectOptions: {
@@ -162,7 +162,7 @@ export default defineComponent({
       default: false,
     },
     /**
-     * Allows searching options by label.
+     * Allows searching options.
      */
     searchable: {
       type: Boolean,
