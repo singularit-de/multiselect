@@ -40,6 +40,7 @@ export default function useMultiselect(props: any, context: any, dependencies: a
             selectedValues.value = null
         }
         deactivate()
+        context.emit('update:modelValue', selectedValues.value)
         context.emit('clear')
     }
 

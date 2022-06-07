@@ -25,6 +25,7 @@ export default function useOptions(props: any, context: any, dependencies: any) 
         //prevents from pushing illegal stuff in single mode
         if (!multiple.value && Array.isArray(selected)) {
             selectedValues.value = null
+            context.emit('update:modelValue', selectedValues.value)
         }
         return selected
     })
