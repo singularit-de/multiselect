@@ -5,12 +5,6 @@ export default function useValue(props: any, context: any) {
 
     const selectedValues = ref<any>(props.modelValue)
 
-    watch(selectedValues, (newSelected) => {
-        if (newSelected !== props.modelValue) {
-            context.emit('update:modelValue', newSelected)
-        }
-    })
-
     //for externally pushing things -> updates selectedValues
     watch(() => props.modelValue, (newValue) => {
         if (newValue !== selectedValues.value) {

@@ -70,6 +70,7 @@ export default function useOptions(props: any, context: any, dependencies: any) 
     function select(option: Option) {
         multiple.value ? selectedValues.value.push(option.value) : selectedValues.value = option.value
         context.emit('select', option)
+        context.emit('update:modelValue', selectedValues.value)
         if (closeOnSelect.value) {
             closeDropdown()
         }
@@ -83,6 +84,7 @@ export default function useOptions(props: any, context: any, dependencies: any) 
             selectedValues.value = null
         }
         context.emit('deselect', option)
+        context.emit('update:modelValue', selectedValues.value)
         if (closeOnSelect.value) {
             closeDropdown()
         }
