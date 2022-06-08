@@ -122,7 +122,7 @@ export default defineComponent({
 
     function pushValue() {
       if (vModel.value) {
-        const value = (selectOptions.value[Math.floor(Math.random() * selectOptions.value.length)] as Option).value
+        const value = (selectOptions.value[1] as Option).value
         if (multiple.value) {
           selected.value.push(value)
         } else {
