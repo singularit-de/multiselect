@@ -40,5 +40,6 @@ const Template = (args) => ({
 export const TesterComponent = Template.bind({});
 TesterComponent.args={
     placeholder: 'huhu',
-    selectOptions: [{value: 1, label: 'Wie'},{value: 'hallo', label: 'geht'},{value: {nested: 'juhu'}, label: 'es'},{value: true, label: 'dir'}]
+    selectOptions: [{value: 1, label: 'Wie'},{value: 'hallo', label: 'geht'},{value: {nested: 'juhu'}, label: 'es'},{value: true, label: 'dir'}],
+    vModel: true
 }
