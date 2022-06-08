@@ -112,8 +112,10 @@ export default defineComponent({
     },
     /**
      * Array of options that can be selected.
-     * An Option should look like this: {value: <String|Number|Object|...>, label: <String>, ...}.
-     * The label will be displayed in the selection dropdown.
+     * An Option should look like this:
+     * <pre><code>
+     *   {value: \<any>, label: \<String>, ...}.
+     * </code></pre>
      */
     selectOptions: {
       type: Array,
@@ -178,7 +180,7 @@ export default defineComponent({
       default: 'text',
     },
     /**
-     * The value of the option object which is searched if searchable is true.
+     * The value of the option object which is searched if searchable is true. Searches the options labels by default.
      */
     trackBy: {
       type: String,
@@ -186,7 +188,7 @@ export default defineComponent({
       default: 'label'
     },
     /**
-     * The selection dropdown is automatically closed after selecting/deselecting an option
+     * The selection dropdown will be automatically closed after selecting/deselecting an option if this prop is set to true.
      */
     closeOnSelect: {
       type: Boolean,
@@ -194,7 +196,36 @@ export default defineComponent({
       default: false,
     },
     /**
-     * Used to style the component via tailwind classes.
+     * Used to style the component via tailwind classes. To alter the style of single elements,
+     * import defaultTailwind from 'src/utils/defaultTailwind' and use it like this:
+     * <pre><code>
+     * :classes={
+     *   container: [defaultTailwind.container, 'newContainerStyles'],
+     *   option: [defaultTailwind.option, 'newOptionStyles'],
+     *   ...
+     * }
+     * </code></pre>
+     * This will only replace the CSS defined in the new classes. Tailwind classes won't overwrite the default style.
+     * To completely restyle the elements you can just ignore the defaultTailwind, this allows using tailwind classes directly.
+     * The following classes can be used:
+     * <pre><code>
+     *   container,
+     *   containerDisabled,
+     *   containerOpen,
+     *   containerActive,
+     *   label,
+     *   search,
+     *   placeholder,
+     *   clear,
+     *   clearCross,
+     *   dropdown,
+     *   dropdownHidden,
+     *   options,
+     *   option,
+     *   optionSelected,
+     *   optionNotShown,
+     *   spacer
+     * </code></pre>
      */
     classes: {
       type: Object as PropType<Classes>,
