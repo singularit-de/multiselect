@@ -22,7 +22,7 @@
   "dependencies": {
     "@cypress/vite-dev-server": "^2.2.3",
     "@cypress/vue": "^3.1.2",
-    "cypress": "^9.6.1",
+    "cypress": "^10.0.0",
     "lodash": "^4.17.21",
     "vue": "^3.2.25"
   },
