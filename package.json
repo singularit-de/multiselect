@@ -1,6 +1,11 @@
 {
   "name": "@singularit/multiselect",
-  "private": true,
+  "private": false,
+  "author": "singularIT GmbH",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/singularit-de/multiselect/issues"
+  },
   "version": "0.0.0",
   "files": [
     "dist"
@@ -24,10 +29,14 @@
     "build-storybook": "build-storybook",
     "deploy-storybook": "gh-pages -d storybook-static"
   },
+  "files": [
+    "dist",
+    "*.md"
+  ],
   "dependencies": {
     "@cypress/vite-dev-server": "^2.2.3",
     "@cypress/vue": "^3.1.2",
-    "cypress": "^9.6.1",
+    "cypress": "^10.0.0",
     "lodash": "^4.17.21",
     "vue": "^3.2.25"
   },
@@ -51,5 +60,22 @@
     "vite": "^2.9.7",
     "vue-loader": "^16.8.3",
     "vue-tsc": "^0.34.7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/singularit-de/multiselect.git"
+  },
+  "release": {
+    "branches": [
+      "main",
+      {
+        "name": "beta",
+        "prerelease": true
+      }
+    ],
+    "npmPublish": false
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
