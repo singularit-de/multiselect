@@ -35,10 +35,10 @@
 
 <script lang="ts">
 import {defineComponent, PropType, ref, toRefs} from "vue";
-import Multiselect from "../Multiselect.vue";
+import Multiselect from "../../src/Multiselect.vue";
 import Option from "../../src/types/option.type";
 import Classes from "../../src/types/classes.type";
-import "../index.css"
+import "../../src/index.css"
 
 export default defineComponent({
   name: 'MultiselectTester',

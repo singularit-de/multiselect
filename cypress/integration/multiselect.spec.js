@@ -1,6 +1,6 @@
 import {mount} from '@cypress/vue'
 import MultiselectTester from "./MultiselectTester.vue"
-import '../index.css'
+import '../../src/index.css'
 import './testStyling.css'
 import {defaultTailwind} from "../../src";
 
