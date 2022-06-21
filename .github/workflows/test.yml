@@ -29,8 +29,8 @@ jobs:
         uses: cypress-io/github-action@v4
         with:
           component: true
-          record: true
-          tag: node-${{ matrix.node }}
+#          record: true
+#          tag: node-${{ matrix.node }}
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -60,4 +60,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          npm run release
+          npx semantic-release
