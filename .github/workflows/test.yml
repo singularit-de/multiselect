@@ -5,15 +5,19 @@ jobs:
   cypress-run:
     name: Test
     runs-on: ubuntu-latest
-    #    strategy:
-    #      matrix:
-    #        node-version: [ 10.x, 12.x, 14.x, 15.x ]
+    strategy:
+      matrix:
+        node: [14, 15, 16, 18]
     steps:
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+          - run: node -v
       - name: Checkout
         uses: actions/checkout@v2
-      #      - name: Use Node.js ${{ matrix.node-version }}
       - name: Cypress run
         uses: cypress-io/github-action@v4
         with:
-          browser: chrome
           component: true
+          tag: node-${{ matrix.node }}
