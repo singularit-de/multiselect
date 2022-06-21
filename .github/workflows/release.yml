@@ -6,6 +6,11 @@ on:
       - master
       - beta
       - develop
+  pull_request:
+    branches-ignore:
+      - master
+      - beta
+      - develop
 
 jobs:
   test:
