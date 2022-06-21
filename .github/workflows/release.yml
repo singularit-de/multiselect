@@ -1,7 +1,7 @@
 name: Release
 on:
   workflow_run:
-    workflows: ["Cypress Tests"]
+    workflows: [ "Cypress Tests" ]
     types:
       - completed
 
@@ -12,6 +12,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ secrets.NPM_VERSION }}
+      - run: npm ci
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
