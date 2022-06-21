@@ -7,9 +7,6 @@
     "url": "https://github.com/singularit-de/multiselect/issues"
   },
   "version": "0.0.0",
-  "files": [
-    "dist"
-  ],
   "main": "dist/multiselect.umd.js",
   "module": "dist/multiselect.es.js",
   "exports": {
