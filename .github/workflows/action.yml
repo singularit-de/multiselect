@@ -1,6 +1,15 @@
 name: Cypress Tests
 on:
   workflow_call:
+    inputs:
+      GITHUB_TOKEN:
+        required: true
+        type: string
+        description: GitHub token with access to the repository
+      CYPRESS_RECORD_KEY:
+        required: true
+        type: string
+        description: Cypress record key
 
 jobs:
   cypress-run:
