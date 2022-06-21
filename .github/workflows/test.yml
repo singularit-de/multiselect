@@ -20,4 +20,8 @@ jobs:
         uses: cypress-io/github-action@v4
         with:
           component: true
+          record: true
           tag: node-${{ matrix.node }}
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
