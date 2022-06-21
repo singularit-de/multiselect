@@ -13,7 +13,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
-          - run: node -v
+      - run: node -v
       - name: Checkout
         uses: actions/checkout@v2
       - name: Cypress run
