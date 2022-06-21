@@ -1,4 +1,4 @@
-name: Test
+name: Handle test and release
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - master
       - beta
   pull_request:
-    branches-ignore:
+    branches:
       - master
       - beta
 
@@ -51,6 +51,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - test
+    if: success() && ${{ github.event_name == 'push' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
