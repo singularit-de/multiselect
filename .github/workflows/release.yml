@@ -1,24 +1,15 @@
 name: Release
 on:
-  push:
-    branches:
-      - main
-      - beta
-      - develop
+  workflow_run:
+    workflows: ["Cypress Tests"]
+    types:
+      - completed
 
 jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Test
-        uses: ./.github/workflows
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-      - run: npm -v
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
