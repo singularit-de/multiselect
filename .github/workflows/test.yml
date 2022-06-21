@@ -3,17 +3,16 @@ on: [push]
 
 jobs:
   cypress-run:
-    name: Test
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node: [14, 15, 16, 18]
+    name: Run Component tests 🧪 on Node v${{ matrix.node }}
     steps:
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
-      - run: node -v
       - name: Checkout
         uses: actions/checkout@v2
       - name: Cypress run
@@ -25,3 +24,13 @@ jobs:
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+      - uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: cypress-videos
+          path: cypress/videos
