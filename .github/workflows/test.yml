@@ -2,8 +2,6 @@ name: Cypress Tests
 on:
   pull_request:
     branches:
-      - main
-      - beta
       - develop
 
 jobs:

@@ -5,12 +5,10 @@ on:
     branches:
       - master
       - beta
-      - develop
   pull_request:
     branches-ignore:
       - master
       - beta
-      - develop
 
 jobs:
   test:
