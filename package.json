@@ -68,6 +68,10 @@
       {
         "name": "beta",
         "prerelease": true
+      },
+      {
+        "name": "develop",
+        "prerelease": true
       }
     ],
     "npmPublish": false
