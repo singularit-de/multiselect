@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Test
-        uses: ./.github/workflows/action.yml
+        uses: ./.github/workflows
       - run: npm -v
       - name: Release
         env:
