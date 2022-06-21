@@ -1,37 +1,62 @@
-#name: Cypress Tests
-#on:
-#  push:
-#
-#jobs:
-#  cypress-run:
-#    runs-on: ubuntu-latest
-#    strategy:
-#      matrix:
-#        node: [14, 15, 16, 18]
-#    name: Run Component tests 🧪 on Node v${{ matrix.node }}
-#    steps:
-#      - name: Setup Node
-#        uses: actions/setup-node@v1
-#        with:
-#          node-version: ${{ matrix.node }}
-#      - name: Checkout
-#        uses: actions/checkout@v2
-#      - name: Cypress run
-#        uses: cypress-io/github-action@v4
-#        with:
-#          component: true
-#          record: true
-#          tag: node-${{ matrix.node }}
-#        env:
-#          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#      - uses: actions/upload-artifact@v2
-#        if: failure()
-#        with:
-#          name: cypress-screenshots
-#          path: cypress/screenshots
-#      - uses: actions/upload-artifact@v2
-#        if: failure()
-#        with:
-#          name: cypress-videos
-#          path: cypress/videos
+name: Cypress Tests
+on:
+  push:
+  pull_request:
+    branches:
+      - main
+      - beta
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [ 14, 15, 16, 18 ]
+    name: Run Component tests 🧪 on Node v${{ matrix.node }}
+    steps:
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Cache Node Modules
+        uses: actions/cache@v3
+        with:
+          cache-path: node_modules
+          key: node_modules
+      - name: Cypress run
+        uses: cypress-io/github-action@v4
+        with:
+          component: true
+          record: true
+          tag: node-${{ matrix.node }}
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+      - uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: cypress-videos
+          path: cypress/videos
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Cache Node Modules
+        uses: actions/cache@v3
+        with:
+          cache-path: node_modules
+          key: node_modules
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          npm run release
