@@ -23,7 +23,7 @@ jobs:
       - name: Cache Node Modules
         uses: actions/cache@v3
         with:
-          cache-path: node_modules
+          path: node_modules
           key: node_modules
       - name: Cypress run
         uses: cypress-io/github-action@v4
@@ -46,13 +46,14 @@ jobs:
           path: cypress/videos
   release:
     runs-on: ubuntu-latest
+    needs: cypress-run
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Cache Node Modules
         uses: actions/cache@v3
         with:
-          cache-path: node_modules
+          path: node_modules
           key: node_modules
       - name: Release
         env:
