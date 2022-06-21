@@ -16,7 +16,6 @@
     },
     "./dist/style.css": "./dist/style.css"
   },
-  "unpkg": "dist/kurz-components.umd.min.js",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
