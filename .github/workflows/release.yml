@@ -1,4 +1,4 @@
-name: Handle test and release
+name: 🧪 Test & 🚀 Release
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   test:
-    name: Component tests 🧪 on Node v${{ matrix.node }}
+    name: 🧪 Component tests on Node v${{ matrix.node }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -43,7 +43,7 @@ jobs:
           name: cypress-videos
           path: cypress/videos
   release:
-    name: Release Next Version
+    name: 🚀 Release Next Version
     runs-on: ubuntu-latest
     needs:
       - test

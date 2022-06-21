@@ -1,4 +1,4 @@
-name: Cypress Tests
+name: 🧪 Cypress Tests
 on:
   pull_request:
     branches:
@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         node: [ 14, 15, 16, 18 ]
-    name: Run Component tests 🧪 on Node v${{ matrix.node }}
+    name: 🧪 Run Component tests on Node v${{ matrix.node }}
     steps:
       - name: Setup Node
         uses: actions/setup-node@v1
