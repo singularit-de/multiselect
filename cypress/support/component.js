@@ -1,5 +1,5 @@
 // ***********************************************************
-// This example support/index.js is processed and
+// This example support/component.js is processed and
 // loaded automatically before your test files.
 //
 // This is a great place to put global configuration and
@@ -18,3 +18,9 @@ import './commands'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+import { mount } from 'cypress/vue'
+// Ensure global styles are loaded
+import '../../src/index.css';
+
+Cypress.Commands.add('mount', mount)

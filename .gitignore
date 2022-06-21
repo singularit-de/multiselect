@@ -23,4 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 *.d.ts
+cypress/videos
 !env.d.ts
+!cypress.d.ts
