@@ -1,6 +1,10 @@
 name: Cypress Tests
 on:
   push:
+    branches-ignore:
+      - main
+      - beta
+      - develop
   pull_request:
     branches:
       - main
