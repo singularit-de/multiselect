@@ -1,4 +1,4 @@
-name: 🧪 Test & 🗂️ Build & 🚀 Release
+name: 🧪 Test & 🚀 Release
 
 on:
   push:
@@ -76,8 +76,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: dist
-      - name: Display structure of downloaded files
-        run: ls -R
+          path: dist
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
