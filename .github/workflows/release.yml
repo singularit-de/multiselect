@@ -72,11 +72,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Cache node modules
-        id: cache-npm
+      - name: Cache Node Modules
+        uses: actions/cache@v3
         with:
-          path: '**/node_modules'
-          key: node-${{ hashFiles('**/package-lock.json') }}
+          path: node_modules
+          key: node_modules
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
