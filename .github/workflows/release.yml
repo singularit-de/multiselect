@@ -76,6 +76,8 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: dist
+      - name: Display structure of downloaded files
+        run: ls -R
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
