@@ -1,8 +1,5 @@
 # sIT Multiselect Komponente
 
-## Requirements
-+ node v14.16.0
-
 ## Setup
 Run `npm install` to install dependencies.
 
