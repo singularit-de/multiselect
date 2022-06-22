@@ -50,11 +50,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Cache Node Modules
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: node_modules
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ secrets.NPM_VERSION }}
@@ -62,6 +57,11 @@ jobs:
         run: npm ci
       - name: Build Files
         run: npm run build
+      - uses: actions/upload-artifact@v2
+        if: success()
+        with:
+          name: dist
+          path: dist
 
   release:
     name: 🚀 Release Next Version
@@ -72,11 +72,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Cache Node Modules
-        uses: actions/cache@v3
+      - uses: actions/download-artifact@v3
         with:
-          path: node_modules
-          key: node_modules
+          name: dist
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
