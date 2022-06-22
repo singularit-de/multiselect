@@ -78,9 +78,9 @@ jobs:
           name: dist
       - name: Display structure of downloaded files
         run: ls -R
-      - name: Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          npx semantic-release
+      # - name: Release
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #    NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      #  run: |
+      #    npx semantic-release
