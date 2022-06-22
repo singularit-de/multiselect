@@ -1,4 +1,4 @@
-name: 🧪 Test & 🚀 Release
+name: 🧪 Test & 🗂️ Build & 🚀 Release
 
 on:
   push:
@@ -42,18 +42,41 @@ jobs:
         with:
           name: cypress-videos
           path: cypress/videos
-  release:
-    name: 🚀 Release Next Version
+  build:
+    name: 🗂️ Build files
     runs-on: ubuntu-latest
     needs:
       - test
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Cache node modules
+        id: cache-npm
+        with:
+          path: '**/node_modules'
+          key: node-${{ hashFiles('**/package-lock.json') }}
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ secrets.NPM_VERSION }}
-      - run: npm ci
+      - name: Install node_modules
+        run: npm ci
+      - name: Build Files
+        run: npm run build
+
+  release:
+    name: 🚀 Release Next Version
+    runs-on: ubuntu-latest
+    needs:
+      - test
+      - build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Cache node modules
+        id: cache-npm
+        with:
+          path: '**/node_modules'
+          key: node-${{ hashFiles('**/package-lock.json') }}
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
