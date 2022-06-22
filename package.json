@@ -74,7 +74,7 @@
         "prerelease": true
       }
     ],
-    "npmPublish": false
+    "npmPublish": true
   },
   "publishConfig": {
     "access": "public"
