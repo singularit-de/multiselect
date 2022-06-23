@@ -3,7 +3,6 @@ name: 🧪 Test & 🗂️ Build & 🚀 Release
 on:
   push:
     branches:
-      - master
       - beta
 
 jobs:
@@ -61,6 +60,11 @@ jobs:
       - uses: actions/upload-artifact@v2
         if: success()
         with:
+          name: node_modules
+          path: node_modules
+      - uses: actions/upload-artifact@v2
+        if: success()
+        with:
           name: dist
           path: dist
 
@@ -83,3 +87,20 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           npx semantic-release
+  docs:
+    name: 📚 Generate docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ secrets.NPM_VERSION }}
+      - uses: actions/download-artifact@v3
+        with:
+          name: node_modules
+          path: node_modules
+      - name: Generate docs
+        run: npm run build-storybook
+      - name: publish docs
+        run: npm run deploy-storybook
