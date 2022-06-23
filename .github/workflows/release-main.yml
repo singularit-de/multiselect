@@ -3,7 +3,7 @@ name: 🧪 Test & 🗂️ Build & 🚀 Release
 on:
   push:
     branches:
-      - beta
+      - main
 
 jobs:
   test:
