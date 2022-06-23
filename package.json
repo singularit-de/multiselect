@@ -27,7 +27,10 @@
   },
   "files": [
     "dist",
-    "*.md"
+    "*.md",
+    "src",
+    "!src/tests",
+    "!src/stories"
   ],
   "dependencies": {
     "@cypress/vite-dev-server": "^2.2.3",
