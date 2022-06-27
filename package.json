@@ -22,7 +22,7 @@
     "preview": "vite preview",
     "cypress:open": "cypress open --component",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook --docs -o docs",
+    "build-storybook": "build-storybook -o docs",
     "deploy-storybook": "gh-pages -d storybook-static"
   },
   "files": [
