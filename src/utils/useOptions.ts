@@ -101,6 +101,7 @@ export default function useOptions(props: any, context: any, dependencies: any) 
     return {
         selectedOptions,
         isSelected,
-        handleOptionClick
+        handleOptionClick,
+        deselect
     }
 }
