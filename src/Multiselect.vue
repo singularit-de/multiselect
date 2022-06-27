@@ -86,6 +86,7 @@ import useValue from "./utils/useValue";
 import useClasses from "./utils/useClasses";
 import Classes from "./types/classes.type";
 import Option from "./types/option.type";
+import _ from "lodash";
 
 
 export default defineComponent({
@@ -232,6 +233,19 @@ export default defineComponent({
       type: Object as PropType<Classes>,
       required: false,
       default: () => ({})
+    }
+  },
+  watch: {
+    selectOptions(newOptions, oldOptions) {
+      if (newOptions && newOptions.length > 0) {
+        for (const option of oldOptions) {
+          if (!_.some(newOptions, option) && this.isSelected(option)) {
+            this.deselect(option)
+          }
+        }
+      } else {
+        this.clear()
+      }
     }
   },
   computed: {},
