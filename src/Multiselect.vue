@@ -85,6 +85,7 @@ import useOptions from "./utils/useOptions";
 import useValue from "./utils/useValue";
 import useClasses from "./utils/useClasses";
 import Classes from "./types/classes.type";
+import Option from "./types/option.type";
 
 
 export default defineComponent({
@@ -118,7 +119,7 @@ export default defineComponent({
      * </code></pre>
      */
     selectOptions: {
-      type: Array,
+      type: Array as PropType<Option[]>,
       required: false,
       default: () => ([])
     },
@@ -144,7 +145,7 @@ export default defineComponent({
      * By default it displays the amount of selected options
      */
     multipleLabel: {
-      type: [Function, String],
+      type: [Function, String] as PropType<((options: Array<Option>)=>string) | string>,
       required: false,
     },
     /**
