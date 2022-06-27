@@ -20,7 +20,7 @@
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
-    "cypress:open": "cypress open-ct",
+    "cypress:open": "cypress open --component",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "deploy-storybook": "gh-pages -d storybook-static"
@@ -41,6 +41,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.18.2",
+    "@mdx-js/react": "^2.1.2",
     "@storybook/addon-actions": "^6.5.7",
     "@storybook/addon-essentials": "^6.5.7",
     "@storybook/addon-interactions": "^6.5.7",
