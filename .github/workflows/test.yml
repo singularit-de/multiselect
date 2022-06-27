@@ -17,8 +17,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - run: npm ci
-      - name: Checkout
-        uses: actions/checkout@v2
       - run: vue-tsc --noEmit
 
   cypress-run:
