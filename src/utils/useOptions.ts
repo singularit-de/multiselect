@@ -1,14 +1,12 @@
 import Option from "../types/option.type";
 import _ from "lodash";
-import {computed, ref, toRefs, watch} from "vue";
+import {computed, toRefs, watch} from "vue";
 
 export default function useOptions(props: any, context: any, dependencies: any) {
-    const {selectOptions, closeOnSelect, multiple} = toRefs(props)
+    const {closeOnSelect, multiple} = toRefs(props)
 
     const selectedValues = dependencies.selectedValues
     const closeDropdown = dependencies.closeDropdown
-
-    const shownOptions = ref<Option[]>(selectOptions.value)
 
     const selectedOptions = computed<Option | Option[]>(() => {
         let selected = []
@@ -102,7 +100,6 @@ export default function useOptions(props: any, context: any, dependencies: any) 
 
     return {
         selectedOptions,
-        shownOptions,
         isSelected,
         handleOptionClick
     }
