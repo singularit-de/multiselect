@@ -60,11 +60,11 @@ export default defineComponent({
       default: 'label',
     },
     multipleLabel: {
-      type: [Function, String],
+      type: [Function, String] as PropType<((options: Array<Option>)=>string) | string>,
       required: false,
     },
     selectOptions: {
-      type: Array,
+      type: Array as PropType<Option[]>,
       required: false,
       default: () => ([])
     },
