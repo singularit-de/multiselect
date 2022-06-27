@@ -6,6 +6,7 @@
   "bugs": {
     "url": "https://github.com/singularit-de/multiselect/issues"
   },
+  "homepage": "https://singularit-de.github.io",
   "version": "0.0.0",
   "main": "dist/multiselect.umd.js",
   "module": "dist/multiselect.es.js",
