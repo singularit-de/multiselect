@@ -50,7 +50,7 @@
     >
       <ul :class="classList.options" data-cy="optionList">
         <li
-            v-for="(option) in shownOptions"
+            v-for="(option) in selectOptions"
             :key=option.value
             :class="classList.option(option)"
             data-cy="option"
