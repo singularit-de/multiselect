@@ -14,9 +14,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ secrets.NODE_VERSION }}
+      - run: npm ci
       - name: Checkout
         uses: actions/checkout@v2
-      - run: npx vue-tsc --noEmit
+      - run: vue-tsc --noEmit
 
   cypress-run:
     runs-on: ubuntu-latest
