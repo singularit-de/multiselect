@@ -250,4 +250,29 @@ describe('Multiselect Component', () => {
         cy.get('[data-cy="option"]').eq(0).should('have.css', 'background-color','rgb(96, 165, 250)')
         cy.get('[data-cy="option"]').eq(0).should('have.class', 'text-white')
     })
+
+    it('should automatically deselect dynamically removed select options', ()=>{
+        cy.mount(MultiselectTester, {
+            props: {
+                vModel: true,
+                dynamicOptions: true,
+                multiple: true
+            },
+        })
+
+        cy.get('[data-cy="dropdown"]').should('not.be.visible')
+        cy.get('[data-cy="multiselect"]').click()
+        cy.get('[data-cy="dropdown"]').should('be.visible')
+        cy.get('[data-cy="option"]').eq(3).click()
+        cy.get('[data-cy="label"]').contains('1 Option gewählt')
+        cy.get('[data-cy="selected"]').contains(4)
+        cy.get('[data-cy="option"]').eq(2).click()
+        cy.get('[data-cy="label"]').contains('2 Optionen gewählt')
+        cy.get('[data-cy="selected"]').contains(4)
+        cy.get('[data-cy="selected"]').contains('haha')
+        cy.get('[data-cy="changeOptionsButton"]').click()
+        cy.get('[data-cy="selected"]').should('not.contain', 4)
+        cy.get('[data-cy="selected"]').contains('haha')
+        cy.get('[data-cy="label"]').contains('1 Option gewählt')
+    })
 })
