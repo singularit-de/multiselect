@@ -34,7 +34,7 @@ Commit messages should follow [Vue's commit message convention](https://github.c
 
 - Work in the `src` folder and DO NOT checkin `dist` in the commits
 - It's okay to have multiple small commits - GitHub will automatically squash it before merging
-- Make sure the [tests](#tests) pass 
+- Make sure the [tests](#tests) pass and the project can be built using `npm run build`
 - Add a test case for new features
 - If you are fixing a bug:
   - If you are resolving a special issue, add `(fix #xxxx[,'#xxxx])` (#xxxx is the issue id) in your Pull Request title.
