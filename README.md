@@ -1,16 +1,61 @@
 # sIT Multiselect Komponente
 
-## Setup
-Run `npm install` to install dependencies.
+- [Installation](#installation)
+- [Props](#props)
+- [Events](#events)
+- [Slots](#slots)
+- [Styling](#styling)
+  - [Default Tailwind Classes](#default-tailwind-classes)
+  - [Customization](#customization)
+- [Examples](#examples)
+  - [Single Select](#single-select)
+  - [Multiselect](#multiselect)
 
-## Tests
-Run `npm run cypress:open` to start cypress testing server. 
-The cypress test environment will open itself in a browser automatically.
+## Installation
 
-## Storybook
-Run `npm run storybook` to start storybook server.
+`npm install @singularit/multiselect`
 
-## Default Tailwind Classes
+
+## Props
+
+| Name              | Type                              | Default     | Description                                                                                                                                                                                                                                               |
+|-------------------|-----------------------------------|-------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **multiple**      | `boolean`                         | `false`     | Whether multiple options can be selected.                                                                                                                                                                                                                 |
+| **selectOptions** | `array`                           | `[]`        | Array of options that can be selected. An option should look like this: `{value: ..., label: '...'}`.                                                                                                                                                     |
+| **placeholder**   | `string`                          | `undefined` | The placeholder string will be displayed if no option is selected.                                                                                                                                                                                        |
+| **label**         | `string`                          | `'label'`   | Determines which value of the selected option object should be displayed as label.                                                                                                                                                                        |
+| **multipleLabel** | <code>function&#124;string</code> | `undefined` | Alters the displayed label if multiple selection mode is active. Can be a string or a function returning a string. The passed parameter of the function is an array of the selected options. By default the amount of selected options will be displayed. |
+| **canClear**      | `boolean`                         | `true`      | Whether all selected options can be cleared.                                                                                                                                                                                                              |
+| **disabled**      | `boolean`                         | `false`     | Disables the component. Values can still be pushed into the model value externally.                                                                                                                                                                       |
+| **searchable**    | `boolean`                         | `false`     | Whether options can be searched.                                                                                                                                                                                                                          |
+| **inputType**     | `string`                          | `text`      | Input type of the search input.                                                                                                                                                                                                                           |
+| **trackBy**       | `string`                          | `'label'`   | The value of the option object which is searched if searchable is true. Searches the options labels by default.                                                                                                                                           |
+| **closeOnSelect** | `boolean`                         | `false`     | Whether the selection dropdown should automatically be closed after selecting/deselection an option.                                                                                                                                                      |
+| **classes**       | `object`                          | `{}`        | An object of class names that gets merged with the default values.                                                                                                                                                                                        |
+
+## Events
+
+| Event          | Attributes | Description                                             |
+|----------------|------------|---------------------------------------------------------|
+| @open          |            | Emitted after opening the selection dropdown.           |
+| @close         |            | Emitted after closing the selection dropdown.           |
+| @select        | `option`   | Emitted after an option is selected.                    |
+| @deselect      | `option`   | Emitted after an option is deselected.                  |
+| @search-change | `query`    | Emitted after a character is typed in the search input. |
+| @clear         |            | Emitted after selected options are cleared.             |
+
+## Slots
+
+| Slot        | Attributes          | Description                                                                                                                           |
+|-------------|---------------------|---------------------------------------------------------------------------------------------------------------------------------------|
+| placeholder |                     | Rendered as placeholder when no option is selected and `placeholder` prop is defined.                                                 |
+| label       | `value`             | Rendered if single selection mode is active and an option is selected.                                                                |
+| optionLabel | `option,isSelected` | Renders an option in the selection dropdown. `isSelected` is provided to determine the state.                                         |
+| clear       | `clear`             | Renders a remove icon if any option is selected and `canClear` prop is true. The `clear` method should be used on `@mousedown` event. |
+
+## Styling
+
+### Default Tailwind Classes
 
 These are the default Tailwind classes used for styling the component.
 
@@ -35,55 +80,63 @@ These are the default Tailwind classes used for styling the component.
 }
 ```
 
-[//]: # (To customize them use the classes prop like this:)
+### Customization
 
-[//]: # ()
-[//]: # (If you want to completely re-style some elements from ground up:)
+If you want to completely re-style some elements from ground up:
 
-[//]: # (```)
+```vue
+<Multiselect
+    ...
+    :classes="{
+        container: 'some new tailwind classes',
+        ...
+    }"
+/> 
+```
 
-[//]: # (<Multiselect ... )
 
-[//]: # (    :classes='{)
+If you just want to change a few things like color, size, etc., import defaultTailwind and use it like this:
 
-[//]: # (        container: 'some new tailwind classes',)
+```vue
+<Multiselect ... 
+    :classes="{
+        container: [defaultTailwind.container, newContainerCSS],
+        ... 
+        }"
+/>
 
-[//]: # (        ... )
+<style>
+.newContainerCSS {
+    @apply new-tailwind-classes
+}
+</style>    
+```
 
-[//]: # (        }')
+## Examples
 
-[//]: # (/>    )
+### Single select
 
-[//]: # (```)
+```vue
+<Multiselect
+  v-model="value"
+  :select-options="[
+      {value: 'Just', label: 'How'},
+      {value: 'an', label: 'are'},
+      {value: 'example', label: 'you?'}
+  ]"
+/>
+```
 
-[//]: # ()
-[//]: # (If you just want to change a few things like color, size, etc., import defaultTailwind and use it)
+### Multiselect
 
-[//]: # (like this:)
-
-[//]: # (```)
-
-[//]: # (<Multiselect ... )
-
-[//]: # (    :classes='{)
-
-[//]: # (        container: [defaultTailwind.container, newContainerCSS],)
-
-[//]: # (        ... )
-
-[//]: # (        }')
-
-[//]: # (/>)
-
-[//]: # ()
-[//]: # (<style>)
-
-[//]: # (.newContainerCSS {)
-
-[//]: # (    @apply border-orange-500)
-
-[//]: # (})
-
-[//]: # (</style>    )
-
-[//]: # (```)
+```vue
+<Multiselect
+  v-model="value"
+  multiple
+  :select-options="[
+      {value: 'Just', label: 'How'},
+      {value: 'an', label: 'are'},
+      {value: 'example', label: 'you?'}
+  ]"
+/>
+```
