@@ -35,7 +35,7 @@
 
     <!-- Label -->
     <template v-if="!noSelection && !search">
-      <slot :values="selectedValues" name="label">
+      <slot :value="selectedValues" name="label">
         <div :class="classList.label" data-cy="label">
           {{ labelText }}
         </div>
@@ -56,7 +56,7 @@
             data-cy="option"
             @click="handleOptionClick(option)"
         >
-          <slot :option="option" name="optionLabel">
+          <slot :option="option" :isSelected="isSelected" name="optionLabel">
             <span data-cy="optionLabel"
             >{{ option.label }}</span>
           </slot>
