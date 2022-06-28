@@ -1,19 +1,36 @@
 <template>
   <div class="mt-3 mx-5 flex flex-col">
     <Multiselect
+        v-if="!dynamicOptions"
         v-model="selected"
         :canClear="canClear"
+        :classes="classes"
         :close-on-select="closeOnSelect"
         :disabled="disabled"
         :input-type="inputType"
-        :multiple="multiple"
         :label="label"
+        :multiple="multiple"
         :multiple-label="multipleLabel"
         :placeholder="placeholder"
         :searchable="searchable"
-        :track-by="trackBy"
         :select-options="selectOptions"
+        :track-by="trackBy"
+    />
+    <Multiselect
+        v-else
+        v-model="selected"
+        :canClear="canClear"
         :classes="classes"
+        :close-on-select="closeOnSelect"
+        :disabled="disabled"
+        :input-type="inputType"
+        :label="label"
+        :multiple="multiple"
+        :multiple-label="multipleLabel"
+        :placeholder="placeholder"
+        :searchable="searchable"
+        :select-options="dynamicSelectOptions"
+        :track-by="trackBy"
     />
     <div v-if="vModel">
       <button class="mt-4 text-center w-full border-2 bg-gray-100" data-cy="pushButton" @click="pushValue">Push a random
@@ -29,6 +46,12 @@
         <li v-for="(select, id) in selected" :key="id" data-cy="selected">{{ select }}</li>
       </ul>
       <span v-else data-cy="selected">{{ selected }}</span>
+    </div>
+    <div v-if="dynamicOptions">
+      <button class="mt-4 text-center w-full border-2 bg-gray-100" data-cy="changeOptionsButton"
+              @click="changeSelectOptions">
+        Change select Options
+      </button>
     </div>
   </div>
 </template>
@@ -60,7 +83,7 @@ export default defineComponent({
       default: 'label',
     },
     multipleLabel: {
-      type: [Function, String] as PropType<((options: Array<Option>)=>string) | string>,
+      type: [Function, String] as PropType<((options: Array<Option>) => string) | string>,
       required: false,
     },
     selectOptions: {
@@ -105,7 +128,12 @@ export default defineComponent({
     classes: {
       type: Object as PropType<Classes>,
       required: false,
-      default: ()=>({})
+      default: () => ({})
+    },
+    dynamicOptions: {
+      type: Boolean,
+      required: false,
+      default: false,
     }
   },
   setup(props) {
@@ -142,10 +170,26 @@ export default defineComponent({
       }
     }
 
+    const dynamicSelectOptions = ref<Option[]>([
+      {value: {abc: 'xyz', test: {xyz: 3}}, label: 'This'},
+      {value: 2, label: 'is'},
+      {value: 'haha', label: 'a'},
+      {value: 4, label: 'test'}])
+
+    function changeSelectOptions() {
+      dynamicSelectOptions.value = [
+        {value: {abc: 'xyz', test: {xyz: 3}}, label: 'This'},
+        {value: 2, label: 'is'},
+        {value: 'haha', label: 'a'}
+      ]
+    }
+
     return {
       selected,
       pushValue,
-      pushIllegalValue
+      pushIllegalValue,
+      dynamicSelectOptions,
+      changeSelectOptions
     }
   }
 })
