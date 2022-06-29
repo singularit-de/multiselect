@@ -1,2 +1,2 @@
 export {default} from './Multiselect.vue'
-export {defaultTailwind} from "./utils/defaultTailwind"
+export {baseStyle} from "./utils/defaultTheme"

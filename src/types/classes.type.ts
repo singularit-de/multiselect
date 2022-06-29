@@ -1,7 +1,6 @@
 export default interface Classes {
     container?: String|String[],
     containerDisabled?: String|String[],
-    containerOpen?: String|String[],
     containerActive?: String|String[],
     label?: String|String[],
     search?: String|String[],

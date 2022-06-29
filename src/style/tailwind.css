@@ -7,11 +7,7 @@
 }
 
 .multiselect.is-active {
-    @apply ring ring-orange-400 ring-opacity-70;
-}
-
-.multiselect.dropdown-open {
-    @apply rounded-b-none
+    @apply ring ring-orange-400 ring-opacity-70 rounded-b-none;
 }
 
 .multiselect-search {
