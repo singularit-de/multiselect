@@ -1,7 +1,7 @@
-import {computed, toRefs} from "vue";
-import Option from "../types/option.type";
+import {computed, toRefs} from "vue"
+import Option from "../types/option.type"
 import "../index.css"
-import {defaultTailwind} from "./defaultTailwind";
+import {defaultTheme} from "./defaultTheme"
 
 
 
@@ -32,31 +32,39 @@ export default function useClasses(props: any, context: any, dependencies: any) 
         // optionSelected: 'is-selected',
         // optionNotShown: 'is-hidden',
         // spacer: 'multiselect-spacer',
-        ...defaultTailwind,
+        ...defaultTheme,
         ...refs.classes.value
     }
 
     const classList = computed(()=> {
+        let container = classes.container
+        if (disabled.value) {
+            container = classes.containerDisabled
+        } else if (isActive.value) {
+            container = classes.containerActive
+        }
+
+        let dropdown = classes.dropdownHidden
+        if (dropdownOpen.value) {
+            dropdown = classes.dropdown
+        }
+
         return {
-            container: [classes.container]
-                .concat(disabled.value ? classes.containerDisabled : [])
-                .concat(dropdownOpen.value ? classes.containerOpen: [])
-                .concat(isActive.value ? classes.containerActive: []),
+            container: container,
             label: classes.label,
             search: classes.search,
             placeholder: classes.placeholder,
             clear: classes.clear,
             clearCross: classes.clearCross,
-            dropdown: [classes.dropdown]
-                .concat(dropdownOpen.value ? [] : classes.dropdownHidden),
+            dropdown: dropdown,
             options: classes.options,
             option: (o: Option) => {
-                const option = [classes.option]
+                let option = classes.option
                 if (isSelected(o)) {
-                    option.push(classes.optionSelected)
+                    option = classes.optionSelected
                 }
                 if (search && search.value && !o[trackBy.value].toLowerCase().includes(search.value.toLowerCase())) {
-                    option.push(classes.optionNotShown)
+                    option = classes.optionNotShown
                 }
                 return option
             },
@@ -64,7 +72,7 @@ export default function useClasses(props: any, context: any, dependencies: any) 
         }
     })
     return {
-        defaultTailwind,
+        defaultTheme,
         classList,
     }
 }
