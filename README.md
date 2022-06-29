@@ -95,21 +95,18 @@ If you want to completely re-style some elements from ground up:
 ```
 
 
-If you just want to change a few things like color, size, etc., import defaultTailwind and use it like this:
+If you just want to keep the recommended base style an only change a few things like colors or sizes, import baseStyle and use it like this:
 
 ```vue
 <Multiselect ... 
     :classes="{
-        container: [defaultTailwind.container, newContainerCSS],
+        container: [baseStyle.container, 'bg-gray-200'],
+        spacer: [baseStyle.spacer, 'h-20'],
+        dropdown: [baseStyle.dropdown, 'max-h-90'],
+        optionSelected: [baseStyle.option, 'bg-gray-400 hover:bg-gray-500'],
         ... 
         }"
 />
-
-<style>
-.newContainerCSS {
-    @apply new-tailwind-classes
-}
-</style>    
 ```
 
 ## Examples
