@@ -1,9 +1,7 @@
 import {computed, toRefs} from "vue"
-import Option from "../types/option.type"
+import {Option} from "../types"
 import "../index.css"
 import {defaultTheme} from "./defaultTheme"
-
-
 
 export default function useClasses(props: any, context: any, dependencies: any) {
     const refs = toRefs(props)
