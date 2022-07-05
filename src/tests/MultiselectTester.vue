@@ -59,8 +59,7 @@
 <script lang="ts">
 import {defineComponent, PropType, ref, toRefs} from "vue";
 import Multiselect from "../Multiselect.vue";
-import Option from "../types/option.type";
-import Classes from "../types/classes.type";
+import {Option, Classes} from "../types"
 import "../index.css"
 
 export default defineComponent({

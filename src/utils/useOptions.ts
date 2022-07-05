@@ -1,5 +1,5 @@
-import Option from "../types/option.type";
-import _ from "lodash";
+import {Option} from "../types";
+import * as _ from "lodash";
 import {computed, toRefs, watch} from "vue";
 
 export default function useOptions(props: any, context: any, dependencies: any) {
