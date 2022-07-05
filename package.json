@@ -18,7 +18,8 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
+    "build": "vite build",
+    "postbuild": "vue-tsc -p tsconfig.build-dts.json",
     "preview": "vite preview",
     "cypress:open": "cypress open --component",
     "storybook": "start-storybook -p 6006",
@@ -27,6 +28,7 @@
   },
   "files": [
     "dist",
+    "types/**/*.d.ts",
     "*.md",
     "src",
     "!src/tests",
@@ -78,5 +80,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "types": "types"
 }

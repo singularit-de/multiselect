@@ -84,13 +84,12 @@ import useSearch from "./utils/useSearch";
 import useOptions from "./utils/useOptions";
 import useValue from "./utils/useValue";
 import useClasses from "./utils/useClasses";
-import Classes from "./types/classes.type";
-import Option from "./types/option.type";
-import _ from "lodash";
+import {Classes, Option} from "./types";
+import * as _ from "lodash";
 
 
 export default defineComponent({
-  name: 'Multiselect',
+  name: 'SMultiselect',
   emits: [
     'open', 'close', 'select', 'deselect',
     'search-change', 'update:modelValue', 'clear'
