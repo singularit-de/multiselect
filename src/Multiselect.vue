@@ -108,6 +108,7 @@ export default defineComponent({
      * Is the value, that's used externally.
      */
     modelValue: {
+      type: [String,Number,Array,Object,Boolean],
       required: false,
       default: (props: any) => props.multiple ? [] : null
     },
@@ -129,6 +130,7 @@ export default defineComponent({
     placeholder: {
       type: String,
       required: false,
+      default: '',
     },
     /**
      * Determines which value of the selected option Object should be displayed as label.
@@ -147,6 +149,7 @@ export default defineComponent({
     multipleLabel: {
       type: [Function, String] as PropType<((options: Array<Option>) => string) | string>,
       required: false,
+      default: undefined
     },
     /**
      * Allows clearing all selected options
