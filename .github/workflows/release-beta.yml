@@ -62,6 +62,11 @@ jobs:
         with:
           name: dist
           path: dist
+      - uses: actions/upload-artifact@v2
+        if: success()
+        with:
+          name: types
+          path: types
 
   release:
     name: 🚀 Release Next Version
@@ -76,6 +81,10 @@ jobs:
         with:
           name: dist
           path: dist
+      - uses: actions/download-artifact@v3
+        with:
+          name: types
+          path: types
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
