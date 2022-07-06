@@ -13,7 +13,9 @@
 
 ## Installation
 
-`npm install @singularit/multiselect`
+```bash
+npm install @singularit/multiselect
+```
 
 
 ## Props
