@@ -56,7 +56,7 @@
             data-cy="option"
             @click="handleOptionClick(option)"
         >
-          <slot :option="option" :isSelected="isSelected" name="optionLabel">
+          <slot :isSelected="isSelected" :option="option" name="optionLabel">
             <span data-cy="optionLabel"
             >{{ option.label }}</span>
           </slot>
@@ -84,13 +84,12 @@ import useSearch from "./utils/useSearch";
 import useOptions from "./utils/useOptions";
 import useValue from "./utils/useValue";
 import useClasses from "./utils/useClasses";
-import Classes from "./types/classes.type";
-import Option from "./types/option.type";
-import _ from "lodash";
+import {Classes, Option} from "./types";
+import * as _ from "lodash";
 
 
 export default defineComponent({
-  name: 'Multiselect',
+  name: 'SMultiselect',
   emits: [
     'open', 'close', 'select', 'deselect',
     'search-change', 'update:modelValue', 'clear'
@@ -146,7 +145,7 @@ export default defineComponent({
      * By default it displays the amount of selected options
      */
     multipleLabel: {
-      type: [Function, String] as PropType<((options: Array<Option>)=>string) | string>,
+      type: [Function, String] as PropType<((options: Array<Option>) => string) | string>,
       required: false,
     },
     /**
@@ -198,17 +197,18 @@ export default defineComponent({
       default: false,
     },
     /**
-     * Used to style the component via tailwind classes. To alter the style of single elements,
-     * import defaultTailwind from 'src/utils/defaultTailwind' and use it like this:
+     * Used to style the component via tailwind classes. To alter only a few tings like color or size of single elements,
+     * import baseStyle from 'src/utils/defaultTheme' and use it like this:
      * <pre><code>
      * :classes={
-     *   container: [defaultTailwind.container, 'newContainerStyles'],
-     *   option: [defaultTailwind.option, 'newOptionStyles'],
+     *   container: [baseStyle.container, 'bg-gray-100'],
+     *   option: [baseStyle.option, 'bg-white text-black h-5'],
      *   ...
      * }
      * </code></pre>
-     * This will only replace the CSS defined in the new classes. Tailwind classes won't overwrite the default style.
-     * To completely restyle the elements you can just ignore the defaultTailwind, this allows using tailwind classes directly.
+     * Tailwind classes won't overwrite the basic style though, so already existing styles
+     * in the baseStyle can't be changed with this method.
+     * To completely restyle the elements you can just ignore the baseStyle.
      * The following classes can be used:
      * <pre><code>
      *   container,

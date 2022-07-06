@@ -1,7 +1,7 @@
 import MultiselectTester from "./MultiselectTester.vue"
 import '../index.css'
 import './testStyling.css'
-import {defaultTailwind} from "../utils/defaultTailwind";
+import {baseStyle} from "../utils/defaultTheme";
 
 describe('Multiselect Component', () => {
     it('should mount', () => {
@@ -237,18 +237,17 @@ describe('Multiselect Component', () => {
             props: {
                 selectOptions: selectOptions,
                 classes: {
-                    spacer: [defaultTailwind.spacer, 'newHeight'],
-                    optionSelected: [defaultTailwind.optionSelected, 'newSelected']
+                    spacer: [baseStyle.spacer, 'h-[60px]'],
+                    optionSelected: [baseStyle.option, 'bg-blue-400 hover:bg-blue-500']
                 }
             },
         })
-        cy.get('[data-cy="spacer"]').should('have.class', 'newHeight')
+        cy.get('[data-cy="spacer"]').should('have.class', 'h-[60px]')
         cy.get('[data-cy="spacer"]').should('have.css', 'height', '60px')
-        cy.get('[data-cy="spacer"]').should('have.class', 'h-9')
         cy.get('[data-cy="multiselect"]').click()
         cy.get('[data-cy="option"]').eq(0).click()
         cy.get('[data-cy="option"]').eq(0).should('have.css', 'background-color','rgb(96, 165, 250)')
-        cy.get('[data-cy="option"]').eq(0).should('have.class', 'text-white')
+        cy.get('[data-cy="option"]').eq(0).should('have.class', 'flex')
     })
 
     it('should automatically deselect dynamically removed select options', ()=>{

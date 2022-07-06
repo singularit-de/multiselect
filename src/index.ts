@@ -1,2 +1,6 @@
 export {default} from './Multiselect.vue'
-export {defaultTailwind} from "./utils/defaultTailwind"
+export {baseStyle} from "./utils/defaultTheme"
+
+export type {Option as SMultiselectOption, Classes as SMultiselectClasses} from './types'
+
+export * from './utils'
