@@ -50,7 +50,7 @@
     >
       <ul :class="classList.options" data-cy="optionList">
         <li
-            v-for="(option) in selectOptions"
+            v-for="(option) in shownOptions"
             :key=option.value
             :class="classList.option(option)"
             data-cy="option"
@@ -62,8 +62,16 @@
           </slot>
         </li>
       </ul>
-    </div>
 
+      <slot v-if="noOptions" name="no-options">
+        <div :class="classList.noOptions" v-html="noOptionsText"/>
+      </slot>
+
+      <slot v-if="noResults" name="no-results">
+        <div :class="classList.noResults" v-html="noResultsText"/>
+      </slot>
+
+    </div>
 
     <!-- clear -->
     <slot v-if="!noSelection && canClear && !disabled" :clear="clear" name="clear">
@@ -123,6 +131,14 @@ export default defineComponent({
       type: Array as PropType<Option[]>,
       required: false,
       default: () => ([])
+    },
+    /**
+     * Text that is displayed if no options are given.
+     */
+    noOptionsText: {
+      type: String,
+      required: false,
+      default: 'Die Liste ist leer'
     },
     /**
      * The placeholder string will be displayed if no option is selected.
@@ -192,6 +208,14 @@ export default defineComponent({
       default: 'label'
     },
     /**
+     * Text that is displayed if there are no search results.
+     */
+    noResultsText: {
+      type: String,
+      required: false,
+      default: 'Keine Ergebnisse gefunden'
+    },
+    /**
      * The selection dropdown will be automatically closed after selecting/deselecting an option if this prop is set to true.
      */
     closeOnSelect: {
@@ -257,6 +281,7 @@ export default defineComponent({
     const dropdown = useDropdown(props, context)
     const search = useSearch(props, context)
     const options = useOptions(props, context, {
+      search: search.search,
       selectedValues: value.selectedValues,
       closeDropdown: dropdown.closeDropdown,
     })
@@ -271,7 +296,6 @@ export default defineComponent({
       dropdownOpen: dropdown.dropdownOpen,
       isSelected: options.isSelected,
       isActive: multiselect.isActive,
-      search: search.search
     })
 
     return {
