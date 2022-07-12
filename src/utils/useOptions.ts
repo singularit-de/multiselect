@@ -3,14 +3,28 @@ import * as _ from "lodash";
 import {computed, toRefs, watch} from "vue";
 
 export default function useOptions(props: any, context: any, dependencies: any) {
-    const {closeOnSelect, multiple} = toRefs(props)
+    const {closeOnSelect, multiple, selectOptions, trackBy} = toRefs(props)
 
     const selectedValues = dependencies.selectedValues
     const closeDropdown = dependencies.closeDropdown
+    const search = dependencies.search
+
+    const noOptions = computed(() => selectOptions.value.length === 0)
+
+    const shownOptions = computed(() => {
+        if (search && search.value) {
+            return selectOptions.value.filter((option: Option) => {
+                return option[trackBy.value].toLowerCase().includes(search.value.toLowerCase())
+            })
+        }
+        return selectOptions.value
+    })
+
+    const noResults = computed(() => search && search.value && shownOptions.value && shownOptions.value.length === 0)
 
     const selectedOptions = computed<Option | Option[]>(() => {
         let selected = []
-        for (const option of props.selectOptions) {
+        for (const option of selectOptions.value) {
             if (isSelected(option)) {
                 if (multiple.value) {
                     selected.push(option)
@@ -99,6 +113,9 @@ export default function useOptions(props: any, context: any, dependencies: any) 
 
 
     return {
+        noOptions,
+        shownOptions,
+        noResults,
         selectedOptions,
         isSelected,
         handleOptionClick,
