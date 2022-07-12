@@ -15,6 +15,8 @@
         :searchable="searchable"
         :select-options="selectOptions"
         :track-by="trackBy"
+        :no-options-text="noOptionsText"
+        :no-results-text="noResultsText"
     />
     <Multiselect
         v-else
@@ -31,6 +33,8 @@
         :searchable="searchable"
         :select-options="dynamicSelectOptions"
         :track-by="trackBy"
+        :no-options-text="noOptionsText"
+        :no-results-text="noResultsText"
     />
     <div v-if="vModel">
       <button class="mt-4 text-center w-full border-2 bg-gray-100" data-cy="pushButton" @click="pushValue">Push a random
@@ -133,6 +137,14 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false,
+    },
+    noOptionsText: {
+      type: String,
+      required: false,
+    },
+    noResultsText: {
+      type: String,
+      required: false,
     }
   },
   setup(props) {

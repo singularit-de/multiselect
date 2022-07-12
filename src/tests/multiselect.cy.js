@@ -1,6 +1,5 @@
 import MultiselectTester from "./MultiselectTester.vue"
 import '../index.css'
-import './testStyling.css'
 import {baseStyle} from "../utils/defaultTheme";
 
 describe('Multiselect Component', () => {
@@ -189,9 +188,9 @@ describe('Multiselect Component', () => {
         cy.get('[data-cy="searchInput"').should('be.focused')
         cy.get('[data-cy="searchInput"').type('test')
         cy.get('[data-cy="dropdown"]').contains('test')
-        cy.get('[data-cy="option"]').eq(0).should('not.be.visible')
-        cy.get('[data-cy="option"]').eq(1).should('not.be.visible')
-        cy.get('[data-cy="option"]').eq(2).should('not.be.visible')
+        cy.get('[data-cy="dropdown"').should('not.contain', 'This')
+        cy.get('[data-cy="dropdown"').should('not.contain', 'is')
+        cy.get('[data-cy="dropdown"').should('not.contain', 'a')
     })
 
     it('should be searched by values different to label', ()=>{
@@ -211,9 +210,10 @@ describe('Multiselect Component', () => {
         cy.get('[data-cy="searchInput"').should('be.focused')
         cy.get('[data-cy="searchInput"').type('geht')
         cy.get('[data-cy="dropdown"]').contains('is')
-        cy.get('[data-cy="option"]').eq(0).should('not.be.visible')
-        cy.get('[data-cy="option"]').eq(2).should('not.be.visible')
-        cy.get('[data-cy="option"]').eq(3).should('not.be.visible')
+        cy.get('[data-cy="dropdown"').should('not.contain', 'This')
+        cy.get('[data-cy="dropdown"').should('not.contain', 'a')
+        cy.get('[data-cy="dropdown"').should('not.contain', 'test')
+
     })
 
     it('should be disabled', ()=> {
@@ -274,4 +274,35 @@ describe('Multiselect Component', () => {
         cy.get('[data-cy="selected"]').contains('haha')
         cy.get('[data-cy="label"]').contains('1 Option gewählt')
     })
+
+    it('should display a text if no options are available', () => {
+        cy.mount(MultiselectTester, {
+            props: {
+                noOptionsText: 'Sorry, no options'
+            },
+        })
+
+        cy.get('[data-cy="multiselect"]').click()
+        cy.get('[data-cy="dropdown"]').should('be.visible')
+        cy.get('[data-cy="dropdown"]').contains('Sorry, no options')
+    })
+
+    it('should display a text if there are no search results', () => {
+        const selectOptions = [{value: {abc: 'xyz', test: {xyz: 3}}, label: 'This'}, {value: 2, label: 'is'}, {value: 'haha', label: 'a'}, {value: 4, label: 'test'}]
+        cy.mount(MultiselectTester, {
+            props: {
+                searchable: true,
+                selectOptions: selectOptions,
+                noResultsText: 'Sorry, no results'
+            },
+        })
+
+        cy.get('[data-cy="multiselect"]').click()
+        cy.get('[data-cy="dropdown"]').should('be.visible')
+        cy.get('[data-cy="searchInput"').should('be.focused')
+        cy.get('[data-cy="searchInput"').type('abcdefg')
+        cy.get('[data-cy="dropdown"]').contains('Sorry, no results')
+    })
+
+
 })
