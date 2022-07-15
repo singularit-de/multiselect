@@ -22,8 +22,8 @@
     "preview": "vite preview",
     "cypress:open": "cypress open-ct",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "deploy-storybook": "gh-pages -d storybook-static"
+    "build-storybook": "build-storybook -o docs",
+    "deploy-storybook": "gh-pages -d docs"
   },
   "files": [
     "dist",
