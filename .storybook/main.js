@@ -14,5 +14,20 @@ module.exports = {
   },
   "features": {
     "storyStoreV7": true
-  }
+  },
+  viteFinal: (config, { configType }) => {
+    // some configs
+    if (configType === 'PRODUCTION') {
+      config.base = '/multiselect/';
+    }
+    return config
+  },
+  managerHead: (head, { configType }) => {
+    if (configType === 'PRODUCTION') {
+      return (`
+        ${head}
+        <base href="/multiselect/">
+      `);
+    }
+  },
 }
