@@ -23,6 +23,7 @@ jobs:
         with:
           path: node_modules
           key: node_modules
+      - run: npm ci
       - name: Generate docs
         run: npm run build-storybook
       - name: publish docs
