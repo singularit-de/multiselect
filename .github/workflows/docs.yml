@@ -13,9 +13,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Setup Node
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ secrets.NPM_VERSION }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ secrets.NPM_VERSION }}
       - name: Checkout
         uses: actions/checkout@v2
       - name: Cache Node Modules
