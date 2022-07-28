@@ -51,14 +51,15 @@ npm install @singularit/multiselect
 
 ## Slots
 
-| Slot        | Attributes          | Description                                                                                                                           |
-|-------------|---------------------|---------------------------------------------------------------------------------------------------------------------------------------|
-| placeholder |                     | Rendered as placeholder when no option is selected and `placeholder` prop is defined.                                                 |
-| label       | `value`             | Rendered if single selection mode is active and an option is selected.                                                                |
-| optionLabel | `option,isSelected` | Renders an option in the selection dropdown. `isSelected` is provided to determine the state.                                         |
-| clear       | `clear`             | Renders a remove icon if any option is selected and `canClear` prop is true. The `clear` method should be used on `@mousedown` event. |
-| no-options  |                     | Rendered if the options list is empty. By default renders `noOptionsText`.                                                            |
-| no-results  |                     | Rendered if there are no search results. By default renders `noResultsText`.                                                          |
+| Slot          | Attributes          | Description                                                                                                                           |
+|---------------|---------------------|---------------------------------------------------------------------------------------------------------------------------------------|
+| placeholder   |                     | Rendered as placeholder when no option is selected and `placeholder` prop is defined.                                                 |
+| multipleLabel | `selectedOptions`   | Rendered if multiple selection mode is active and an option is selected.                                                              |
+| singleLabel   | `selectedOption`    | Rendered if single selection mode is active and an option is selected.                                                                |
+| optionLabel   | `option,isSelected` | Renders an option in the selection dropdown. `isSelected` is provided to determine the state.                                         |
+| clear         | `clear`             | Renders a remove icon if any option is selected and `canClear` prop is true. The `clear` method should be used on `@mousedown` event. |
+| no-options    |                     | Rendered if the options list is empty. By default renders `noOptionsText`.                                                            |
+| no-results    |                     | Rendered if there are no search results. By default renders `noResultsText`.                                                          |
 
 ## Styling
 
