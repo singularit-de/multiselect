@@ -7,6 +7,7 @@
       data-cy="multiselect"
       @focusin="activate"
       @focusout="deactivate"
+      @mousedown="handleMousedown"
   >
 
 
@@ -33,11 +34,20 @@
       </slot>
     </template>
 
-    <!-- Label -->
-    <template v-if="!noSelection && !search">
-      <slot :value="selectedValues" name="label">
-        <div :class="classList.label" data-cy="label">
-          {{ labelText }}
+    <!-- Single label   -->
+    <template v-if="!multiple && !noSelection && !search && selectedOptions">
+      <slot name="singlelabel" :value="selectedOptions">
+        <div :class="classList.label" data-cy="single-label">
+          {{ selectedOptions[label] }}
+        </div>
+      </slot>
+    </template>
+
+    <!-- Multiple label -->
+    <template v-if="multiple && !noSelection && !search">
+      <slot :selectedValues="selectedValues" :selectedOptions="selectedOptions" name="label">
+        <div :class="classList.label" data-cy="multiple-label">
+          {{ multipleLabelText }}
         </div>
       </slot>
     </template>
@@ -92,7 +102,7 @@ import useSearch from "./utils/useSearch";
 import useOptions from "./utils/useOptions";
 import useValue from "./utils/useValue";
 import useClasses from "./utils/useClasses";
-import {Classes, Option} from "./types";
+import type {Classes, Option} from "./types";
 import * as _ from "lodash";
 
 
@@ -116,7 +126,7 @@ export default defineComponent({
      * Is the value, that's used externally.
      */
     modelValue: {
-      type: [String,Number,Array,Object,Boolean],
+      type: [String, Number, Array, Object, Boolean],
       required: false,
       default: (props: any) => props.multiple ? [] : null
     },
@@ -280,17 +290,17 @@ export default defineComponent({
     const value = useValue(props, context)
     const dropdown = useDropdown(props, context)
     const search = useSearch(props, context)
-    const options = useOptions(props, context, {
-      search: search.search,
-      selectedValues: value.selectedValues,
-      closeDropdown: dropdown.closeDropdown,
-    })
     const multiselect = useMultiselect(props, context, {
       selectedValues: value.selectedValues,
-      selectedOptions: options.selectedOptions,
+      dropdownOpen: dropdown.dropdownOpen,
       openDropdown: dropdown.openDropdown,
       closeDropdown: dropdown.closeDropdown,
       clearSearch: search.clearSearch,
+    })
+    const options = useOptions(props, context, {
+      search: search.search,
+      selectedValues: value.selectedValues,
+      deactivate: multiselect.deactivate,
     })
     const classList = useClasses(props, context, {
       dropdownOpen: dropdown.dropdownOpen,

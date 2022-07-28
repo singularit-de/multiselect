@@ -3,12 +3,12 @@ import {computed, ref, toRefs} from "vue";
 export default function useMultiselect(props: any, context: any, dependencies: any) {
 
     const selectedValues = dependencies.selectedValues
-    const selectedOptions = dependencies.selectedOptions
     const openDropdown = dependencies.openDropdown
     const closeDropdown = dependencies.closeDropdown
     const clearSearch = dependencies.clearSearch
+    const dropdownOpen = dependencies.dropdownOpen
 
-    const {searchable, disabled, label, multipleLabel, multiple} = toRefs(props)
+    const {searchable, disabled, multiple} = toRefs(props)
 
     const multiselect = ref(null)
     const isActive = ref(false)
@@ -45,21 +45,15 @@ export default function useMultiselect(props: any, context: any, dependencies: a
         context.emit('clear')
     }
 
-    const labelText = computed(() => {
-        if (multiple.value) {
-            if (multipleLabel && multipleLabel.value) {
-                if (typeof multipleLabel.value === 'string' || multipleLabel.value instanceof String) {
-                    return multipleLabel.value
-                } else {
-                    return multipleLabel.value(selectedOptions.value)
-                }
-            } else {
-                return selectedValues.value && selectedValues.value.length > 1 ? `${selectedValues.value.length} Optionen gewählt` : '1 Option gewählt'
-            }
-        } else {
-            return (selectedOptions.value[label.value])
+    function handleMousedown(e: MouseEvent) {
+        if (!dropdownOpen.value && e.target === document.getElementById('multiselect')) {
+            activate()
+        } else if (dropdownOpen.value && e.target === document.getElementById('multiselect')) {
+            setTimeout(() => {
+                deactivate()
+            }, 0)
         }
-    })
+    }
 
     return {
         multiselect,
@@ -68,6 +62,6 @@ export default function useMultiselect(props: any, context: any, dependencies: a
         activate,
         deactivate,
         clear,
-        labelText,
+        handleMousedown,
     }
 }

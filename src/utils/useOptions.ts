@@ -3,10 +3,10 @@ import * as _ from "lodash";
 import {computed, toRefs, watch} from "vue";
 
 export default function useOptions(props: any, context: any, dependencies: any) {
-    const {closeOnSelect, multiple, selectOptions, trackBy} = toRefs(props)
+    const {closeOnSelect, multiple, selectOptions, trackBy, multipleLabel} = toRefs(props)
 
     const selectedValues = dependencies.selectedValues
-    const closeDropdown = dependencies.closeDropdown
+    const deactivate = dependencies.deactivate
     const search = dependencies.search
 
     const noOptions = computed(() => selectOptions.value.length === 0)
@@ -62,7 +62,7 @@ export default function useOptions(props: any, context: any, dependencies: any) 
             }
             return !!find;
         } else {
-            if(!!selectedValues.value && _.isEqual(selectedValues.value, option.value)) {
+            if (!!selectedValues.value && _.isEqual(selectedValues.value, option.value)) {
                 if (selectedValues.value !== option.value) {
                     selectedValues.value = option.value
                 }
@@ -73,7 +73,7 @@ export default function useOptions(props: any, context: any, dependencies: any) 
         }
     }
 
-    watch(props.modelValue, ()=>{
+    watch(props.modelValue, () => {
         //prevents from pushing things that aren't options and pushing the same option multiple times in multiple mode
         if (multiple.value && (selectedOptions.value as Option[]).length < selectedValues.value.length) {
             selectedValues.value.pop()
@@ -85,7 +85,7 @@ export default function useOptions(props: any, context: any, dependencies: any) 
         context.emit('select', option)
         context.emit('update:modelValue', selectedValues.value)
         if (closeOnSelect.value) {
-            closeDropdown()
+            deactivate()
         }
     }
 
@@ -98,9 +98,6 @@ export default function useOptions(props: any, context: any, dependencies: any) 
         }
         context.emit('deselect', option)
         context.emit('update:modelValue', selectedValues.value)
-        if (closeOnSelect.value) {
-            closeDropdown()
-        }
     }
 
     function handleOptionClick(option: Option) {
@@ -111,6 +108,20 @@ export default function useOptions(props: any, context: any, dependencies: any) 
         }
     }
 
+    const multipleLabelText = computed(() => {
+        if (multipleLabel && multipleLabel.value) {
+            if (typeof multipleLabel.value === 'string' || multipleLabel.value instanceof String) {
+                return multipleLabel.value
+            } else {
+                return multipleLabel.value(selectedOptions.value)
+            }
+        } else {
+            // default multiple label
+            return selectedOptions.value && selectedOptions.value.length > 1 ? `${selectedOptions.value.length} Optionen gewählt` : '1 Option gewählt'
+        }
+
+    })
+
 
     return {
         noOptions,
@@ -119,6 +130,7 @@ export default function useOptions(props: any, context: any, dependencies: any) 
         selectedOptions,
         isSelected,
         handleOptionClick,
-        deselect
+        deselect,
+        multipleLabelText
     }
 }
