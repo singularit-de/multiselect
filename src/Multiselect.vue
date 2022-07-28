@@ -45,7 +45,7 @@
 
     <!-- Multiple label -->
     <template v-if="multiple && !noSelection && !search">
-      <slot :selectedValues="selectedValues" :selectedOptions="selectedOptions" name="label">
+      <slot name="multipleLabel" :selectedOptions="selectedOptions">
         <div :class="classList.label" data-cy="multiple-label">
           {{ multipleLabelText }}
         </div>
