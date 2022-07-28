@@ -36,7 +36,7 @@
 
     <!-- Single label   -->
     <template v-if="!multiple && !noSelection && !search && selectedOptions">
-      <slot name="singlelabel" :value="selectedOptions">
+      <slot name="singlelabel" :selectedOption="selectedOptions">
         <div :class="classList.label" data-cy="single-label">
           {{ selectedOptions[label] }}
         </div>
