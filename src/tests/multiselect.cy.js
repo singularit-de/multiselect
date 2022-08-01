@@ -18,7 +18,7 @@ describe('Multiselect Component', () => {
     })
 
     it('should work as select input for single selections', () => {
-        const selectOptions = [{value: {abc: 'xyz', test: {xyz: 3}}, label: 'This'}, {value: 2, label: 'is'}, {value: 'haha', label: 'a'}, {value: 4, label: 'test'}]
+        const selectOptions = [{value: {abc: 'xyz', test: {xyz: 3}}, label: 'This'}, {value: 0, label: 'is'}, {value: 'haha', label: 'a'}, {value: 4, label: 'test'}]
 
         cy.mount(MultiselectTester, {
             props: {
@@ -44,7 +44,7 @@ describe('Multiselect Component', () => {
         cy.get('[data-cy="dropdown"]').should('not.be.visible')
         cy.get('[data-cy="pushButton"]').click()
         cy.get('[data-cy="single-label"]').contains('is')
-        cy.get('[data-cy="selected"]').contains('2')
+        cy.get('[data-cy="selected"]').contains('0')
         cy.get('[data-cy="pushButton"]').click()
         cy.get('[data-cy="selected"]').should('have.length', 1)
         cy.get('[data-cy="clear"]').trigger('mousedown')
@@ -61,7 +61,7 @@ describe('Multiselect Component', () => {
     })
 
     it('should work as select input for multiple selections', () => {
-        const selectOptions = [{value: {abc: 'xyz', test: {xyz: 3}}, label: 'This'}, {value: 2, label: 'is'}, {value: 'haha', label: 'a'}, {value: 4, label: 'test'}]
+        const selectOptions = [{value: {abc: 'xyz', test: {xyz: 3}}, label: 'This'}, {value: 0, label: 'is'}, {value: 'haha', label: 'a'}, {value: 4, label: 'test'}]
         cy.mount(MultiselectTester, {
             props: {
                 vModel: true,
@@ -90,7 +90,7 @@ describe('Multiselect Component', () => {
         cy.get('[data-cy="selected"]').contains(4)
         cy.get('[data-cy="selected"]').contains('haha')
         cy.get('[data-cy="selected"]').contains('{ "abc": "xyz", "test": { "xyz": 3 } }')
-        cy.get('[data-cy="selected"]').contains(2)
+        cy.get('[data-cy="selected"]').contains(0)
         cy.get('[data-cy="option"]').eq(2).click()
         cy.get('[data-cy="multiple-label"]').contains('3 Optionen gewählt')
         cy.get('[data-cy="selected"]').should('not.contain', 'haha')
@@ -100,7 +100,7 @@ describe('Multiselect Component', () => {
         cy.get('[data-cy="pushButton"]').click()
         cy.get('[data-cy="multiple-label"]').should('exist')
         cy.get('[data-cy="multiple-label"]').contains('1 Option gewählt')
-        cy.get('[data-cy="selected"]').contains('2')
+        cy.get('[data-cy="selected"]').contains(0)
         cy.get('[data-cy="pushButton"]').click()
         cy.get('[data-cy="multiple-label"]').contains('1 Option gewählt')
         cy.get('[data-cy="selected"]').should('have.length', 1)
