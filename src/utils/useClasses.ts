@@ -6,12 +6,10 @@ import {defaultTheme} from "./defaultTheme"
 export default function useClasses(props: any, context: any, dependencies: any) {
     const refs = toRefs(props)
     const disabled = refs.disabled
-    const trackBy = refs.trackBy
 
     const dropdownOpen = dependencies.dropdownOpen
     const isSelected = dependencies.isSelected
     const isActive = dependencies.isActive
-    const search = dependencies.search
 
     const classes = {
         // container: 'multiselect',
@@ -56,13 +54,12 @@ export default function useClasses(props: any, context: any, dependencies: any) 
             clearCross: classes.clearCross,
             dropdown: dropdown,
             options: classes.options,
+            noOptions: classes.noOptions,
+            noResults: classes.noResults,
             option: (o: Option) => {
                 let option = classes.option
                 if (isSelected(o)) {
                     option = classes.optionSelected
-                }
-                if (search && search.value && !o[trackBy.value].toLowerCase().includes(search.value.toLowerCase())) {
-                    option = classes.optionNotShown
                 }
                 return option
             },

@@ -12,7 +12,8 @@ export const defaultTheme = {
     options: 'flex flex-col p-0 m-0 list-none',
     option: 'flex items-center justify-start box-border text-left cursor-pointer text-base leading-snug py-2 px-3 hover:text-gray-800 hover:bg-gray-100',
     optionSelected: 'flex items-center justify-start box-border text-left text-base cursor-pointer leading-snug py-2 px-3 text-white bg-orange-400 hover:bg-orange-500',
-    optionNotShown: 'hidden',
+    noOptions: 'py-2 px-3 text-gray-600 bg-white text-left rtl:text-right',
+    noResults: 'py-2 px-3 text-gray-600 bg-white text-left rtl:text-right',
     spacer: 'h-9 py-px box-content',
 }
 
@@ -29,6 +30,5 @@ export const baseStyle = {
     dropdownHidden: 'hidden',
     options: 'flex flex-col list-none',
     option: 'flex items-center justify-start box-border text-left cursor-pointer text-base leading-snug',
-    optionNotShown: 'hidden',
     spacer: 'py-px box-content',
 }

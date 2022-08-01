@@ -7,6 +7,7 @@
       data-cy="multiselect"
       @focusin="activate"
       @focusout="deactivate"
+      @mousedown="handleMousedown"
   >
 
 
@@ -33,11 +34,20 @@
       </slot>
     </template>
 
-    <!-- Label -->
-    <template v-if="!noSelection && !search">
-      <slot :value="selectedValues" name="label">
-        <div :class="classList.label" data-cy="label">
-          {{ labelText }}
+    <!-- Single label   -->
+    <template v-if="!multiple && !noSelection && !search && selectedOptions">
+      <slot name="singlelabel" :selectedOption="selectedOptions">
+        <div :class="classList.label" data-cy="single-label">
+          {{ selectedOptions[label] }}
+        </div>
+      </slot>
+    </template>
+
+    <!-- Multiple label -->
+    <template v-if="multiple && !noSelection && !search">
+      <slot name="multipleLabel" :selectedOptions="selectedOptions">
+        <div :class="classList.label" data-cy="multiple-label">
+          {{ multipleLabelText }}
         </div>
       </slot>
     </template>
@@ -50,7 +60,7 @@
     >
       <ul :class="classList.options" data-cy="optionList">
         <li
-            v-for="(option) in selectOptions"
+            v-for="(option) in shownOptions"
             :key=option.value
             :class="classList.option(option)"
             data-cy="option"
@@ -62,8 +72,16 @@
           </slot>
         </li>
       </ul>
-    </div>
 
+      <slot v-if="noOptions" name="no-options">
+        <div :class="classList.noOptions" v-html="noOptionsText"/>
+      </slot>
+
+      <slot v-if="noResults" name="no-results">
+        <div :class="classList.noResults" v-html="noResultsText"/>
+      </slot>
+
+    </div>
 
     <!-- clear -->
     <slot v-if="!noSelection && canClear && !disabled" :clear="clear" name="clear">
@@ -84,7 +102,7 @@ import useSearch from "./utils/useSearch";
 import useOptions from "./utils/useOptions";
 import useValue from "./utils/useValue";
 import useClasses from "./utils/useClasses";
-import {Classes, Option} from "./types";
+import type {Classes, Option} from "./types";
 import * as _ from "lodash";
 
 
@@ -108,7 +126,7 @@ export default defineComponent({
      * Is the value, that's used externally.
      */
     modelValue: {
-      type: [String,Number,Array,Object,Boolean],
+      type: [String, Number, Array, Object, Boolean],
       required: false,
       default: (props: any) => props.multiple ? [] : null
     },
@@ -123,6 +141,14 @@ export default defineComponent({
       type: Array as PropType<Option[]>,
       required: false,
       default: () => ([])
+    },
+    /**
+     * Text that is displayed if no options are given.
+     */
+    noOptionsText: {
+      type: String,
+      required: false,
+      default: 'Die Liste ist leer'
     },
     /**
      * The placeholder string will be displayed if no option is selected.
@@ -192,6 +218,14 @@ export default defineComponent({
       default: 'label'
     },
     /**
+     * Text that is displayed if there are no search results.
+     */
+    noResultsText: {
+      type: String,
+      required: false,
+      default: 'Keine Ergebnisse gefunden'
+    },
+    /**
      * The selection dropdown will be automatically closed after selecting/deselecting an option if this prop is set to true.
      */
     closeOnSelect: {
@@ -256,22 +290,22 @@ export default defineComponent({
     const value = useValue(props, context)
     const dropdown = useDropdown(props, context)
     const search = useSearch(props, context)
-    const options = useOptions(props, context, {
-      selectedValues: value.selectedValues,
-      closeDropdown: dropdown.closeDropdown,
-    })
     const multiselect = useMultiselect(props, context, {
       selectedValues: value.selectedValues,
-      selectedOptions: options.selectedOptions,
+      dropdownOpen: dropdown.dropdownOpen,
       openDropdown: dropdown.openDropdown,
       closeDropdown: dropdown.closeDropdown,
       clearSearch: search.clearSearch,
+    })
+    const options = useOptions(props, context, {
+      search: search.search,
+      selectedValues: value.selectedValues,
+      deactivate: multiselect.deactivate,
     })
     const classList = useClasses(props, context, {
       dropdownOpen: dropdown.dropdownOpen,
       isSelected: options.isSelected,
       isActive: multiselect.isActive,
-      search: search.search
     })
 
     return {

@@ -16,7 +16,7 @@ export default function useValue(props: any, context: any) {
         if (multiple.value) {
             return !(selectedValues.value && selectedValues.value.length > 0)
         } else {
-            return !selectedValues.value
+            return !(selectedValues.value || selectedValues.value === 0 || selectedValues.value === '')
         }
     })
 
