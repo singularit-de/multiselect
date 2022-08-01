@@ -62,7 +62,7 @@ export default function useOptions(props: any, context: any, dependencies: any) 
             }
             return !!find;
         } else {
-            if (!!selectedValues.value && _.isEqual(selectedValues.value, option.value)) {
+            if ((selectedValues.value || selectedValues.value === 0 || selectedValues.value === '') && _.isEqual(selectedValues.value, option.value)) {
                 if (selectedValues.value !== option.value) {
                     selectedValues.value = option.value
                 }
