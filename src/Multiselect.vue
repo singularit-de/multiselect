@@ -1,117 +1,145 @@
 <template>
   <div
-      id="multiselect"
-      ref="multiselect"
-      :class="classList.container"
-      :tabindex="tabindex"
-      data-cy="multiselect"
-      @focusin="activate"
-      @focusout="deactivate"
-      @mousedown="handleMousedown"
+    id="multiselect"
+    ref="multiselect"
+    :class="classList.container"
+    :tabindex="tabindex"
+    data-cy="multiselect"
+    @focusin="activate"
+    @focusout="deactivate"
+    @mousedown="handleMousedown"
   >
-
-
-    <select v-model="selectedValues" :multiple="multiple" class="hidden"/>
+    <select
+      v-model="selectedValues"
+      :multiple="multiple"
+      v-bind="selectProps"
+      class="hidden"
+    />
 
     <!-- search -->
     <template v-if="searchable && !disabled">
       <input
-          ref="input"
-          v-model="search"
-          :class="classList.search"
-          :type="inputType"
-          data-cy="searchInput"
-          @input="handleInput"
-      />
+        ref="input"
+        v-model="search"
+        :class="classList.search"
+        v-bind="searchProps"
+        data-cy="search-input"
+        @input="handleInput"
+      >
     </template>
 
     <!-- placeholder -->
     <template v-if="placeholder && noSelection && !search">
       <slot name="placeholder">
-        <div :class="classList.placeholder" data-cy="placeholder">
+        <div
+          :class="classList.placeholder"
+          data-cy="placeholder"
+        >
           {{ placeholder }}
         </div>
       </slot>
     </template>
 
-    <!-- Single label   -->
-    <template v-if="!multiple && !noSelection && !search && selectedOptions">
-      <slot name="singlelabel" :selectedOption="selectedOptions">
-        <div :class="classList.label" data-cy="single-label">
-          {{ selectedOptions[label] }}
+    <!-- display selected values -->
+    <template v-if="!noSelection && !search">
+      <slot
+        name="value-display"
+        :selected-options="selectedOptions"
+      >
+        <div
+          :class="classList.label"
+          data-cy="value-display"
+        >
+          {{ valueDisplayText }}
         </div>
       </slot>
     </template>
-
-    <!-- Multiple label -->
-    <template v-if="multiple && !noSelection && !search">
-      <slot name="multipleLabel" :selectedOptions="selectedOptions">
-        <div :class="classList.label" data-cy="multiple-label">
-          {{ multipleLabelText }}
-        </div>
-      </slot>
-    </template>
-
 
     <!--option dropdown-->
     <div
-        :class="classList.dropdown"
-        data-cy="dropdown"
+      :class="classList.dropdown"
+      data-cy="dropdown"
     >
-      <ul :class="classList.options" data-cy="optionList">
+      <ul
+        :class="classList.options"
+        data-cy="optionList"
+      >
         <li
-            v-for="(option) in shownOptions"
-            :key=option.value
-            :class="classList.option(option)"
-            data-cy="option"
-            @click="handleOptionClick(option)"
+          v-for="(option) in shownOptions"
+          :key="optionValue(option,selectedOptions)"
+          :class="classList.option(option)"
+          data-cy="option"
+          @click="handleOptionClick(option)"
         >
-          <slot :isSelected="isSelected" :option="option" name="optionLabel">
-            <span data-cy="optionLabel"
-            >{{ option.label }}</span>
+          <slot
+            :is-selected="isSelected"
+            :option="option"
+            name="option-label"
+          >
+            <span data-cy="option-label">{{ optionLabel(option,selectedOptions) }}</span>
           </slot>
         </li>
       </ul>
 
-      <slot v-if="noOptions" name="no-options">
-        <div :class="classList.noOptions" v-html="noOptionsText"/>
+      <slot
+        v-if="noOptions"
+        name="no-options"
+      >
+        <div
+          :class="classList.noOptions"
+        >
+          {{ noOptionsText }}
+        </div>
       </slot>
 
-      <slot v-if="noResults" name="no-results">
-        <div :class="classList.noResults" v-html="noResultsText"/>
+      <slot
+        v-if="noResults"
+        name="no-results"
+      >
+        <div
+          :class="classList.noResults"
+        >
+          {{ noResultsText }}
+        </div>
       </slot>
-
     </div>
 
     <!-- clear -->
-    <slot v-if="!noSelection && canClear && !disabled" :clear="clear" name="clear">
-    <span :class="classList.clear" data-cy="clear" @mousedown="clear"><span
-        :class="classList.clearCross"><!-- clear icon? --> x</span></span>
+    <slot
+      v-if="!noSelection && clearable && !disabled"
+      :clear="clear"
+      name="clear"
+    >
+      <span
+        :class="classList.clear"
+        data-cy="clear"
+        @mousedown="clear"
+      ><span
+        :class="classList.clearIcon"
+      ><!-- clear icon? --> x</span></span>
     </slot>
 
     <!-- space -->
-    <div :class="classList.spacer" data-cy="spacer"></div>
+    <div
+      :class="classList.spacer"
+      data-cy="spacer"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import {defineComponent, PropType} from "vue";
-import useMultiselect from "./utils/useMultiselect";
-import useDropdown from "./utils/useDropdown";
-import useSearch from "./utils/useSearch";
-import useOptions from "./utils/useOptions";
-import useValue from "./utils/useValue";
-import useClasses from "./utils/useClasses";
-import type {Classes, Option} from "./types";
-import * as _ from "lodash";
-
-
+import type {InputHTMLAttributes, PropType, SelectHTMLAttributes, SetupContext} from 'vue'
+import {defineComponent, toRefs, watch} from 'vue'
+import * as _ from 'lodash'
+import useMultiselect from './utils/useMultiselect'
+import useDropdown from './utils/useDropdown'
+import useSearch from './utils/useSearch'
+import useOptions from './utils/useOptions'
+import useValue from './utils/useValue'
+import useClasses from './utils/useClasses'
+import type {Classes, Option} from './types'
 export default defineComponent({
   name: 'SMultiselect',
-  emits: [
-    'open', 'close', 'select', 'deselect',
-    'search-change', 'update:modelValue', 'clear'
-  ],
   props: {
     /**
      * Allows selecting multiple options. If true, the model value will be an array of selected values,
@@ -126,9 +154,9 @@ export default defineComponent({
      * Is the value, that's used externally.
      */
     modelValue: {
-      type: [String, Number, Array, Object, Boolean],
+      type: undefined,
       required: false,
-      default: (props: any) => props.multiple ? [] : null
+      default: (props: {multiple: boolean}) => props.multiple ? [] : null,
     },
     /**
      * Array of options that can be selected.
@@ -138,9 +166,24 @@ export default defineComponent({
      * </code></pre>
      */
     selectOptions: {
-      type: Array as PropType<Option[]>,
+      type: Array as PropType<Array<Option | unknown>>,
       required: false,
-      default: () => ([])
+      default: () => ([]),
+    },
+    /**
+     * Function that determines which attribute of the option object should be used as value.
+     * The passed parameters are an option and an array of all selected options.
+     * By default, it returns the value attribute of the passed option.
+     */
+    optionValue: {
+      type: Function as PropType<((option: Option | unknown, selectedOptions: Array<Option | unknown>) => unknown)>,
+      required: false,
+      default: (option: Option | unknown) => {
+        if (option)
+          return (option as Option).value
+        else
+          return null
+      },
     },
     /**
      * Text that is displayed if no options are given.
@@ -148,7 +191,7 @@ export default defineComponent({
     noOptionsText: {
       type: String,
       required: false,
-      default: 'Die Liste ist leer'
+      default: 'Die Liste ist leer',
     },
     /**
      * The placeholder string will be displayed if no option is selected.
@@ -159,28 +202,47 @@ export default defineComponent({
       default: '',
     },
     /**
-     * Determines which value of the selected option Object should be displayed as label.
+     * Function that determines which attribute of the option object should be displayed as label.
+     * The passed parameters are an option and an array of all selected options.
+     * By default, it returns the label attribute of the passed option.
      */
-    label: {
-      type: String,
+    optionLabel: {
+      type: Function as PropType<((option: Option | unknown, selectedOptions: Array<Option | unknown>) => string)>,
       required: false,
-      default: 'label'
+      default: (option: Option | unknown) => {
+        if (option)
+          return (option as Option).label
+        else
+          return ''
+      },
+    },
+    /**
+     * Function which determines if an option is disabled.
+     * The passed parameters are an option and an array of all selected options.
+     * By default, it returns the disabled attribute of the passed option.
+     */
+    optionDisabled: {
+      type: Function as PropType<((option: Option | unknown, selectedOptions: Array<Option | unknown>) => boolean)>,
+      required: false,
+      default: (option: Option | unknown) => {
+        return (option as Option).disabled
+      },
     },
     /**
      * Alters the displayed label if multiple selection mode is active.
      * Can be a string or a function returning a string.
      * The passed parameter of the function is an array of the selected options.
-     * By default it displays the amount of selected options
+     * By default, it displays the amount of selected options
      */
-    multipleLabel: {
-      type: [Function, String] as PropType<((options: Array<Option>) => string) | string>,
+    displaySelectedValues: {
+      type: [Function, String] as PropType<((options: Array<Option | unknown>) => string) | string>,
       required: false,
-      default: undefined
+      default: undefined,
     },
     /**
      * Allows clearing all selected options
      */
-    canClear: {
+    clearable: {
       type: Boolean,
       required: false,
       default: true,
@@ -194,6 +256,14 @@ export default defineComponent({
       default: false,
     },
     /**
+     * Allows passing HTML select attributes to the hidden select element.
+     */
+    selectProps: {
+      type: Object as PropType<SelectHTMLAttributes>,
+      required: false,
+      default: undefined,
+    },
+    /**
      * Allows searching options.
      */
     searchable: {
@@ -202,20 +272,28 @@ export default defineComponent({
       default: false,
     },
     /**
-     * Input type of the search input.
+     * Allows passing HTML input attributes to the search input element.
      */
-    inputType: {
-      type: String,
+    searchProps: {
+      type: Object as PropType<InputHTMLAttributes>,
       required: false,
-      default: 'text',
+      default: undefined,
     },
     /**
-     * The value of the option object which is searched if searchable is true. Searches the options labels by default.
+     * Determines which value of the option Object is searched.
+     * It is a function which returns the value of an option that is tracked by the search input.
+     * The passed parameters are an option and an array of all selected options.
+     * By default, it returns the label of the passed option.
      */
-    trackBy: {
-      type: String,
+    optionSearchValue: {
+      type: Function as PropType<((option: Option | unknown, selectedOptions: Array<Option | unknown>) => string)>,
       required: false,
-      default: 'label'
+      default: (option: Option | unknown) => {
+        if (option)
+          return (option as Option).label
+        else
+          return null
+      },
     },
     /**
      * Text that is displayed if there are no search results.
@@ -223,7 +301,7 @@ export default defineComponent({
     noResultsText: {
       type: String,
       required: false,
-      default: 'Keine Ergebnisse gefunden'
+      default: 'Keine Ergebnisse gefunden',
     },
     /**
      * The selection dropdown will be automatically closed after selecting/deselecting an option if this prop is set to true.
@@ -256,7 +334,7 @@ export default defineComponent({
      *   search,
      *   placeholder,
      *   clear,
-     *   clearCross,
+     *   clearIcon,
      *   dropdown,
      *   dropdownHidden,
      *   options,
@@ -269,43 +347,72 @@ export default defineComponent({
     classes: {
       type: Object as PropType<Classes>,
       required: false,
-      default: () => ({})
-    }
+      default: () => ({}),
+    },
   },
-  watch: {
-    selectOptions(newOptions, oldOptions) {
+  emits: {
+    'open': () => true,
+    'close': () => true,
+    'select': (option: Option | unknown) => !!option,
+    'deselect': (option: Option | unknown) => !!option,
+    'search-change': (searchString: string) => searchString.length >= 0,
+    'update:modelValue': () => true,
+    'clear': () => true,
+  },
+  setup(props, context: SetupContext) {
+    const {
+      multiple, modelValue, searchable, disabled, closeOnSelect, selectOptions, displaySelectedValues,
+      optionValue, optionLabel, optionDisabled, optionSearchValue, classes,
+    } = toRefs(props)
+    const value = useValue(multiple, modelValue)
+    const dropdown = useDropdown(context)
+    const search = useSearch(context)
+    const multiselect = useMultiselect(
+      searchable,
+      disabled,
+      multiple,
+      context,
+      value.selectedValues,
+      dropdown.openDropdown,
+      dropdown.closeDropdown,
+      search.clearSearch,
+      dropdown.dropdownOpen,
+    )
+    const options = useOptions(
+      multiple,
+      modelValue,
+      closeOnSelect,
+      selectOptions,
+      displaySelectedValues,
+      optionValue,
+      optionLabel,
+      optionDisabled,
+      optionSearchValue,
+      context,
+      value.selectedValues,
+      multiselect.deactivate,
+      search.search,
+    )
+    const classList = useClasses(
+      disabled,
+      optionDisabled,
+      classes,
+      options.selectedOptions,
+      dropdown.dropdownOpen,
+      options.isSelected,
+      multiselect.isActive,
+    )
+
+    watch(() => props.selectOptions, (newOptions, oldOptions) => {
       if (newOptions && newOptions.length > 0) {
         for (const option of oldOptions) {
-          if (!_.some(newOptions, option) && this.isSelected(option)) {
-            this.deselect(option)
-          }
+          if (!_.some(newOptions, option as never) && options.isSelected(option, options.selectedOptions.value))
+            options.deselect(option)
         }
-      } else {
-        this.clear()
       }
-    }
-  },
-  computed: {},
-  setup(props, context) {
-    const value = useValue(props, context)
-    const dropdown = useDropdown(props, context)
-    const search = useSearch(props, context)
-    const multiselect = useMultiselect(props, context, {
-      selectedValues: value.selectedValues,
-      dropdownOpen: dropdown.dropdownOpen,
-      openDropdown: dropdown.openDropdown,
-      closeDropdown: dropdown.closeDropdown,
-      clearSearch: search.clearSearch,
-    })
-    const options = useOptions(props, context, {
-      search: search.search,
-      selectedValues: value.selectedValues,
-      deactivate: multiselect.deactivate,
-    })
-    const classList = useClasses(props, context, {
-      dropdownOpen: dropdown.dropdownOpen,
-      isSelected: options.isSelected,
-      isActive: multiselect.isActive,
+      else {
+        multiselect.clear()
+      }
     })
 
     return {
@@ -316,8 +423,8 @@ export default defineComponent({
       ...multiselect,
       ...classList,
     }
-
-  }
+  },
+  computed: {},
 })
 
 </script>

@@ -32,30 +32,30 @@ describe('Multiselect Component', () => {
         cy.get('[data-cy="multiselect"]').click()
         cy.get('[data-cy="dropdown"]').should('be.visible')
         cy.get('[data-cy="option"]').eq(3).click()
-        cy.get('[data-cy="single-label"]').contains('test')
+        cy.get('[data-cy="value-display"]').contains('test')
         cy.get('[data-cy="selected"]').contains('4')
         cy.get('[data-cy="option"]').eq(0).click()
-        cy.get('[data-cy="single-label"]').contains('This')
-        cy.get('[data-cy="single-label"]').should('not.contain', 'test')
+        cy.get('[data-cy="value-display"]').contains('This')
+        cy.get('[data-cy="value-display"]').should('not.contain', 'test')
         cy.get('[data-cy="selected"]').contains('{ \"abc\": \"xyz\", \"test\": { \"xyz\": 3 } }')
         cy.get('[data-cy="selected"]').should('not.contain', 4)
         cy.get('[data-cy="clear"]').click()
-        cy.get('[data-cy="single-label"]').should('not.exist')
+        cy.get('[data-cy="value-display"]').should('not.exist')
         cy.get('[data-cy="dropdown"]').should('not.be.visible')
         cy.get('[data-cy="pushButton"]').click()
-        cy.get('[data-cy="single-label"]').contains('is')
+        cy.get('[data-cy="value-display"]').contains('is')
         cy.get('[data-cy="selected"]').contains('0')
         cy.get('[data-cy="pushButton"]').click()
         cy.get('[data-cy="selected"]').should('have.length', 1)
         cy.get('[data-cy="clear"]').trigger('mousedown')
         cy.get('[data-cy="illegalPushButton"]').click()
-        cy.get('[data-cy="single-label"]').should('not.exist')
+        cy.get('[data-cy="value-display"]').should('not.exist')
         cy.get('[data-cy="selected"]').should('be.empty')
         cy.get('[data-cy="multiselect"]').click()
         cy.get('[data-cy="option"]').eq(0).click()
         cy.get('[data-cy="multiselect"]').trigger('focusout')
         cy.get('[data-cy="illegalPushButton"]').click()
-        cy.get('[data-cy="single-label"]').should('not.exist')
+        cy.get('[data-cy="value-display"]').should('not.exist')
         cy.get('[data-cy="selected"]').should('be.empty')
 
     })
@@ -74,39 +74,39 @@ describe('Multiselect Component', () => {
         cy.get('[data-cy="multiselect"]').click()
         cy.get('[data-cy="dropdown"]').should('be.visible')
         cy.get('[data-cy="option"]').eq(3).click()
-        cy.get('[data-cy="multiple-label"]').contains('1 Option gewählt')
+        cy.get('[data-cy="value-display"]').contains('1 Option gewählt')
         cy.get('[data-cy="selected"]').contains(4)
         cy.get('[data-cy="option"]').eq(2).click()
-        cy.get('[data-cy="multiple-label"]').contains('2 Optionen gewählt')
+        cy.get('[data-cy="value-display"]').contains('2 Optionen gewählt')
         cy.get('[data-cy="selected"]').contains(4)
         cy.get('[data-cy="selected"]').contains('haha')
         cy.get('[data-cy="option"]').eq(0).click()
-        cy.get('[data-cy="multiple-label"]').contains('3 Optionen gewählt')
+        cy.get('[data-cy="value-display"]').contains('3 Optionen gewählt')
         cy.get('[data-cy="selected"]').contains(4)
         cy.get('[data-cy="selected"]').contains('haha')
         cy.get('[data-cy="selected"]').contains('{ "abc": "xyz", "test": { "xyz": 3 } }')
         cy.get('[data-cy="option"]').eq(1).click()
-        cy.get('[data-cy="multiple-label"]').contains('4 Optionen gewählt')
+        cy.get('[data-cy="value-display"]').contains('4 Optionen gewählt')
         cy.get('[data-cy="selected"]').contains(4)
         cy.get('[data-cy="selected"]').contains('haha')
         cy.get('[data-cy="selected"]').contains('{ "abc": "xyz", "test": { "xyz": 3 } }')
         cy.get('[data-cy="selected"]').contains(0)
         cy.get('[data-cy="option"]').eq(2).click()
-        cy.get('[data-cy="multiple-label"]').contains('3 Optionen gewählt')
+        cy.get('[data-cy="value-display"]').contains('3 Optionen gewählt')
         cy.get('[data-cy="selected"]').should('not.contain', 'haha')
         cy.get('[data-cy="clear"]').click()
-        cy.get('[data-cy="multiple-label"]').should('not.exist')
+        cy.get('[data-cy="value-display"]').should('not.exist')
         cy.get('[data-cy="dropdown"]').should('not.be.visible')
         cy.get('[data-cy="pushButton"]').click()
-        cy.get('[data-cy="multiple-label"]').should('exist')
-        cy.get('[data-cy="multiple-label"]').contains('1 Option gewählt')
+        cy.get('[data-cy="value-display"]').should('exist')
+        cy.get('[data-cy="value-display"]').contains('1 Option gewählt')
         cy.get('[data-cy="selected"]').contains(0)
         cy.get('[data-cy="pushButton"]').click()
-        cy.get('[data-cy="multiple-label"]').contains('1 Option gewählt')
+        cy.get('[data-cy="value-display"]').contains('1 Option gewählt')
         cy.get('[data-cy="selected"]').should('have.length', 1)
         cy.get('[data-cy="illegalPushButton"]').click()
         cy.get('[data-cy="selected"]').should('have.length', 1)
-        cy.get('[data-cy="multiple-label"]').contains('1 Option gewählt')
+        cy.get('[data-cy="value-display"]').contains('1 Option gewählt')
     })
 
     it('should have a different label in single selection mode', ()=>{
@@ -114,18 +114,18 @@ describe('Multiselect Component', () => {
         cy.mount(MultiselectTester, {
             props: {
                 selectOptions: selectOptions,
-                label: 'displayLabel'
+                optionLabel: (option) => option.displayLabel
             },
         })
 
         cy.get('[data-cy="multiselect"]').click()
         cy.get('[data-cy="dropdown"]').should('be.visible')
         cy.get('[data-cy="option"]').eq(3).click()
-        cy.get('[data-cy="single-label"]').contains('ab')
+        cy.get('[data-cy="value-display"]').contains('ab')
         cy.get('[data-cy="option"]').eq(0).click()
-        cy.get('[data-cy="single-label"]').contains('Was')
+        cy.get('[data-cy="value-display"]').contains('Was')
         cy.get('[data-cy="option"]').eq(1).click()
-        cy.get('[data-cy="single-label"]').contains('geht')
+        cy.get('[data-cy="value-display"]').contains('geht')
     })
 
     it('should have a different label in multiple selection mode', ()=>{
@@ -141,20 +141,20 @@ describe('Multiselect Component', () => {
             props: {
                 selectOptions: selectOptions,
                 multiple: true,
-                multipleLabel: multipleLabelFunc
+                displaySelectedValues: multipleLabelFunc
             },
         })
 
         cy.get('[data-cy="multiselect"]').click()
         cy.get('[data-cy="dropdown"]').should('be.visible')
         cy.get('[data-cy="option"]').eq(0).click()
-        cy.get('[data-cy="multiple-label"]').contains('Was')
+        cy.get('[data-cy="value-display"]').contains('Was')
         cy.get('[data-cy="option"]').eq(1).click()
-        cy.get('[data-cy="multiple-label"]').contains('Was geht')
+        cy.get('[data-cy="value-display"]').contains('Was geht')
         cy.get('[data-cy="option"]').eq(2).click()
-        cy.get('[data-cy="multiple-label"]').contains('Was geht denn')
+        cy.get('[data-cy="value-display"]').contains('Was geht denn')
         cy.get('[data-cy="option"]').eq(3).click()
-        cy.get('[data-cy="multiple-label"]').contains('Was geht denn ab')
+        cy.get('[data-cy="value-display"]').contains('Was geht denn ab')
     })
 
     it('should close the dropdown on selection', ()=>{
@@ -171,6 +171,8 @@ describe('Multiselect Component', () => {
         cy.get('[data-cy="dropdown"]').should('be.visible')
         cy.get('[data-cy="option"]').eq(3).click()
         cy.get('[data-cy="dropdown"]').should('not.be.visible')
+        cy.get('[data-cy="multiselect"]').click()
+        cy.get('[data-cy="dropdown"]').should('be.visible')
     })
 
     it('should have an input to search options', ()=>{
@@ -185,8 +187,8 @@ describe('Multiselect Component', () => {
         cy.get('[data-cy="dropdown"]').should('not.be.visible')
         cy.get('[data-cy="multiselect"]').click()
         cy.get('[data-cy="dropdown"]').should('be.visible')
-        cy.get('[data-cy="searchInput"').should('be.focused')
-        cy.get('[data-cy="searchInput"').type('test')
+        cy.get('[data-cy="search-input"]').should('be.focused')
+        cy.get('[data-cy="search-input"]').type('test')
         cy.get('[data-cy="dropdown"]').contains('test')
         cy.get('[data-cy="dropdown"').should('not.contain', 'This')
         cy.get('[data-cy="dropdown"').should('not.contain', 'is')
@@ -199,20 +201,20 @@ describe('Multiselect Component', () => {
             props: {
                 selectOptions: selectOptions,
                 searchable: true,
-                label: 'displayLabel',
-                trackBy: 'displayLabel'
+                noResultsText: 'nope',
+                optionSearchValue: (option) => {return option.displayLabel}
             },
         })
 
         cy.get('[data-cy="dropdown"]').should('not.be.visible')
         cy.get('[data-cy="multiselect"]').click()
         cy.get('[data-cy="dropdown"]').should('be.visible')
-        cy.get('[data-cy="searchInput"').should('be.focused')
-        cy.get('[data-cy="searchInput"').type('geht')
+        cy.get('[data-cy="search-input"]').should('be.focused')
+        cy.get('[data-cy="search-input"]').type('geht')
         cy.get('[data-cy="dropdown"]').contains('is')
-        cy.get('[data-cy="dropdown"').should('not.contain', 'This')
-        cy.get('[data-cy="dropdown"').should('not.contain', 'a')
-        cy.get('[data-cy="dropdown"').should('not.contain', 'test')
+        cy.get('[data-cy="dropdown"]').should('not.contain', 'This')
+        cy.get('[data-cy="dropdown"]').should('not.contain', 'a')
+        cy.get('[data-cy="dropdown"]').should('not.contain', 'test')
 
     })
 
@@ -263,16 +265,16 @@ describe('Multiselect Component', () => {
         cy.get('[data-cy="multiselect"]').click()
         cy.get('[data-cy="dropdown"]').should('be.visible')
         cy.get('[data-cy="option"]').eq(3).click()
-        cy.get('[data-cy="multiple-label"]').contains('1 Option gewählt')
+        cy.get('[data-cy="value-display"]').contains('1 Option gewählt')
         cy.get('[data-cy="selected"]').contains(4)
         cy.get('[data-cy="option"]').eq(2).click()
-        cy.get('[data-cy="multiple-label"]').contains('2 Optionen gewählt')
+        cy.get('[data-cy="value-display"]').contains('2 Optionen gewählt')
         cy.get('[data-cy="selected"]').contains(4)
         cy.get('[data-cy="selected"]').contains('haha')
         cy.get('[data-cy="changeOptionsButton"]').click()
         cy.get('[data-cy="selected"]').should('not.contain', 4)
         cy.get('[data-cy="selected"]').contains('haha')
-        cy.get('[data-cy="multiple-label"]').contains('1 Option gewählt')
+        cy.get('[data-cy="value-display"]').contains('1 Option gewählt')
     })
 
     it('should display a text if no options are available', () => {
@@ -299,10 +301,54 @@ describe('Multiselect Component', () => {
 
         cy.get('[data-cy="multiselect"]').click()
         cy.get('[data-cy="dropdown"]').should('be.visible')
-        cy.get('[data-cy="searchInput"').should('be.focused')
-        cy.get('[data-cy="searchInput"').type('abcdefg')
+        cy.get('[data-cy="search-input"]').should('be.focused')
+        cy.get('[data-cy="search-input"]').type('abcdefg')
         cy.get('[data-cy="dropdown"]').contains('Sorry, no results')
     })
 
+    it('should take another attribute of the selected options as value', () => {
+        const selectOptions = [{value: {abc: 'xyz', test: {xyz: 3}}, actualValue: 1, label: 'This'}, {value: 2, actualValue: '', label: 'is'}, {value: 'haha', actualValue: 3, label: 'a'}, {value: 4, actualValue: 'test', label: 'test'}]
+        cy.mount(MultiselectTester, {
+            props: {
+                selectOptions: selectOptions,
+                optionValue: (option) => {
+                    return option.actualValue
+                },
+                vModel: true
+            }
+        })
+
+        cy.get('[data-cy="multiselect"]').click()
+        cy.get('[data-cy="dropdown"]').should('be.visible')
+        cy.get('[data-cy="option"]').eq(3).click()
+        cy.get('[data-cy="selected"]').contains('test')
+        cy.get('[data-cy="option"]').eq(0).click()
+        cy.get('[data-cy="selected"]').contains(1)
+    })
+
+    it('should work with individually disabled options', () => {
+        const selectOptions = [{value: {abc: 'xyz', test: {xyz: 3}}, disabled: true, label: 'This'}, {value: 2, label: 'is'}, {value: 'haha', label: 'a'}, {value: 4, label: 'test'}]
+        cy.mount(MultiselectTester, {
+            props: {
+                selectOptions: selectOptions,
+                optionDisabled: (option, selectedOptions) => {
+                    if (selectedOptions.length > 1)
+                        return option.disabled
+                },
+                multiple: true,
+            }
+        })
+
+        cy.get('[data-cy="multiselect"]').click()
+        cy.get('[data-cy="dropdown"]').should('be.visible')
+        cy.get('[data-cy="option"]').eq(0).should('not.have.css', 'background-color', 'rgb(229, 231, 235)')
+        cy.get('[data-cy="option"]').eq(3).click()
+        cy.get('[data-cy="value-display"]').contains('1 Option')
+        cy.get('[data-cy="option"]').eq(2).click()
+        cy.get('[data-cy="value-display"]').contains('2 Optionen')
+        cy.get('[data-cy="option"]').eq(0).should('have.css', 'background-color', 'rgb(229, 231, 235)')
+        cy.get('[data-cy="option"]').eq(0).click()
+        cy.get('[data-cy="value-display"]').contains('2 Optionen')
+    })
 
 })
