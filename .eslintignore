@@ -1,0 +1,12 @@
+**/_templates
+*.ejs.t
+*.html
+*.jpg
+*.ico
+*.md
+assets
+*.scss
+*.unit.js
+*.cy.js
+*.d.ts
+./public
