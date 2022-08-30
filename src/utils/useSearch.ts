@@ -2,6 +2,7 @@ import type {SetupContext} from 'vue'
 import {ref, watch} from 'vue'
 
 export default function useSearch(context: SetupContext) {
+  const input = ref<HTMLInputElement | null>(null)
   const search = ref('')
 
   function clearSearch() {
@@ -20,5 +21,6 @@ export default function useSearch(context: SetupContext) {
     search,
     clearSearch,
     handleInput,
+    input,
   }
 }

@@ -2,6 +2,7 @@
   <div class="mt-3 mx-5 flex flex-col">
     <Multiselect
       v-if="!dynamicOptions"
+      ref="multiselect"
       v-model="selected"
       :clearable="clearable"
       :classes="classes"
@@ -21,6 +22,7 @@
     />
     <Multiselect
       v-else
+      ref="multiselect"
       v-model="selected"
       :clearable="clearable"
       :classes="classes"
@@ -81,6 +83,22 @@
         @click="changeSelectOptions"
       >
         Change select Options
+      </button>
+    </div>
+    <div v-if="testExposedFunctions">
+      <button
+        class="mt-4 text-center w-full border-2 bg-gray-100"
+        data-cy="focusButton"
+        @click="testFocus"
+      >
+        Fokus
+      </button>
+      <button
+        class="mt-4 text-center w-full border-2 bg-gray-100"
+        data-cy="blurButton"
+        @click="testBlur"
+      >
+        Blur
       </button>
     </div>
   </div>
@@ -208,6 +226,11 @@ export default defineComponent({
       required: false,
       default: '',
     },
+    testExposedFunctions: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   setup(props) {
     const {vModel, multiple, selectOptions} = toRefs(props)
@@ -252,12 +275,27 @@ export default defineComponent({
       ]
     }
 
+    const multiselect = ref<typeof Multiselect | null>(null)
+
+    function testFocus() {
+      multiselect.value?.focus()
+    }
+
+    function testBlur() {
+      setTimeout(() => {
+        multiselect.value?.blur()
+      }, 1000)
+    }
+
     return {
       selected,
       pushValue,
       pushIllegalValue,
       dynamicSelectOptions,
       changeSelectOptions,
+      testFocus,
+      testBlur,
+      multiselect,
     }
   },
 })

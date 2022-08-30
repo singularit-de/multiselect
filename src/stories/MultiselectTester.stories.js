@@ -17,7 +17,7 @@ export default {
     'onClose': {
       action: 'close',
     },
-    'onSearch-change': {
+    'onSearchChange': {
       action: 'search-change',
     },
     'onClear': {
