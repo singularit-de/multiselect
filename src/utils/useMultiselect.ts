@@ -9,14 +9,10 @@ export default function useMultiselect(searchable: Ref<boolean>,
   openDropdown: () => void,
   closeDropdown: () => void,
   clearSearch: () => void,
-  dropdownOpen: Ref<boolean>) {
-  // const selectedValues = dependencies.selectedValues
-  // const openDropdown = dependencies.openDropdown
-  // const closeDropdown = dependencies.closeDropdown
-  // const clearSearch = dependencies.clearSearch
-  // const dropdownOpen = dependencies.dropdownOpen
-
-  const multiselect = ref(null)
+  dropdownOpen: Ref<boolean>,
+  input: Ref<HTMLInputElement | null>,
+) {
+  const multiselect = ref<HTMLDivElement | null>(null)
   const isActive = ref(false)
 
   const tabindex = computed(() => searchable.value || disabled.value ? -1 : 0)
@@ -51,16 +47,32 @@ export default function useMultiselect(searchable: Ref<boolean>,
     context.emit('clear')
   }
 
-  function handleMousedown(e: MouseEvent) {
-    if (!dropdownOpen.value && e.target === document.getElementById('multiselect')) {
+  function handleFocus() {
+    input.value?.focus()
+  }
+
+  function handleMousedown() {
+    if (!dropdownOpen.value) {
       activate()
     }
-    else if (dropdownOpen.value && e.target === document.getElementById('multiselect')) {
+    else if (dropdownOpen.value) {
       setTimeout(() => {
         deactivate()
       }, 0)
     }
   }
+
+  context.expose({
+    focus: () => {
+      multiselect.value?.focus()
+    },
+    blur: () => {
+      if (searchable.value)
+        input.value?.blur()
+
+      multiselect.value?.blur()
+    },
+  })
 
   return {
     multiselect,
@@ -70,5 +82,6 @@ export default function useMultiselect(searchable: Ref<boolean>,
     deactivate,
     clear,
     handleMousedown,
+    handleFocus,
   }
 }

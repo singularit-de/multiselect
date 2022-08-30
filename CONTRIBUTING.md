@@ -1,6 +1,6 @@
 # Contributing
 
-- [Project Setup](#development-setup)
+- [Development Setup](#development-setup)
 - [Tests](#tests)
 - [Storybook](#storybook)
 - [Commits](#commits)
@@ -15,10 +15,10 @@ You will need [Node.js](https://nodejs.org/en/) version 12+
 4. Run `npm install` to install dependencies.
 
 ## Tests
-To test the component we are using [Cypress](https://www.cypress.io). If you add a new feature make sure to write additional tests for it.  
+To test the component, we are using [Cypress](https://www.cypress.io). If you add a new feature make sure to write additional tests for it.  
 
 
-Run `npm run cypress:open` to start cypress testing server.     
+Run `npm run cypress:open` to start the cypress testing server.     
 The cypress test environment will open itself automatically.
 
 
@@ -32,10 +32,11 @@ Commit messages should follow [Vue's commit message convention](https://github.c
 
 ## Pull Requests
 
-- Work in the `src` folder and DO NOT checkin `dist` in the commits
+- Do not submit PRs against the `master` branch. Checkout a topic branch from the relevant branch (e.g. develop) and merge back against that branch
+- Work in the `src` folder and DO NOT check in `dist` in the commits
 - It's okay to have multiple small commits - GitHub will automatically squash it before merging
 - Make sure the [tests](#tests) pass and the project can be built using `npm run build`
 - Add a test case for new features
 - If you are fixing a bug:
-  - If you are resolving a special issue, add `(fix #xxxx[,'#xxxx])` (#xxxx is the issue id) in your Pull Request title.
+  - If you are resolving a special issue, add `(fix #xxxx[,#xxxx])` (#xxxx is the issue id) in your Pull Request title.
   - Add appropriate test coverage if applicable

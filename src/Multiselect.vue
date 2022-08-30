@@ -1,13 +1,13 @@
 <template>
   <div
-    id="multiselect"
     ref="multiselect"
     :class="classList.container"
     :tabindex="tabindex"
     data-cy="multiselect"
     @focusin="activate"
     @focusout="deactivate"
-    @mousedown="handleMousedown"
+    @focus="handleFocus"
+    @mousedown.self="handleMousedown"
   >
     <select
       v-model="selectedValues"
@@ -377,6 +377,7 @@ export default defineComponent({
       dropdown.closeDropdown,
       search.clearSearch,
       dropdown.dropdownOpen,
+      search.input,
     )
     const options = useOptions(
       multiple,
@@ -424,7 +425,6 @@ export default defineComponent({
       ...classList,
     }
   },
-  computed: {},
 })
 
 </script>

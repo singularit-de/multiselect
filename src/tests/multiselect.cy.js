@@ -1,6 +1,7 @@
 import MultiselectTester from "./MultiselectTester.vue"
 import '../index.css'
-import {baseStyle} from "../utils/defaultTheme";
+import {baseStyle} from "../utils";
+import SMultiselect from "../Multiselect.vue";
 
 describe('Multiselect Component', () => {
     it('should mount', () => {
@@ -351,4 +352,66 @@ describe('Multiselect Component', () => {
         cy.get('[data-cy="value-display"]').contains('2 Optionen')
     })
 
+    it('should be programmatically focusable via exposed functions', () => {
+        const selectOptions = [{value: {abc: 'xyz', test: {xyz: 3}}, label: 'This'}, {value: 2, label: 'is'}, {value: 'haha', label: 'a'}, {value: 4, label: 'test'}]
+        cy.mount(MultiselectTester, {
+            props: {
+                selectOptions: selectOptions,
+                testExposedFunctions: true,
+            }
+        })
+
+        cy.get('[data-cy="dropdown"]').should('not.be.visible')
+        cy.get('[data-cy="blurButton"]').click()
+        cy.get('[data-cy="focusButton"]').click()
+        cy.get('[data-cy="dropdown"]').should('be.visible')
+        cy.get('[data-cy="multiselect"]').should('be.focused')
+        cy.wait(1000)
+        cy.get('[data-cy="dropdown"]').should('not.be.visible')
+        cy.get('[data-cy="multiselect"]').should('not.be.focused')
+
+    })
+
+    it('should do emits correctly', () => {
+        const selectOptions = [{value: {abc: 'xyz', test: {xyz: 3}}, label: 'This'}, {value: 2, label: 'is'}, {value: 'haha', label: 'a'}, {value: 4, label: 'test'}]
+        const onUpdateModelValueSpy = cy.spy().as('update:modelValue')
+        const onSelectSpy = cy.spy().as('select')
+        const onDeselectSpy = cy.spy().as('deselect')
+        const onOpenSpy = cy.spy().as('open')
+        const onCloseSpy = cy.spy().as('close')
+        const onSearchChangeSpy = cy.spy().as('search-change')
+        const onClearSpy = cy.spy().as('clear')
+        cy.mount(SMultiselect, {
+            props: {
+                selectOptions: selectOptions,
+                searchable: true,
+                'onUpdate:modelValue': onUpdateModelValueSpy,
+                'onSelect': onSelectSpy,
+                'onDeselect': onDeselectSpy,
+                'onOpen': onOpenSpy,
+                'onClose': onCloseSpy,
+                'onSearchChange': onSearchChangeSpy,
+                'onClear': onClearSpy,
+            }
+        })
+
+        cy.get('[data-cy="multiselect"]').click()
+        cy.get('@open').should('have.been.called')
+        cy.get('[data-cy="search-input"]').should('be.focused')
+        cy.get('[data-cy="search-input"]').type('s')
+        cy.get('@search-change').should('have.been.calledWith', 's')
+        cy.get('[data-cy="option"]').eq(0).click()
+        cy.get('@select').should('have.been.calledWith', {value: {abc: 'xyz', test: {xyz: 3}}, label: 'This'})
+        cy.get('@update:modelValue').should('have.been.calledWith', {abc: 'xyz', test: {xyz: 3}})
+        cy.get('[data-cy="option"]').eq(0).click()
+        cy.get('@deselect').should('have.been.calledWith', {value: {abc: 'xyz', test: {xyz: 3}}, label: 'This'})
+        cy.get('[data-cy="option"]').eq(1).click()
+        cy.get('@select').should('have.been.calledWith', {value: 2, label: 'is'})
+        cy.get('@update:modelValue').should('have.been.calledWith', 2)
+        cy.get('[data-cy="clear"]').click()
+        cy.get('@clear').should('have.been.called')
+        cy.get('[data-cy="multiselect"]').trigger('focusout')
+        cy.get('@close').should('have.been.called')
+
+    })
 })

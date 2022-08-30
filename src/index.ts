@@ -1,6 +1,5 @@
 export {default} from './Multiselect.vue'
-export {baseStyle} from './utils/defaultTheme'
 
-export type {Option as SMultiselectOption, Classes as SMultiselectClasses} from './types'
+export type {Option, Classes} from './types'
 
-export * from './utils'
+export {defaultTheme, baseStyle} from './utils'
