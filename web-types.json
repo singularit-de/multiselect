@@ -1,0 +1,246 @@
+{
+  "framework": "vue",
+  "name": "@singularit/multiselect",
+  "version": "0.0.0",
+  "contributions": {
+    "html": {
+      "description-markup": "markdown",
+      "types-syntax": "typescript",
+      "tags": [
+        {
+          "name": "SMultiselect",
+          "description": "",
+          "attributes": [
+            {
+              "name": "multiple",
+              "required": false,
+              "description": "Allows selecting multiple options. If true, the model value will be an array of selected values,\notherwise it is a single value.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "modelValue",
+              "required": false,
+              "description": "Is the value, that's used externally.",
+              "value": {
+                "kind": "expression",
+                "type": "undefined"
+              },
+              "default": "(props: {multiple: boolean}) => props.multiple ? [] : null"
+            },
+            {
+              "name": "selectOptions",
+              "required": false,
+              "description": "Array of options that can be selected.\nAn Option should look like this:\n<pre><code>\n  {value: \\<any>, label: \\<String>, ...}.\n</code></pre>",
+              "value": {
+                "kind": "expression",
+                "type": "Array<Option | unknown>"
+              },
+              "default": "() => ([])"
+            },
+            {
+              "name": "optionValue",
+              "required": false,
+              "description": "Function that determines which attribute of the option object should be used as value.\nThe passed parameters are an option and an array of all selected options.\nBy default, it returns the value attribute of the passed option.",
+              "value": {
+                "kind": "expression",
+                "type": "(option: Option | unknown, selectedOptions: Array<Option | unknown>) => unknown"
+              },
+              "default": "(option: Option | unknown) => {\r\n  if (option)\r\n    return (option as Option).value\r\n  else\r\n    return null\r\n}"
+            },
+            {
+              "name": "noOptionsText",
+              "required": false,
+              "description": "Text that is displayed if no options are given.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "'Die Liste ist leer'"
+            },
+            {
+              "name": "placeholder",
+              "required": false,
+              "description": "The placeholder string will be displayed if no option is selected.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "''"
+            },
+            {
+              "name": "optionLabel",
+              "required": false,
+              "description": "Function that determines which attribute of the option object should be displayed as label.\nThe passed parameters are an option and an array of all selected options.\nBy default, it returns the label attribute of the passed option.",
+              "value": {
+                "kind": "expression",
+                "type": "(option: Option | unknown, selectedOptions: Array<Option | unknown>) => string"
+              },
+              "default": "(option: Option | unknown) => {\r\n  if (option)\r\n    return (option as Option).label\r\n  else\r\n    return ''\r\n}"
+            },
+            {
+              "name": "optionDisabled",
+              "required": false,
+              "description": "Function which determines if an option is disabled.\nThe passed parameters are an option and an array of all selected options.\nBy default, it returns the disabled attribute of the passed option.",
+              "value": {
+                "kind": "expression",
+                "type": "(option: Option | unknown, selectedOptions: Array<Option | unknown>) => boolean"
+              },
+              "default": "(option: Option | unknown) => {\r\n  return (option as Option).disabled\r\n}"
+            },
+            {
+              "name": "displaySelectedValues",
+              "required": false,
+              "description": "Alters the displayed label if multiple selection mode is active.\nCan be a string or a function returning a string.\nThe passed parameter of the function is an array of the selected options.\nBy default, it displays the amount of selected options",
+              "value": {
+                "kind": "expression",
+                "type": "((options: Array<Option | unknown>) => string) | string"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "clearable",
+              "required": false,
+              "description": "Allows clearing all selected options",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "true"
+            },
+            {
+              "name": "disabled",
+              "required": false,
+              "description": "Disables the component. Values can still be pushed into model value externally.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "selectProps",
+              "required": false,
+              "description": "Allows passing HTML select attributes to the hidden select element.",
+              "value": {
+                "kind": "expression",
+                "type": "SelectHTMLAttributes"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "searchable",
+              "required": false,
+              "description": "Allows searching options.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "searchProps",
+              "required": false,
+              "description": "Allows passing HTML input attributes to the search input element.",
+              "value": {
+                "kind": "expression",
+                "type": "InputHTMLAttributes"
+              },
+              "default": "undefined"
+            },
+            {
+              "name": "optionSearchValue",
+              "required": false,
+              "description": "Determines which value of the option Object is searched.\nIt is a function which returns the value of an option that is tracked by the search input.\nThe passed parameters are an option and an array of all selected options.\nBy default, it returns the label of the passed option.",
+              "value": {
+                "kind": "expression",
+                "type": "(option: Option | unknown, selectedOptions: Array<Option | unknown>) => string"
+              },
+              "default": "(option: Option | unknown) => {\r\n  if (option)\r\n    return (option as Option).label\r\n  else\r\n    return null\r\n}"
+            },
+            {
+              "name": "noResultsText",
+              "required": false,
+              "description": "Text that is displayed if there are no search results.",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "'Keine Ergebnisse gefunden'"
+            },
+            {
+              "name": "closeOnSelect",
+              "required": false,
+              "description": "The selection dropdown will be automatically closed after selecting/deselecting an option if this prop is set to true.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "classes",
+              "required": false,
+              "description": "Used to style the component via tailwind classes. To alter only a few tings like color or size of single elements,\nimport baseStyle from 'src/utils/defaultTheme' and use it like this:\n<pre><code>\n:classes={\n  container: [baseStyle.container, 'bg-gray-100'],\n  option: [baseStyle.option, 'bg-white text-black h-5'],\n  ...\n}\n</code></pre>\nTailwind classes won't overwrite the basic style though, so already existing styles\nin the baseStyle can't be changed with this method.\nTo completely restyle the elements you can just ignore the baseStyle.\nThe following classes can be used:\n<pre><code>\n  container,\n  containerDisabled,\n  containerOpen,\n  containerActive,\n  label,\n  search,\n  placeholder,\n  clear,\n  clearIcon,\n  dropdown,\n  dropdownHidden,\n  options,\n  option,\n  optionSelected,\n  optionNotShown,\n  spacer\n</code></pre>",
+              "value": {
+                "kind": "expression",
+                "type": "Classes"
+              },
+              "default": "() => ({})"
+            }
+          ],
+          "events": [
+            {
+              "name": "open"
+            },
+            {
+              "name": "close"
+            },
+            {
+              "name": "select"
+            },
+            {
+              "name": "deselect"
+            },
+            {
+              "name": "search-change"
+            },
+            {
+              "name": "update:modelValue"
+            },
+            {
+              "name": "clear"
+            }
+          ],
+          "slots": [
+            {
+              "name": "placeholder"
+            },
+            {
+              "name": "value-display"
+            },
+            {
+              "name": "option-label"
+            },
+            {
+              "name": "no-options"
+            },
+            {
+              "name": "no-results"
+            },
+            {
+              "name": "clear"
+            }
+          ],
+          "source": {
+            "module": "./src/Multiselect.vue",
+            "symbol": "default"
+          }
+        }
+      ]
+    }
+  }
+}
