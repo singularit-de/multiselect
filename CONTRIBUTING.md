@@ -32,7 +32,7 @@ Commit messages should follow [Vue's commit message convention](https://github.c
 
 ## Pull Requests
 
-- Do not submit PRs against the `master` branch. Checkout a topic branch from the relevant branch (e.g. develop) and merge back against that branch
+- Do not submit PRs against the `main` branch. Checkout a topic branch from the relevant branch (e.g. develop) and merge back against that branch
 - Work in the `src` folder and DO NOT check in `dist` in the commits
 - It's okay to have multiple small commits - GitHub will automatically squash it before merging
 - Make sure the [tests](#tests) pass and the project can be built using `npm run build`
