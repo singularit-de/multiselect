@@ -231,9 +231,14 @@ export default defineComponent({
       required: false,
       default: false,
     },
+    setValue: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
   },
   setup(props) {
-    const {vModel, multiple, selectOptions} = toRefs(props)
+    const {vModel, multiple, selectOptions, setValue} = toRefs(props)
     const selected = ref<Array<Option | unknown> | Option | unknown>()
 
     if (vModel.value) {
@@ -243,21 +248,35 @@ export default defineComponent({
 
     function pushValue() {
       if (vModel.value) {
-        const value = (selectOptions.value[1] as Option).value
-        if (multiple.value && Array.isArray(selected.value))
-          selected.value.push(value)
-        else
+        let value = (selectOptions.value[1] as Option).value
+        if (setValue.value && multiple.value) {
+          value = [value]
           selected.value = value
+        }
+        else if (setValue.value && !multiple.value) {
+          selected.value = value
+        }
+        else if (!setValue.value && Array.isArray(selected.value)) {
+          selected.value.push(value)
+        }
       }
     }
 
     function pushIllegalValue() {
       if (vModel.value) {
         const value = {this: 'Hallo', is: 1234, a: {Test: 'okayyy, let\'s go'}}
-        if (multiple.value && Array.isArray(selected.value))
-          selected.value.push(value)
-        else
+        if (setValue.value && multiple.value) {
+          const secondValue = (selectOptions.value[1] as Option).value
+          selected.value = [value, secondValue]
+        }
+
+        else if (setValue.value && !multiple.value) {
           selected.value = value
+        }
+
+        else if (!setValue.value && Array.isArray(selected.value)) {
+          selected.value.push(value)
+        }
       }
     }
 

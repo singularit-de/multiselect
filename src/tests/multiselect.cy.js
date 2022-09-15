@@ -67,7 +67,8 @@ describe('Multiselect Component', () => {
             props: {
                 vModel: true,
                 selectOptions: selectOptions,
-                multiple: true
+                multiple: true,
+                setValue: false,
             },
         })
 
@@ -108,6 +109,32 @@ describe('Multiselect Component', () => {
         cy.get('[data-cy="illegalPushButton"]').click()
         cy.get('[data-cy="selected"]').should('have.length', 1)
         cy.get('[data-cy="value-display"]').contains('1 Option gewählt')
+    })
+
+    it('should be possible to just set the modelValue externally in multiple mode', () => {
+        const selectOptions = [{value: {abc: 'xyz', test: {xyz: 3}}, label: 'This'}, {value: 0, label: 'is'}, {value: 'haha', label: 'a'}, {value: 4, label: 'test'}]
+        cy.mount(MultiselectTester, {
+            props: {
+                vModel: true,
+                selectOptions: selectOptions,
+                multiple: true
+            },
+        })
+
+        cy.get('[data-cy="multiselect"]').click()
+        cy.get('[data-cy="dropdown"]').should('be.visible')
+        cy.get('[data-cy="option"]').eq(3).click()
+        cy.get('[data-cy="value-display"]').contains('1 Option gewählt')
+        cy.get('[data-cy="selected"]').contains(4)
+        cy.get('[data-cy="multiselect"]').click()
+        cy.get('[data-cy="dropdown"]').should('not.be.visible')
+        cy.get('[data-cy="pushButton"]').click()
+        cy.get('[data-cy="value-display"]').contains('1 Option gewählt')
+        cy.get('[data-cy="selected"]').should('have.length', 1)
+        cy.get('[data-cy="illegalPushButton"]').click()
+        cy.get('[data-cy="value-display"]').contains('1 Option gewählt')
+        cy.get('[data-cy="selected"]').should('have.length', 1)
+
     })
 
     it('should have a different label in single selection mode', ()=>{
