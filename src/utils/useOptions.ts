@@ -65,6 +65,20 @@ export default function useOptions(multiple: Ref<boolean>,
     return selected
   })
 
+  // for correctly setting modelValue in multiple mode
+  watch(() => selectedOptions.value, (selected) => {
+    if (multiple.value && Array.isArray(selectedValues.value) && selectedValues.value.length > selected.length) {
+      const correctValues: Array<unknown> = []
+      selected.forEach((value) => {
+        const selectedOptionValue = optionValue.value(value, [])
+        if (_.includes(selectedValues.value, selectedOptionValue))
+          correctValues.push(selectedOptionValue)
+      })
+      selectedValues.value = correctValues
+      context.emit('update:modelValue', selectedValues.value)
+    }
+  })
+
   const shownOptions = computed<Array<Option | unknown>>(() => {
     if (search && search.value) {
       return (selectOptions.value as Option[]).filter((option: Option | unknown) => {
