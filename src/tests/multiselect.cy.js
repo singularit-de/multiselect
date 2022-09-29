@@ -441,4 +441,24 @@ describe('Multiselect Component', () => {
         cy.get('@close').should('have.been.called')
 
     })
+
+    it('can do a emit if the you scrolled to the end of the dropdown', () => {
+        const onLoadMoreSpy = cy.spy().as('loadMore')
+        const selectOptions = []
+        for (let i = 0; i < 100; i++) {
+            selectOptions.push({value: i, label: i})
+        }
+        cy.mount(SMultiselect, {
+            props: {
+                selectOptions: selectOptions,
+                infinite: true,
+                limit: 200,
+                onLoadMore: onLoadMoreSpy,
+            }
+        })
+
+        cy.get('[data-cy="multiselect"]').click()
+        cy.get('[data-cy="dropdown"]').scrollTo('bottom')
+        cy.get('@loadMore').should('have.been.calledOnce')
+    })
 })
