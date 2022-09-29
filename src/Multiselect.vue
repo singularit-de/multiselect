@@ -59,6 +59,7 @@
     <div
       :class="classList.dropdown"
       data-cy="dropdown"
+      @scroll="handleScroll"
     >
       <ul
         :class="classList.options"
@@ -138,6 +139,7 @@ import useOptions from './utils/useOptions'
 import useValue from './utils/useValue'
 import useClasses from './utils/useClasses'
 import type {Classes, Option} from './types'
+import useScroll from './utils/useScroll'
 export default defineComponent({
   name: 'SMultiselect',
   props: {
@@ -349,6 +351,23 @@ export default defineComponent({
       required: false,
       default: () => ({}),
     },
+    /**
+     * When set to true, `loadMore` will be emitted if you scroll to the bottom of the option dropdown.
+     */
+    infinite: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    /**
+     * Is the maximum amount of options for infinite scrolling. If it is reached `loadMore` won't be emitted when scrolling
+     * to the bottom of the dropdown while `infinite` is true.
+     */
+    maxOptions: {
+      type: Number,
+      required: false,
+      default: 1000,
+    },
   },
   emits: {
     'open': () => true,
@@ -358,11 +377,12 @@ export default defineComponent({
     'search-change': (searchString: string) => searchString.length >= 0,
     'update:modelValue': () => true,
     'clear': () => true,
+    'loadMore': () => true,
   },
   setup(props, context: SetupContext) {
     const {
       multiple, modelValue, searchable, disabled, closeOnSelect, selectOptions, displaySelectedValues,
-      optionValue, optionLabel, optionDisabled, optionSearchValue, classes,
+      optionValue, optionLabel, optionDisabled, optionSearchValue, classes, infinite, maxOptions,
     } = toRefs(props)
     const value = useValue(multiple, modelValue)
     const dropdown = useDropdown(context)
@@ -394,6 +414,12 @@ export default defineComponent({
       multiselect.deactivate,
       search.search,
     )
+    const scroll = useScroll(
+      infinite,
+      maxOptions,
+      selectOptions,
+      context,
+    )
     const classList = useClasses(
       disabled,
       optionDisabled,
@@ -423,6 +449,7 @@ export default defineComponent({
       ...options,
       ...multiselect,
       ...classList,
+      ...scroll,
     }
   },
 })
