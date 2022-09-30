@@ -19,6 +19,9 @@
       :select-options="selectOptions"
       :no-options-text="noOptionsText"
       :no-results-text="noResultsText"
+      :loading-options="loadingOptions"
+      :max-options="maxOptions"
+      :infinite="infinite"
     />
     <Multiselect
       v-else
@@ -39,6 +42,9 @@
       :select-options="dynamicSelectOptions"
       :no-options-text="noOptionsText"
       :no-results-text="noResultsText"
+      :loading-options="loadingOptions"
+      :max-options="maxOptions"
+      :infinite="infinite"
     />
     <div v-if="vModel">
       <button
@@ -235,6 +241,21 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: true,
+    },
+    infinite: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    maxOptions: {
+      type: Number,
+      required: false,
+      default: 1000,
+    },
+    loadingOptions: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   setup(props) {
