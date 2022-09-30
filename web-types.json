@@ -212,7 +212,7 @@
               "default": "1000"
             },
             {
-              "name": "loading",
+              "name": "loadingOptions",
               "required": false,
               "description": "Whether the options are loading. Displays a loading spinner in the dropdown if set to true.",
               "value": {
@@ -259,7 +259,7 @@
               "name": "option-label"
             },
             {
-              "name": "loading"
+              "name": "loading-options"
             },
             {
               "name": "no-options"
