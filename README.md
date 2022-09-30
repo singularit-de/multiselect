@@ -42,6 +42,7 @@ npm install @singularit/multiselect
 | **classes**               | `object`                                                            | `{}`                           | An object of class names that gets merged with the default values.                                                                                                                                                                                                                                             |
 | **infinite**              | `boolean`                                                           | `false`                        | When set to true, `loadMore` will be emitted if you scroll to the bottom of the option dropdown.                                                                                                                                                                                                               |
 | **maxOptions**            | `number`                                                            | `1000`                         | Is the maximum amount of options for infinite scrolling. If it is reached `loadMore` won't be emitted when scrolling to the bottom of the dropdown while `infinite` is true.                                                                                                                                   |
+| **loadingOptions**        | `boolean`                                                           | `false`                        | Whether the options are loading. Displays a loading spinner in the dropdown if set to true.                                                                                                                                                                                                                    | 
 
 ## Events
 
@@ -57,14 +58,15 @@ npm install @singularit/multiselect
 
 ## Slots
 
-| Slot          | Attributes          | Description                                                                                                                            |
-|---------------|---------------------|----------------------------------------------------------------------------------------------------------------------------------------|
-| placeholder   |                     | Rendered as placeholder when no option is selected and `placeholder` prop is defined.                                                  |
-| value-display | `selectedOptions`   | Rendered if an option is selected and the search input is empty.                                                                       |
-| optionLabel   | `option,isSelected` | Renders an option in the selection dropdown. `isSelected` is provided to determine the state.                                          |
-| clear         | `clear`             | Renders a remove icon if any option is selected and `clearable` prop is true. The `clear` method should be used on `@mousedown` event. |
-| no-options    |                     | Rendered if the options list is empty. By default renders `noOptionsText`.                                                             |
-| no-results    |                     | Rendered if there are no search results. By default renders `noResultsText`.                                                           |
+| Slot            | Attributes          | Description                                                                                                                            |
+|-----------------|---------------------|----------------------------------------------------------------------------------------------------------------------------------------|
+| placeholder     |                     | Rendered as placeholder when no option is selected and `placeholder` prop is defined.                                                  |
+| value-display   | `selectedOptions`   | Rendered if an option is selected and the search input is empty.                                                                       |
+| optionLabel     | `option,isSelected` | Renders an option in the selection dropdown. `isSelected` is provided to determine the state.                                          |
+| clear           | `clear`             | Renders a remove icon if any option is selected and `clearable` prop is true. The `clear` method should be used on `@mousedown` event. |
+| no-options      |                     | Rendered if the options list is empty. By default renders `noOptionsText`.                                                             |
+| no-results      |                     | Rendered if there are no search results. By default renders `noResultsText`.                                                           |
+| loading-options |                     | Rendered in option dropdown if `loadingOptions` is true.                                                                               |
 
 ## Styling
 

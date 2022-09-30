@@ -26,6 +26,9 @@ export default {
     'onUpdate:modelValue': {
       action: 'update:modelValue',
     },
+    'onLoadMore': {
+      action: 'loadMore',
+    },
   },
 }
 
