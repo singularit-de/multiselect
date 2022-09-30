@@ -31,6 +31,7 @@
   ],
   "scripts": {
     "dev": "vite",
+    "webtypes": "vue-docgen-web-types --configFile web-types.config.js",
     "build": "vite build",
     "postbuild": "vue-tsc -p tsconfig.build-dts.json",
     "preview": "vite preview",

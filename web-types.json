@@ -190,6 +190,36 @@
                 "type": "Classes"
               },
               "default": "() => ({})"
+            },
+            {
+              "name": "infinite",
+              "required": false,
+              "description": "When set to true, `loadMore` will be emitted if you scroll to the bottom of the option dropdown.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "maxOptions",
+              "required": false,
+              "description": "Is the maximum amount of options for infinite scrolling. If it is reached `loadMore` won't be emitted when scrolling\nto the bottom of the dropdown while `infinite` is true.",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              },
+              "default": "1000"
+            },
+            {
+              "name": "loading",
+              "required": false,
+              "description": "Whether the options are loading. Displays a loading spinner in the dropdown if set to true.",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "false"
             }
           ],
           "events": [
@@ -213,6 +243,9 @@
             },
             {
               "name": "clear"
+            },
+            {
+              "name": "loadMore"
             }
           ],
           "slots": [
@@ -224,6 +257,9 @@
             },
             {
               "name": "option-label"
+            },
+            {
+              "name": "loading"
             },
             {
               "name": "no-options"
