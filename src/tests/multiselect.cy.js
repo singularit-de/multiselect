@@ -461,4 +461,37 @@ describe('Multiselect Component', () => {
         cy.get('[data-cy="dropdown"]').scrollTo('bottom')
         cy.get('@loadMore').should('have.been.calledOnce')
     })
+
+    it('can have a loading animation if options are loading', () => {
+        const selectOptions = [{value: {abc: 'xyz', test: {xyz: 3}}, label: 'This'}, {value: 2, label: 'is'}, {value: 'haha', label: 'a'}, {value: 4, label: 'test'}]
+        cy.mount(SMultiselect, {
+            props: {
+                selectOptions: selectOptions,
+                loadingOptions: true,
+            }
+        })
+
+        cy.get('[data-cy="spinner"]').should('not.be.visible')
+        cy.get('[data-cy="multiselect"]').click()
+        cy.get('[data-cy="optionList"]').should('not.exist')
+        cy.get('[data-cy="spinner"]').should('be.visible')
+
+    })
+
+    it('will still display existing options if `infinite` and `loadingOptions` is true', () => {
+        const selectOptions = [{value: {abc: 'xyz', test: {xyz: 3}}, label: 'This'}, {value: 2, label: 'is'}, {value: 'haha', label: 'a'}, {value: 4, label: 'test'}]
+        cy.mount(SMultiselect, {
+            props: {
+                selectOptions: selectOptions,
+                loadingOptions: true,
+                infinite: true,
+            }
+        })
+
+        cy.get('[data-cy="spinner"]').should('not.be.visible')
+        cy.get('[data-cy="multiselect"]').click()
+        cy.get('[data-cy="optionList"]').should('exist')
+        cy.get('[data-cy="option"]').should('be.visible')
+        cy.get('[data-cy="spinner"]').should('be.visible')
+    })
 })
