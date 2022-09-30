@@ -16,6 +16,7 @@ export const defaultTheme = {
   noOptions: 'py-2 px-3 text-gray-600 bg-white text-left rtl:text-right',
   noResults: 'py-2 px-3 text-gray-600 bg-white text-left rtl:text-right',
   spacer: 'h-9 py-px box-content',
+  spinner: 'border-b-orange-400 animate-spin inline-block w-8 h-8 border-4 rounded-full',
 }
 
 export const baseStyle = {
@@ -34,4 +35,5 @@ export const baseStyle = {
   optionSelected: 'flex items-center justify-start box-border text-left cursor-pointer text-base leading-snug',
   optionDisabled: 'flex items-center justify-start box-border text-left text-base leading-snug',
   spacer: 'py-px box-content',
+  spinner: 'animate-spin inline-block rounded-full',
 }

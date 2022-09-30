@@ -62,6 +62,7 @@
       @scroll="handleScroll"
     >
       <ul
+        v-if="shownOptions.length > 0 && (!loadingOptions || infinite)"
         :class="classList.options"
         data-cy="optionList"
       >
@@ -83,7 +84,20 @@
       </ul>
 
       <slot
-        v-if="noOptions"
+        v-if="loadingOptions"
+        name="loading-options"
+      >
+        <hr>
+        <div class="flex justify-center items-center py-2">
+          <div
+            :class="classList.spinner"
+            data-cy="spinner"
+          />
+        </div>
+      </slot>
+
+      <slot
+        v-if="noOptions && !loadingOptions"
         name="no-options"
       >
         <div
@@ -94,7 +108,7 @@
       </slot>
 
       <slot
-        v-if="noResults"
+        v-if="noResults && !loadingOptions"
         name="no-results"
       >
         <div
@@ -367,6 +381,14 @@ export default defineComponent({
       type: Number,
       required: false,
       default: 1000,
+    },
+    /**
+     * Whether the options are loading. Displays a loading spinner in the dropdown if set to true.
+     */
+    loadingOptions: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   emits: {

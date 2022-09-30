@@ -49,6 +49,7 @@ export default function useClasses(disabled: Ref<boolean>,
         return option
       },
       spacer: styleClasses.spacer,
+      spinner: styleClasses.spinner,
     }
   })
   return {
