@@ -207,7 +207,7 @@ export default defineComponent({
     noOptionsText: {
       type: String,
       required: false,
-      default: 'Die Liste ist leer',
+      default: 'The list is empty.',
     },
     /**
      * The placeholder string will be displayed if no option is selected.
@@ -317,7 +317,7 @@ export default defineComponent({
     noResultsText: {
       type: String,
       required: false,
-      default: 'Keine Ergebnisse gefunden',
+      default: 'No results found.',
     },
     /**
      * The selection dropdown will be automatically closed after selecting/deselecting an option if this prop is set to true.
