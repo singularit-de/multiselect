@@ -22,4 +22,5 @@ export interface Classes {
   noResults?: string | string[]
   noOptions?: string | string[]
   spacer?: string | string[]
+  spinner?: string | string[]
 }
