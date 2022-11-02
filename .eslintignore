@@ -1,0 +1,4 @@
+*.md
+*.cy.js
+*.d.ts
+./public
