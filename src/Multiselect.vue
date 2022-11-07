@@ -404,7 +404,7 @@ export default defineComponent({
   setup(props, context: SetupContext) {
     const {
       multiple, modelValue, searchable, disabled, closeOnSelect, selectOptions, displaySelectedValues,
-      optionValue, optionLabel, optionDisabled, optionSearchValue, classes, infinite, maxOptions,
+      optionValue, optionLabel, optionDisabled, optionSearchValue, classes, infinite, maxOptions, loadingOptions,
     } = toRefs(props)
     const value = useValue(multiple, modelValue)
     const dropdown = useDropdown(context)
@@ -439,6 +439,7 @@ export default defineComponent({
     const scroll = useScroll(
       infinite,
       maxOptions,
+      loadingOptions,
       selectOptions,
       context,
     )
@@ -452,19 +453,20 @@ export default defineComponent({
       multiselect.isActive,
     )
 
-    watch(() => props.selectOptions, (newOptions, oldOptions) => {
-      if (!props.infinite) {
+    if (!props.infinite) {
+      watch(() => props.selectOptions, (newOptions, oldOptions) => {
         if (newOptions && newOptions.length > 0) {
           for (const option of oldOptions) {
-            if (!_.some(newOptions, option as never) && options.isSelected(option, options.selectedOptions.value))
+            if (!_.some(newOptions, option as Option) && options.isSelected(option, options.selectedOptions.value))
               options.deselect(option)
           }
         }
         else {
           multiselect.clear()
         }
-      }
-    })
+      })
+    }
+
 
     return {
       ...value,
