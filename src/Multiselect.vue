@@ -453,14 +453,16 @@ export default defineComponent({
     )
 
     watch(() => props.selectOptions, (newOptions, oldOptions) => {
-      if (newOptions && newOptions.length > 0) {
-        for (const option of oldOptions) {
-          if (!_.some(newOptions, option as never) && options.isSelected(option, options.selectedOptions.value))
-            options.deselect(option)
+      if (!props.infinite) {
+        if (newOptions && newOptions.length > 0) {
+          for (const option of oldOptions) {
+            if (!_.some(newOptions, option as never) && options.isSelected(option, options.selectedOptions.value))
+              options.deselect(option)
+          }
         }
-      }
-      else {
-        multiselect.clear()
+        else {
+          multiselect.clear()
+        }
       }
     })
 
