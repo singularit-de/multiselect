@@ -70,15 +70,24 @@ export default function useOptions(multiple: Ref<boolean>,
               selectedOptionsRef.value.push(option)
               context.emit('select', option)
             }
+            // overwrite option without label
             else if (infinite.value) {
               selectedOptionsRef.value.push(option)
             }
           }
           else if (infinite.value) {
             (correctValues as Array<unknown>).push(value)
-            correctOptions.push({value})
-            if (!isSelected({value}))
+            if (!isSelected({value})) {
+              correctOptions.push({value})
               selectedOptionsRef.value.push({value})
+            }
+            // keeps remembered Option
+            else {
+              const rememberedOption = selectedOptionsRef.value.find((selectedOption) => {
+                return _.isEqual(value, optionValue.value(selectedOption, selectedOptionsRef.value))
+              })
+              correctOptions.push(rememberedOption)
+            }
           }
         })
         correctValues = _.uniq(correctValues as Array<unknown>)
@@ -100,9 +109,16 @@ export default function useOptions(multiple: Ref<boolean>,
         }
         else if (infinite.value) {
           correctValues = value
-          correctOptions.push({value})
-          if (!isSelected({value}))
+          if (!isSelected({value})) {
+            correctOptions.push({value})
             selectedOptionsRef.value = [{value}]
+          }
+          else {
+            const rememberedOption = selectedOptionsRef.value.find((selectedOption) => {
+              return _.isEqual(value, optionValue.value(selectedOption, selectedOptionsRef.value))
+            })
+            correctOptions.push(rememberedOption)
+          }
         }
       }
       selectedOptionsRef.value = _.uniq(selectedOptionsRef.value)
