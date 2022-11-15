@@ -70,7 +70,7 @@ export default function useOptions(multiple: Ref<boolean>,
               selectedOptionsRef.value.push(option)
               context.emit('select', option)
             }
-            else if (infinite) {
+            else if (infinite.value) {
               selectedOptionsRef.value.push(option)
             }
           }
