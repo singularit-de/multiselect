@@ -1,6 +1,6 @@
 import * as _ from 'lodash'
 import type {Ref, SetupContext} from 'vue'
-import {computed, watch} from 'vue'
+import {computed, ref, watch} from 'vue'
 import type {Option} from '../types'
 
 export default function useOptions(multiple: Ref<boolean>,
@@ -12,75 +12,111 @@ export default function useOptions(multiple: Ref<boolean>,
   optionLabel: Ref<(option: Option | unknown, selectedOptions: Array<Option | unknown>) => string>,
   optionDisabled: Ref<(option: Option | unknown, selectedOptions: Array<Option | unknown>) => boolean>,
   optionSearchValue: Ref<(option: Option | unknown, selectedOptions: Array<Option | unknown>) => string>,
+  infinite: Ref<boolean>,
   context: SetupContext,
-  selectedValues: Ref,
   deactivate: () => void,
   search: Ref<string>) {
-  function isSelected(option: Option | unknown, selectedOptions: Array<Option | unknown>) {
-    if (multiple.value) {
-      let find = null
-      if (selectedValues.value && selectedValues.value.length > 0) {
-        if (selectedValues.value.includes(optionValue.value(option, selectedOptions)))
-          return true
+  const selectedOptionsRef = ref<Array<Option | unknown>>([])
 
-        // enable pushing values into modelValue correctly
-        find = selectedValues.value.find((value: unknown, index: number) => {
-          if (_.isEqual(value, optionValue.value(option, selectedOptions))) {
-            // update value if option was pushed externally, because identical objects aren't equal
-            if (selectedValues.value[index] !== optionValue.value(option, selectedOptions))
-              selectedValues.value.splice(index, 1, optionValue.value(option, selectedOptions))
-            return true
-          }
-          return false
-        })
-      }
-      return !!find
-    }
-    else {
-      if ((selectedValues.value || selectedValues.value === 0 || selectedValues.value === '')
-          && _.isEqual(selectedValues.value, optionValue.value(option, selectedOptions))) {
-        if (selectedValues.value !== optionValue.value(option, selectedOptions))
-          selectedValues.value = optionValue.value(option, selectedOptions)
-
-        return true
-      }
-      else {
-        return false
-      }
-    }
-  }
-
-  const selectedOptions = computed<Array<Option | unknown>>(() => {
-    const selected = []
-    for (const option of selectOptions.value) {
-      if (isSelected(option, selectedOptions.value))
-        selected.push(option)
-    }
-
-    // prevents from pushing illegal stuff in single mode
-    if (!multiple.value && selectedValues.value !== null && selected.length === 0) {
-      selectedValues.value = null
-      context.emit('update:modelValue', selectedValues.value)
-    }
-    return selected
+  const optionMap = computed<Map<string, Option | unknown>>(() => {
+    const map = new Map<string, Option | unknown>()
+    selectedOptionsRef.value = _.uniq(selectedOptionsRef.value)
+    selectOptions.value.forEach((option: Option | unknown) => {
+      const valueString = JSON.stringify(optionValue.value(option, selectedOptionsRef.value))
+      map.set(valueString, option)
+    })
+    return map
   })
 
-  // for correctly setting modelValue in multiple mode
-  watch(() => selectedOptions.value, (selected) => {
-    if (multiple.value && Array.isArray(selectedValues.value) && selectedValues.value.length > selected.length) {
-      const correctValues: Array<unknown> = []
-      selected.forEach((value) => {
-        const selectedOptionValue = optionValue.value(value, [])
-        if (_.includes(selectedValues.value, selectedOptionValue))
-          correctValues.push(selectedOptionValue)
+  function isSelected(option: Option | unknown) {
+    return selectedOptionsRef.value.some((selectedOption) => {
+      return _.isEqual(optionValue.value(selectedOption, selectedOptionsRef.value), optionValue.value(option, selectedOptionsRef.value))
+    })
+  }
+
+  function updateModelValue(options: Array<Option | unknown>) {
+    let value
+    if (multiple.value) {
+      value = []
+      options.forEach((option) => {
+        value.push(optionValue.value(option, options))
       })
-      selectedValues.value = correctValues
-      context.emit('update:modelValue', selectedValues.value)
     }
+    else {
+      value = null
+      if (options.length > 0)
+        value = optionValue.value(options[0], options)
+    }
+    context.emit('update:modelValue', value)
+  }
+
+  const selectedOptions = computed<Array<Option | unknown>>({
+    get() {
+      selectedOptionsRef.value = _.uniq(selectedOptionsRef.value)
+      return selectedOptionsRef.value
+    },
+    set(values) {
+      // :thisisfine
+      let correctValues: Array<unknown> | unknown
+      const correctOptions: Array<Option | unknown> = []
+      if (multiple.value && _.isArray(values)) {
+        correctValues = []
+        values.forEach((value) => {
+          const option = optionMap.value.get(JSON.stringify(value))
+          if (option) {
+            (correctValues as Array<unknown>).push(value)
+            correctOptions.push(option)
+            if (!isSelected(option)) {
+              selectedOptionsRef.value.push(option)
+              context.emit('select', option)
+            }
+            else if (infinite) {
+              selectedOptionsRef.value.push(option)
+            }
+          }
+          else if (infinite.value) {
+            (correctValues as Array<unknown>).push(value)
+            correctOptions.push({value})
+            if (!isSelected({value}))
+              selectedOptionsRef.value.push({value})
+          }
+        })
+        correctValues = _.uniq(correctValues as Array<unknown>)
+      }
+      else {
+        correctValues = null
+        const value = values[0]
+        const option = optionMap.value.get(JSON.stringify(value))
+        if (option) {
+          correctValues = value
+          correctOptions.push(option)
+          if (!isSelected(option)) {
+            selectedOptionsRef.value = [option]
+            context.emit('select', option)
+          }
+          else if (infinite.value) {
+            selectedOptionsRef.value = [option]
+          }
+        }
+        else if (infinite.value) {
+          correctValues = value
+          correctOptions.push({value})
+          if (!isSelected({value}))
+            selectedOptionsRef.value = [{value}]
+        }
+      }
+      selectedOptionsRef.value = _.uniq(selectedOptionsRef.value)
+
+      if (!_.isEqual(selectedOptionsRef.value, correctOptions))
+      // TODO maybe emit deselected values too ?
+        selectedOptionsRef.value = correctOptions
+      if (!_.isEqual(values, correctValues))
+        context.emit('update:modelValue', correctValues)
+    },
   })
 
   const shownOptions = computed<Array<Option | unknown>>(() => {
-    if (search && search.value) {
+    if (!infinite.value && search && search.value) {
       return (selectOptions.value as Option[]).filter((option: Option | unknown) => {
         return optionSearchValue.value(option, selectedOptions.value).toLowerCase().includes(search.value.toLowerCase())
       })
@@ -92,40 +128,59 @@ export default function useOptions(multiple: Ref<boolean>,
 
   const noResults = computed(() => search && search.value && shownOptions.value && shownOptions.value.length === 0)
 
-  watch(modelValue.value, () => {
-    // prevents from pushing things that aren't options and pushing the same option multiple times in multiple mode
-    if (multiple.value && (selectedOptions.value as Array<Option | unknown>).length < selectedValues.value.length)
-      selectedValues.value.pop()
+  watch(() => modelValue.value, (value) => {
+    selectedOptions.value = _.isArray(value) ? value : [value]
+  }, {deep: true})
+
+  watch(optionMap, (newMap, oldMap) => {
+    if (!_.isEqual(newMap, oldMap))
+      selectedOptions.value = _.isArray(modelValue.value) ? modelValue.value : [modelValue.value]
   })
 
   function select(option: Option | unknown) {
-    multiple.value ? selectedValues.value.push(optionValue.value(option, selectedOptions.value)) : selectedValues.value = optionValue.value(option, selectedOptions.value)
-    context.emit('select', option)
-    context.emit('update:modelValue', selectedValues.value)
-    if (closeOnSelect.value)
-      deactivate()
+    if (!isSelected(option)) {
+      multiple.value ? selectedOptionsRef.value.push(option) : selectedOptionsRef.value = [option]
+      context.emit('select', option)
+      updateModelValue(selectedOptions.value)
+      if (closeOnSelect.value)
+        deactivate()
+    }
   }
 
   function deselect(option: Option | unknown) {
-    if (multiple.value) {
-      const index = selectedValues.value.indexOf(optionValue.value(option, selectedOptions.value))
-      selectedValues.value.splice(index, 1)
+    if (isSelected(option)) {
+      if (multiple.value) {
+        selectedOptionsRef.value = selectedOptionsRef.value.filter((selectedOption) => {
+          return !_.isEqual(selectedOption, option)
+        })
+      }
+      else {
+        selectedOptionsRef.value.length = 0
+      }
+      context.emit('deselect', option)
+      updateModelValue(selectedOptions.value)
     }
-    else {
-      selectedValues.value = null
-    }
-    context.emit('deselect', option)
-    context.emit('update:modelValue', selectedValues.value)
   }
 
   function handleOptionClick(option: Option | unknown) {
     if (optionDisabled.value(option, selectedOptions.value))
       return
 
-    if (isSelected(option, selectedOptions.value))
+    if (isSelected(option))
       deselect(option)
     else
       select(option)
+  }
+
+  const noSelection = computed(() => {
+    return selectedOptions.value.length === 0
+  })
+
+  function clear() {
+    selectedOptionsRef.value.length = 0
+    deactivate()
+    context.emit('clear')
+    updateModelValue(selectedOptions.value)
   }
 
   const valueDisplayText = computed(() => {
@@ -150,10 +205,13 @@ export default function useOptions(multiple: Ref<boolean>,
     noOptions,
     shownOptions,
     noResults,
+    selectedOptionsRef,
     selectedOptions,
     isSelected,
     handleOptionClick,
     deselect,
     valueDisplayText,
+    noSelection,
+    clear,
   }
 }

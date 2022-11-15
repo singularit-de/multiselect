@@ -10,7 +10,7 @@
     @mousedown.self="handleMousedown"
   >
     <select
-      v-model="selectedValues"
+      v-model="selectedOptionsRef"
       :multiple="multiple"
       v-bind="selectProps"
       class="hidden"
@@ -24,7 +24,6 @@
         :class="classList.search"
         v-bind="searchProps"
         data-cy="search-input"
-        @input="handleInput"
       >
     </template>
 
@@ -144,13 +143,11 @@
 
 <script lang="ts">
 import type {InputHTMLAttributes, PropType, SelectHTMLAttributes, SetupContext} from 'vue'
-import {defineComponent, toRefs, watch} from 'vue'
-import * as _ from 'lodash'
+import {defineComponent, toRefs} from 'vue'
 import useMultiselect from './utils/useMultiselect'
 import useDropdown from './utils/useDropdown'
 import useSearch from './utils/useSearch'
 import useOptions from './utils/useOptions'
-import useValue from './utils/useValue'
 import useClasses from './utils/useClasses'
 import type {Classes, Option} from './types'
 import useScroll from './utils/useScroll'
@@ -402,11 +399,48 @@ export default defineComponent({
     'loadMore': () => true,
   },
   setup(props, context: SetupContext) {
+    // const model = computed<unknown | Array<unknown>>({
+    //   get() {
+    //     // updates internal selectedValues if modelValue gets changed
+    //     return props.modelValue
+    //   },
+    //   set(newValue) {
+    //     context.emit('update:modelValue', newValue)
+    //   }
+    // })
+
+    // function getModel(selectedValues?: Ref<Array<unknown> | unknown>) {
+    //   if (!_.isEqual(props.modelValue, _.uniq(props.modelValue)))
+    //     model.value = _.uniq(props.modelValue)
+    //   if (selectedValues && selectedValues.value) {
+    //     if (props.modelValue !== selectedValues.value)
+    //       selectedValues.value = modelValue.value
+    //     if (!props.infinite) {
+    //       if (props.multiple && Array.isArray(selectedValues.value)) {
+    //         const correctSelected: Array<unknown> = []
+    //         selectedValues.value.forEach((selectedValue: unknown) => {
+    //           if (options.getOptionFromValue(selectedValue)) {
+    //             correctSelected.push(selectedValue)
+    //           }
+    //           if (!_.isEqual(correctSelected, selectedValues.value)) {
+    //             selectedValues.value = correctSelected
+    //             context.emit('update:modelValue', selectedValues.value)
+    //           }
+    //         })
+    //       }
+    //       else if (selectedValues.value && !options.getOptionFromValue(selectedValues.value)){
+    //         selectedValues.value = null
+    //         context.emit('update:modelValue', selectedValues.value)
+    //       }
+    //     }
+    //   }
+    //   return model
+    // }
+
     const {
       multiple, modelValue, searchable, disabled, closeOnSelect, selectOptions, displaySelectedValues,
       optionValue, optionLabel, optionDisabled, optionSearchValue, classes, infinite, maxOptions, loadingOptions,
     } = toRefs(props)
-    const value = useValue(multiple, modelValue)
     const dropdown = useDropdown(context)
     const search = useSearch(context)
     const multiselect = useMultiselect(
@@ -414,7 +448,6 @@ export default defineComponent({
       disabled,
       multiple,
       context,
-      value.selectedValues,
       dropdown.openDropdown,
       dropdown.closeDropdown,
       search.clearSearch,
@@ -431,8 +464,8 @@ export default defineComponent({
       optionLabel,
       optionDisabled,
       optionSearchValue,
+      infinite,
       context,
-      value.selectedValues,
       multiselect.deactivate,
       search.search,
     )
@@ -453,23 +486,21 @@ export default defineComponent({
       multiselect.isActive,
     )
 
-    if (!props.infinite) {
-      watch(() => props.selectOptions, (newOptions, oldOptions) => {
-        if (newOptions && newOptions.length > 0) {
-          for (const option of oldOptions) {
-            if (!_.some(newOptions, option as Option) && options.isSelected(option, options.selectedOptions.value))
-              options.deselect(option)
-          }
-        }
-        else {
-          multiselect.clear()
-        }
-      })
-    }
-
+    // if (!props.infinite) {
+    //   watch(() => props.selectOptions, (newOptions, oldOptions) => {
+    //     if (newOptions && newOptions.length > 0) {
+    //       for (const option of oldOptions) {
+    //         if (!_.some(newOptions, option as Option) && options.isSelected(option, options.selectedOptions.value))
+    //           options.deselect(option)
+    //       }
+    //     }
+    //     else {
+    //       multiselect.clear()
+    //     }
+    //   })
+    // }
 
     return {
-      ...value,
       ...dropdown,
       ...search,
       ...options,
