@@ -91,15 +91,6 @@
         Change select Options
       </button>
     </div>
-    <div v-if="infinite && dynamicOptions">
-      <button
-        class="mt-4 text-center w-full border-2 bg-gray-100"
-        data-cy="changeOptionsButton"
-        @click="addOption"
-      >
-        Add option with illegal value
-      </button>
-    </div>
     <div v-if="testExposedFunctions">
       <button
         class="mt-4 text-center w-full border-2 bg-gray-100"
@@ -283,7 +274,7 @@ export default defineComponent({
           value = [value]
           selected.value = value
         }
-        else if (!multiple.value) {
+        else if (setValue.value && !multiple.value) {
           selected.value = value
         }
         else if (!setValue.value && Array.isArray(selected.value)) {
@@ -300,7 +291,7 @@ export default defineComponent({
           selected.value = [value, secondValue]
         }
 
-        else if (!multiple.value) {
+        else if (setValue.value && !multiple.value) {
           selected.value = value
         }
 
@@ -310,7 +301,7 @@ export default defineComponent({
       }
     }
 
-    const dynamicSelectOptions = ref<Array<Option | unknown>>([
+    const dynamicSelectOptions = ref<Option[]>([
       {value: {abc: 'xyz', test: {xyz: 3}}, label: 'This'},
       {value: 2, label: 'is'},
       {value: 'haha', label: 'a'},
@@ -322,11 +313,6 @@ export default defineComponent({
         {value: 2, label: 'is'},
         {value: 'haha', label: 'a'},
       ]
-    }
-
-    function addOption() {
-      const option = {value: {this: 'Hallo', is: 1234, a: {Test: 'okayyy, let\'s go'}}, label: 'jooooooo'}
-      dynamicSelectOptions.value.push(option)
     }
 
     const multiselect = ref<typeof Multiselect | null>(null)
@@ -347,7 +333,6 @@ export default defineComponent({
       pushIllegalValue,
       dynamicSelectOptions,
       changeSelectOptions,
-      addOption,
       testFocus,
       testBlur,
       multiselect,
