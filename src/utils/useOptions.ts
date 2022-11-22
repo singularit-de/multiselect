@@ -56,63 +56,30 @@ export default function useOptions(multiple: Ref<boolean>,
       return selectedOptionsRef.value
     },
     set(values) {
-      // :thisisfine
-      let correctValues: Array<unknown> | unknown
+      let correctValues: Array<unknown> = []
       const correctOptions: Array<Option | unknown> = []
-      if (multiple.value && _.isArray(values)) {
-        correctValues = []
-        values.forEach((value) => {
-          const option = optionMap.value.get(JSON.stringify(value))
-          if (option) {
-            (correctValues as Array<unknown>).push(value)
-            correctOptions.push(option)
-            if (!isSelected(option)) {
-              selectedOptionsRef.value.push(option)
-              context.emit('select', option)
-            }
-            // overwrite option without label
-            else if (infinite.value) {
-              selectedOptionsRef.value.push(option)
-            }
-          }
-          else if (infinite.value) {
-            (correctValues as Array<unknown>).push(value)
-            if (!isSelected({value})) {
-              correctOptions.push({value})
-              selectedOptionsRef.value.push({value})
-            }
-            // keeps remembered Option
-            else {
-              const rememberedOption = selectedOptionsRef.value.find((selectedOption) => {
-                return _.isEqual(value, optionValue.value(selectedOption, selectedOptionsRef.value))
-              })
-              correctOptions.push(rememberedOption)
-            }
-          }
-        })
-        correctValues = _.uniq(correctValues as Array<unknown>)
-      }
-      else {
-        correctValues = null
-        const value = values[0]
+      values.forEach((value) => {
         const option = optionMap.value.get(JSON.stringify(value))
         if (option) {
-          correctValues = value
+          correctValues.push(value)
           correctOptions.push(option)
           if (!isSelected(option)) {
-            selectedOptionsRef.value = [option]
+            selectedOptionsRef.value.push(option)
             context.emit('select', option)
           }
+          // overwrite option without label
           else if (infinite.value) {
-            selectedOptionsRef.value = [option]
+            selectedOptionsRef.value.push(option)
           }
         }
         else if (infinite.value) {
-          correctValues = value
+          correctValues.push(value)
           if (!isSelected({value})) {
             correctOptions.push({value})
-            selectedOptionsRef.value = [{value}]
+            selectedOptionsRef.value.push({value})
+            context.emit('select', {value})
           }
+          // keeps remembered Option
           else {
             const rememberedOption = selectedOptionsRef.value.find((selectedOption) => {
               return _.isEqual(value, optionValue.value(selectedOption, selectedOptionsRef.value))
@@ -120,14 +87,15 @@ export default function useOptions(multiple: Ref<boolean>,
             correctOptions.push(rememberedOption)
           }
         }
-      }
+      })
+      correctValues = _.uniq(correctValues)
       selectedOptionsRef.value = _.uniq(selectedOptionsRef.value)
 
       if (!_.isEqual(selectedOptionsRef.value, correctOptions))
       // TODO maybe emit deselected values too ?
         selectedOptionsRef.value = correctOptions
       if (!_.isEqual(values, correctValues))
-        context.emit('update:modelValue', correctValues)
+        context.emit('update:modelValue', multiple.value ? correctValues : correctValues[0])
     },
   })
 
