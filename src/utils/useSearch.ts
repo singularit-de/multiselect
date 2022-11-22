@@ -1,26 +1,28 @@
 import type {SetupContext} from 'vue'
-import {ref, watch} from 'vue'
+import {computed, ref} from 'vue'
 
 export default function useSearch(context: SetupContext) {
   const input = ref<HTMLInputElement | null>(null)
-  const search = ref('')
+  const searchString = ref('')
+
+  const search = computed<string>({
+    get() {
+      return searchString.value
+    },
+    set(val) {
+      searchString.value = val
+      context.emit('search-change', val)
+    },
+  })
 
   function clearSearch() {
-    search.value = ''
+    if (search.value)
+      search.value = ''
   }
-
-  function handleInput(e: InputEvent) {
-    search.value = (e.target as HTMLInputElement).value
-  }
-
-  watch(search, (val) => {
-    context.emit('search-change', val)
-  })
 
   return {
     search,
     clearSearch,
-    handleInput,
     input,
   }
 }
