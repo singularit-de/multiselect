@@ -119,7 +119,7 @@ export default function useOptions(multiple: Ref<boolean>,
   watch(() => modelValue.value, (value) => {
     if (!_.isEqual(value, tempValue.value)) {
       tempValue.value = multiple.value ? [...value] : value
-      selectedOptions.value = _.isArray(value) ? value : value !== undefined ? [value] : []
+      selectedOptions.value = multiple.value ? value : value !== undefined ? [value] : []
     }
   }, {deep: true})
 
