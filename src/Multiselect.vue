@@ -67,7 +67,7 @@
       >
         <li
           v-for="(option) in shownOptions"
-          :key="optionValue(option,selectedOptions)"
+          :key="optionValue(option)"
           :class="classList.option(option)"
           data-cy="option"
           @click="handleOptionClick(option)"
@@ -77,7 +77,7 @@
             :option="option"
             name="option-label"
           >
-            <span data-cy="option-label">{{ optionLabel(option,selectedOptions) }}</span>
+            <span data-cy="option-label">{{ optionLabel(option) }}</span>
           </slot>
         </li>
       </ul>
@@ -189,7 +189,7 @@ export default defineComponent({
      * By default, it returns the value attribute of the passed option.
      */
     optionValue: {
-      type: Function as PropType<((option: Option | unknown, selectedOptions: Array<Option | unknown>) => unknown)>,
+      type: Function as PropType<(option: Option | unknown) => unknown>,
       required: false,
       default: (option: Option | unknown) => {
         if (option)
@@ -220,7 +220,7 @@ export default defineComponent({
      * By default, it returns the label attribute of the passed option.
      */
     optionLabel: {
-      type: Function as PropType<((option: Option | unknown, selectedOptions: Array<Option | unknown>) => string)>,
+      type: Function as PropType<((option: Option | unknown) => string)>,
       required: false,
       default: (option: Option | unknown) => {
         if (option)
@@ -299,7 +299,7 @@ export default defineComponent({
      * By default, it returns the label of the passed option.
      */
     optionSearchValue: {
-      type: Function as PropType<((option: Option | unknown, selectedOptions: Array<Option | unknown>) => string)>,
+      type: Function as PropType<((option: Option | unknown) => string)>,
       required: false,
       default: (option: Option | unknown) => {
         if (option)

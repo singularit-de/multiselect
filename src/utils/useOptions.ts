@@ -8,10 +8,10 @@ export default function useOptions(multiple: Ref<boolean>,
   closeOnSelect: Ref<boolean>,
   selectOptions: Ref<Array<Option | unknown>>,
   displaySelectedValues: Ref<((options: Array<Option | unknown>) => string) | string | undefined>,
-  optionValue: Ref<(option: Option | unknown, selectedOptions: Array<Option | unknown>) => unknown>,
-  optionLabel: Ref<(option: Option | unknown, selectedOptions: Array<Option | unknown>) => string>,
+  optionValue: Ref<(option: Option | unknown) => unknown>,
+  optionLabel: Ref<(option: Option | unknown) => string>,
   optionDisabled: Ref<(option: Option | unknown, selectedOptions: Array<Option | unknown>) => boolean>,
-  optionSearchValue: Ref<(option: Option | unknown, selectedOptions: Array<Option | unknown>) => string>,
+  optionSearchValue: Ref<(option: Option | unknown) => string>,
   infinite: Ref<boolean>,
   context: SetupContext,
   deactivate: () => void,
@@ -20,9 +20,8 @@ export default function useOptions(multiple: Ref<boolean>,
 
   const optionMap = computed<Map<string, Option | unknown>>(() => {
     const map = new Map<string, Option | unknown>()
-    selectedOptionsRef.value = _.uniq(selectedOptionsRef.value)
     selectOptions.value.forEach((option: Option | unknown) => {
-      const valueString = JSON.stringify(optionValue.value(option, selectedOptionsRef.value))
+      const valueString = JSON.stringify(optionValue.value(option))
       map.set(valueString, option)
     })
     return map
@@ -30,29 +29,34 @@ export default function useOptions(multiple: Ref<boolean>,
 
   function isSelected(option: Option | unknown) {
     return selectedOptionsRef.value.some((selectedOption) => {
-      return _.isEqual(optionValue.value(selectedOption, selectedOptionsRef.value), optionValue.value(option, selectedOptionsRef.value))
+      return _.isEqual(optionValue.value(selectedOption), optionValue.value(option))
     })
   }
+
+  const tempValue = ref<Array<unknown> | unknown>()
 
   function updateModelValue(options: Array<Option | unknown>) {
     let value
     if (multiple.value) {
-      value = []
+      value = [] as Array<unknown>
       options.forEach((option) => {
-        value.push(optionValue.value(option, options))
+        value.push(optionValue.value(option))
       })
+      tempValue.value = [...value]
     }
     else {
       value = null
       if (options.length > 0)
-        value = optionValue.value(options[0], options)
+        value = optionValue.value(options[0])
+      tempValue.value = value
     }
     context.emit('update:modelValue', value)
   }
 
   const selectedOptions = computed<Array<Option | unknown>>({
     get() {
-      selectedOptionsRef.value = _.uniq(selectedOptionsRef.value)
+      if (selectedOptionsRef.value.length !== _.uniq(selectedOptionsRef.value).length)
+        selectedOptionsRef.value = _.uniq(selectedOptionsRef.value)
       return selectedOptionsRef.value
     },
     set(values) {
@@ -82,7 +86,7 @@ export default function useOptions(multiple: Ref<boolean>,
           // keeps remembered Option
           else {
             const rememberedOption = selectedOptionsRef.value.find((selectedOption) => {
-              return _.isEqual(value, optionValue.value(selectedOption, selectedOptionsRef.value))
+              return _.isEqual(value, optionValue.value(selectedOption))
             })
             correctOptions.push(rememberedOption)
           }
@@ -102,18 +106,21 @@ export default function useOptions(multiple: Ref<boolean>,
   const shownOptions = computed<Array<Option | unknown>>(() => {
     if (!infinite.value && search && search.value) {
       return (selectOptions.value as Option[]).filter((option: Option | unknown) => {
-        return optionSearchValue.value(option, selectedOptions.value).toLowerCase().includes(search.value.toLowerCase())
+        return optionSearchValue.value(option).toString().toLowerCase().includes(search.value.toLowerCase())
       })
     }
     return selectOptions.value
   })
 
-  const noOptions = computed(() => selectOptions.value.length === 0)
+  const noOptions = computed(() => !(infinite.value && search && search.value) && selectOptions.value.length === 0)
 
   const noResults = computed(() => search && search.value && shownOptions.value && shownOptions.value.length === 0)
 
   watch(() => modelValue.value, (value) => {
-    selectedOptions.value = _.isArray(value) ? value : [value]
+    if (!_.isEqual(value, tempValue.value)) {
+      tempValue.value = multiple.value ? [...value] : value
+      selectedOptions.value = _.isArray(value) ? value : value !== undefined ? [value] : []
+    }
   }, {deep: true})
 
   watch(optionMap, (newMap, oldMap) => {
@@ -181,7 +188,7 @@ export default function useOptions(multiple: Ref<boolean>,
       }
     }
     else {
-      return optionLabel.value(selectedOptions.value[0], selectedOptions.value)
+      return optionLabel.value(selectedOptions.value[0])
     }
   })
 
