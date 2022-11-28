@@ -220,7 +220,7 @@ export default defineComponent({
      * By default, it returns the label attribute of the passed option.
      */
     optionLabel: {
-      type: Function as PropType<((option: Option | unknown) => string)>,
+      type: Function as PropType<((option: Option | unknown, selectedOptions: Array<Option | unknown>) => string)>,
       required: false,
       default: (option: Option | unknown) => {
         if (option)

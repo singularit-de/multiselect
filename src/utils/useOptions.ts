@@ -9,7 +9,7 @@ export default function useOptions(multiple: Ref<boolean>,
   selectOptions: Ref<Array<Option | unknown>>,
   displaySelectedValues: Ref<((options: Array<Option | unknown>) => string) | string | undefined>,
   optionValue: Ref<(option: Option | unknown) => unknown>,
-  optionLabel: Ref<(option: Option | unknown) => string>,
+  optionLabel: Ref<(option: Option | unknown, selectedOptions: Array<Option | unknown>) => string>,
   optionDisabled: Ref<(option: Option | unknown, selectedOptions: Array<Option | unknown>) => boolean>,
   optionSearchValue: Ref<(option: Option | unknown) => string>,
   infinite: Ref<boolean>,
@@ -188,7 +188,7 @@ export default function useOptions(multiple: Ref<boolean>,
       }
     }
     else {
-      return optionLabel.value(selectedOptions.value[0])
+      return optionLabel.value(selectedOptions.value[0], selectedOptions.value)
     }
   })
 
