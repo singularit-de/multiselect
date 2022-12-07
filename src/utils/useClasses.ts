@@ -9,7 +9,7 @@ export default function useClasses(disabled: Ref<boolean>,
   classes: Ref<Classes>,
   selectedOptions: Ref<Array<Option | unknown>>,
   dropdownOpen: Ref<boolean>,
-  isSelected: (option: Option | unknown, selectedOptions: Array<Option | unknown>) => boolean,
+  isSelected: (option: Option | unknown) => boolean,
   isActive: Ref<boolean>) {
   const styleClasses = {
     ...defaultTheme,
@@ -40,7 +40,7 @@ export default function useClasses(disabled: Ref<boolean>,
       noResults: styleClasses.noResults,
       option: (o: Option | unknown) => {
         let option = styleClasses.option
-        if (isSelected(o, selectedOptions.value))
+        if (isSelected(o))
           option = styleClasses.optionSelected
 
         if (optionDisabled.value(o, selectedOptions.value))
