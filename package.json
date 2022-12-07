@@ -1,26 +1,31 @@
 {
   "name": "@singularit/multiselect",
-  "version": "0.0.0",
   "private": false,
   "author": "singularIT GmbH",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/singularit-de/multiselect.git"
-  },
   "bugs": {
     "url": "https://github.com/singularit-de/multiselect/issues"
   },
+  "version": "0.0.0",
+  "main": "dist/multiselect.umd.js",
+  "module": "dist/multiselect.es.js",
   "exports": {
     ".": {
-      "require": "./dist/multiselect.umd.js",
-      "import": "./dist/multiselect.es.js"
+      "import": "./dist/multiselect.es.js",
+      "require": "./dist/multiselect.umd.js"
     },
     "./dist/style.css": "./dist/style.css"
   },
-  "main": "dist/multiselect.umd.js",
-  "module": "dist/multiselect.es.js",
-  "types": "types",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "postbuild": "vue-tsc -p tsconfig.build-dts.json",
+    "preview": "vite preview",
+    "cypress:open": "cypress open --component",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook",
+    "deploy-storybook": "gh-pages -d storybook-static"
+  },
   "files": [
     "dist",
     "types/**/*.d.ts",
@@ -29,28 +34,16 @@
     "!src/tests",
     "!src/stories"
   ],
-  "scripts": {
-    "dev": "vite",
-    "webtypes": "vue-docgen-web-types --configFile web-types.config.js",
-    "build": "vite build",
-    "postbuild": "vue-tsc -p tsconfig.build-dts.json",
-    "preview": "vite preview",
-    "cypress:open": "cypress open --component",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
-  },
   "dependencies": {
+    "@cypress/vite-dev-server": "^2.2.3",
+    "@cypress/vue": "^3.1.2",
+    "cypress": "^10.0.0",
     "lodash": "^4.17.21",
     "vue": "^3.2.25"
   },
   "devDependencies": {
     "@babel/core": "^7.18.2",
-    "@cypress/vite-dev-server": "^2.2.3",
-    "@cypress/vue": "^3.1.2",
     "@mdx-js/react": "^2.1.2",
-    "@singularit/eslint-config": "^1.1.1",
     "@storybook/addon-actions": "^6.5.7",
     "@storybook/addon-essentials": "^6.5.7",
     "@storybook/addon-interactions": "^6.5.7",
@@ -62,18 +55,18 @@
     "@vitejs/plugin-vue": "^2.3.1",
     "autoprefixer": "^10.4.7",
     "babel-loader": "^8.2.5",
-    "cypress": "^10.0.0",
-    "eslint": "^8.22.0",
-    "eslint-plugin-vue": "^9.3.0",
     "gh-pages": "^4.0.0",
     "postcss": "^8.4.13",
     "tailwindcss": "^3.0.24",
     "typescript": "^4.5.4",
     "vite": "^2.9.7",
     "vite-plugin-libcss": "^1.0.5",
-    "vue-docgen-web-types": "^0.1.8",
     "vue-loader": "^16.8.3",
     "vue-tsc": "^0.34.7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/singularit-de/multiselect.git"
   },
   "release": {
     "branches": [
@@ -88,5 +81,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "web-types": "./web-types.json"
+  "types": "types"
 }

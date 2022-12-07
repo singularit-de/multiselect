@@ -1,12 +1,12 @@
-import type {mount} from 'cypress/vue'
+import { mount } from 'cypress/vue';
 
-type MountParams = Parameters<typeof mount>
-type OptionsParam = MountParams[1]
+type MountParams = Parameters<typeof mount>;
+type OptionsParam = MountParams[1];
 
 declare global {
-  namespace Cypress {
-    interface Chainable {
-      mount: typeof mount
+    namespace Cypress {
+        interface Chainable {
+            mount: typeof mount;
+        }
     }
-  }
 }

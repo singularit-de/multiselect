@@ -19,9 +19,8 @@ import './commands'
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 
-import {mount} from 'cypress/vue'
+import { mount } from 'cypress/vue'
 // Ensure global styles are loaded
-import '../../src/index.css'
+import '../../src/index.css';
 
-// eslint-disable-next-line no-undef
 Cypress.Commands.add('mount', mount)

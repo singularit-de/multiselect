@@ -1,28 +1,23 @@
-import type {SetupContext} from 'vue'
-import {ref} from 'vue'
+import {ref} from "vue";
 
-export default function useDropdown(context: SetupContext) {
-  const dropdownOpen = ref(false)
+export default function useDropdown(props: any, context: any) {
 
-  function openDropdown() {
-    if (dropdownOpen.value)
-      return
+    const dropdownOpen = ref(false)
 
-    dropdownOpen.value = true
-    context.emit('open')
-  }
+    function openDropdown() {
+        dropdownOpen.value = true
+        context.emit('open')
+    }
 
-  function closeDropdown() {
-    if (!dropdownOpen.value)
-      return
+    function closeDropdown() {
+        dropdownOpen.value = false
+        context.emit('close')
+    }
 
-    dropdownOpen.value = false
-    context.emit('close')
-  }
 
-  return {
-    dropdownOpen,
-    openDropdown,
-    closeDropdown,
-  }
+    return {
+        dropdownOpen,
+        openDropdown,
+        closeDropdown,
+    }
 }

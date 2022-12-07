@@ -1,74 +1,73 @@
-import type {Ref, SetupContext} from 'vue'
-import {computed, ref} from 'vue'
+import {computed, ref, toRefs} from "vue";
 
-export default function useMultiselect(searchable: Ref<boolean>,
-  disabled: Ref<boolean>,
-  multiple: Ref<boolean>,
-  context: SetupContext,
-  openDropdown: () => void,
-  closeDropdown: () => void,
-  clearSearch: () => void,
-  dropdownOpen: Ref<boolean>,
-  input: Ref<HTMLInputElement | null>,
-) {
-  const multiselect = ref<HTMLDivElement | null>(null)
-  const isActive = ref(false)
+export default function useMultiselect(props: any, context: any, dependencies: any) {
 
-  const tabindex = computed(() => searchable.value || disabled.value ? -1 : 0)
+    const selectedValues = dependencies.selectedValues
+    const selectedOptions = dependencies.selectedOptions
+    const openDropdown = dependencies.openDropdown
+    const closeDropdown = dependencies.closeDropdown
+    const clearSearch = dependencies.clearSearch
 
-  function activate() {
-    if (!disabled.value && !isActive.value) {
-      isActive.value = true
-      openDropdown()
-    }
-  }
+    const {searchable, disabled, label, multipleLabel, multiple} = toRefs(props)
 
-  function deactivate() {
-    if (isActive.value) {
-      isActive.value = false
-      setTimeout(() => {
-        if (!isActive.value) {
-          closeDropdown()
-          clearSearch()
+    const multiselect = ref(null)
+    const isActive = ref(false)
+
+    const tabindex = computed(() => searchable.value || disabled.value ? -1 : 0)
+
+    function activate() {
+        if (!disabled.value && !isActive.value) {
+            isActive.value = true
+            openDropdown()
         }
-      }, 1)
     }
-  }
 
-  function handleFocus() {
-    input.value?.focus()
-  }
-
-  function handleMousedown() {
-    if (!dropdownOpen.value) {
-      activate()
+    function deactivate() {
+        if(isActive.value) {
+            isActive.value = false
+            setTimeout(() => {
+                if (!isActive.value) {
+                    closeDropdown()
+                    clearSearch()
+                }
+            }, 1)
+        }
     }
-    else if (dropdownOpen.value) {
-      setTimeout(() => {
+
+    function clear() {
+        if (multiple.value) {
+            selectedValues.value.length = 0
+        } else {
+            selectedValues.value = null
+        }
         deactivate()
-      }, 0)
+        context.emit('update:modelValue', selectedValues.value)
+        context.emit('clear')
     }
-  }
 
-  context.expose({
-    focus: () => {
-      multiselect.value?.focus()
-    },
-    blur: () => {
-      if (searchable.value)
-        input.value?.blur()
+    const labelText = computed(() => {
+        if (multiple.value) {
+            if (multipleLabel && multipleLabel.value) {
+                if (typeof multipleLabel.value === 'string' || multipleLabel.value instanceof String) {
+                    return multipleLabel.value
+                } else {
+                    return multipleLabel.value(selectedOptions.value)
+                }
+            } else {
+                return selectedValues.value && selectedValues.value.length > 1 ? `${selectedValues.value.length} Optionen gewählt` : '1 Option gewählt'
+            }
+        } else {
+            return (selectedOptions.value[label.value])
+        }
+    })
 
-      multiselect.value?.blur()
-    },
-  })
-
-  return {
-    multiselect,
-    isActive,
-    tabindex,
-    activate,
-    deactivate,
-    handleMousedown,
-    handleFocus,
-  }
+    return {
+        multiselect,
+        isActive,
+        tabindex,
+        activate,
+        deactivate,
+        clear,
+        labelText,
+    }
 }
