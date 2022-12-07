@@ -5,7 +5,6 @@ export default function useMultiselect(searchable: Ref<boolean>,
   disabled: Ref<boolean>,
   multiple: Ref<boolean>,
   context: SetupContext,
-  selectedValues: Ref,
   openDropdown: () => void,
   closeDropdown: () => void,
   clearSearch: () => void,
@@ -36,16 +35,6 @@ export default function useMultiselect(searchable: Ref<boolean>,
     }
   }
 
-  function clear() {
-    if (multiple.value)
-      selectedValues.value.length = 0
-    else
-      selectedValues.value = null
-
-    deactivate()
-    context.emit('update:modelValue', selectedValues.value)
-    context.emit('clear')
-  }
 
   function handleFocus() {
     input.value?.focus()
@@ -80,7 +69,6 @@ export default function useMultiselect(searchable: Ref<boolean>,
     tabindex,
     activate,
     deactivate,
-    clear,
     handleMousedown,
     handleFocus,
   }
