@@ -169,7 +169,7 @@ export default defineComponent({
     modelValue: {
       type: undefined,
       required: false,
-      default: (props: {multiple: boolean}) => props.multiple ? [] : null,
+      default: (props: {multiple: boolean}) => props.multiple ? [] : undefined,
     },
     /**
      * Array of options that can be selected.
