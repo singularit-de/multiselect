@@ -30,6 +30,8 @@ export default function useMultiselect(searchable: Ref<boolean>,
         if (!isActive.value) {
           closeDropdown()
           clearSearch()
+          if (searchable.value)
+            input.value?.blur()
         }
       }, 1)
     }
