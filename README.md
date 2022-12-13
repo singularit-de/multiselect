@@ -14,7 +14,7 @@
 ## Installation
 
 ```bash
-npm install @singularit/multiselect@beta
+npm install @singularit/multiselect
 ```
 
 
