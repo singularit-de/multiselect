@@ -36,6 +36,7 @@
     "postbuild": "vue-tsc -p tsconfig.build-dts.json",
     "preview": "vite preview",
     "cypress:open": "cypress open --component",
+    "cypress:run": "cypress run --component",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "lint": "eslint .",
