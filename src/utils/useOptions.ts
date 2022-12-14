@@ -45,7 +45,7 @@ export default function useOptions(multiple: Ref<boolean>,
       tempValue.value = [...value]
     }
     else {
-      value = null
+      value = undefined
       if (options.length > 0)
         value = optionValue.value(options[0])
       tempValue.value = value
@@ -125,7 +125,7 @@ export default function useOptions(multiple: Ref<boolean>,
 
   watch(optionMap, (newMap, oldMap) => {
     if (!_.isEqual(newMap, oldMap))
-      selectedOptions.value = _.isArray(modelValue.value) ? modelValue.value : [modelValue.value]
+      selectedOptions.value = multiple.value ? modelValue.value : modelValue.value !== undefined ? [modelValue.value] : []
   })
 
   function select(option: Option | unknown) {
