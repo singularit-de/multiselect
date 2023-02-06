@@ -121,7 +121,7 @@ export default function useOptions(multiple: Ref<boolean>,
       tempValue.value = multiple.value ? [...value] : value
       selectedOptions.value = multiple.value ? value : value !== undefined ? [value] : []
     }
-  }, {deep: true})
+  }, {deep: true, immediate: true})
 
   watch(optionMap, (newMap, oldMap) => {
     if (!_.isEqual(newMap, oldMap))
