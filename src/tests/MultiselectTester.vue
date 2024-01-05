@@ -141,7 +141,7 @@ export default defineComponent({
       default: false,
     },
     optionLabel: {
-      type: Function as PropType<((option: Option | unknown, selectedOptions: Array<Option | unknown>) => string)>,
+      type: Function as PropType<((option: Option | unknown, selectedOptions?: Array<Option | unknown>) => string)>,
       required: false,
       default: (option: Option | unknown) => {
         if (option)
@@ -151,7 +151,7 @@ export default defineComponent({
       },
     },
     optionValue: {
-      type: Function as PropType<((option: Option | unknown, selectedOptions: Array<Option | unknown>) => unknown)>,
+      type: Function as PropType<((option: Option | unknown, selectedOptions?: Array<Option | unknown>) => unknown)>,
       required: false,
       default: (option: Option | unknown) => {
         if (option)
@@ -161,14 +161,14 @@ export default defineComponent({
       },
     },
     optionDisabled: {
-      type: Function as PropType<((option: Option | unknown, selectedOptions: Array<Option | unknown>) => boolean)>,
+      type: Function as PropType<((option: Option | unknown, selectedOptions?: Array<Option | unknown>) => boolean)>,
       required: false,
       default: (option: Option | unknown) => {
         return (option as Option).disabled
       },
     },
     optionSearchValue: {
-      type: Function as PropType<((option: Option | unknown, selectedOptions: Array<Option | unknown>) => string)>,
+      type: Function as PropType<((option: Option | unknown, selectedOptions?: Array<Option | unknown>) => string)>,
       required: false,
       default: (option: Option | unknown) => {
         if (option)

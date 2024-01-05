@@ -167,9 +167,9 @@ export default defineComponent({
      * Is the value, that's used externally.
      */
     modelValue: {
-      type: undefined,
+      type: Object as PropType<unknown>,
       required: false,
-      default: (props: {multiple: boolean}) => props.multiple ? [] : undefined,
+      default: (props: {multiple: boolean}) => props.multiple ? [] as unknown[] : undefined as unknown,
     },
     /**
      * Array of options that can be selected.
@@ -235,7 +235,7 @@ export default defineComponent({
      * By default, it returns the disabled attribute of the passed option.
      */
     optionDisabled: {
-      type: Function as PropType<((option: Option | unknown, selectedOptions: Array<Option | unknown>) => boolean)>,
+      type: Function as PropType<((option: Option | unknown, selectedOptions?: Array<Option | unknown>) => boolean)>,
       required: false,
       default: (option: Option | unknown) => {
         return (option as Option).disabled
