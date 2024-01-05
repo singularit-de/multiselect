@@ -29,7 +29,7 @@
                 "kind": "expression",
                 "type": "undefined"
               },
-              "default": "(props: {multiple: boolean}) => props.multiple ? [] : null"
+              "default": "(props: {multiple: boolean}) => props.multiple ? [] : undefined"
             },
             {
               "name": "selectOptions",
@@ -47,7 +47,7 @@
               "description": "Function that determines which attribute of the option object should be used as value.\nThe passed parameters are an option and an array of all selected options.\nBy default, it returns the value attribute of the passed option.",
               "value": {
                 "kind": "expression",
-                "type": "(option: Option | unknown, selectedOptions: Array<Option | unknown>) => unknown"
+                "type": "(option: Option | unknown) => unknown"
               },
               "default": "(option: Option | unknown) => {\r\n  if (option)\r\n    return (option as Option).value\r\n  else\r\n    return null\r\n}"
             },
@@ -59,7 +59,7 @@
                 "kind": "expression",
                 "type": "string"
               },
-              "default": "'Die Liste ist leer'"
+              "default": "'The list is empty.'"
             },
             {
               "name": "placeholder",
@@ -77,7 +77,7 @@
               "description": "Function that determines which attribute of the option object should be displayed as label.\nThe passed parameters are an option and an array of all selected options.\nBy default, it returns the label attribute of the passed option.",
               "value": {
                 "kind": "expression",
-                "type": "(option: Option | unknown, selectedOptions: Array<Option | unknown>) => string"
+                "type": "(option: Option | unknown, selectedOptions?: Array<Option | unknown>) => string"
               },
               "default": "(option: Option | unknown) => {\r\n  if (option)\r\n    return (option as Option).label\r\n  else\r\n    return ''\r\n}"
             },
@@ -157,7 +157,7 @@
               "description": "Determines which value of the option Object is searched.\nIt is a function which returns the value of an option that is tracked by the search input.\nThe passed parameters are an option and an array of all selected options.\nBy default, it returns the label of the passed option.",
               "value": {
                 "kind": "expression",
-                "type": "(option: Option | unknown, selectedOptions: Array<Option | unknown>) => string"
+                "type": "(option: Option | unknown) => string"
               },
               "default": "(option: Option | unknown) => {\r\n  if (option)\r\n    return (option as Option).label\r\n  else\r\n    return null\r\n}"
             },
@@ -169,7 +169,7 @@
                 "kind": "expression",
                 "type": "string"
               },
-              "default": "'Keine Ergebnisse gefunden'"
+              "default": "'No results found.'"
             },
             {
               "name": "closeOnSelect",

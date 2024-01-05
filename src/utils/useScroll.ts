@@ -1,7 +1,7 @@
 import type {Ref, SetupContext} from 'vue'
 import {computed} from 'vue'
-import type {Option} from '../types'
 import _ from 'lodash'
+import type {Option} from '../types'
 
 export default function useScroll(
   infinite: Ref<boolean>,
@@ -19,7 +19,6 @@ export default function useScroll(
     if (scrollTop + offsetHeight >= scrollHeight && hasMore.value && !loadingOptions.value)
       context.emit('loadMore')
   }, 50)
-
 
   return {
     hasMore,

@@ -93,9 +93,9 @@
     </div>
     <div v-if="infinite && dynamicOptions">
       <button
-          class="mt-4 text-center w-full border-2 bg-gray-100"
-          data-cy="changeOptionsButton"
-          @click="addOption"
+        class="mt-4 text-center w-full border-2 bg-gray-100"
+        data-cy="changeOptionsButton"
+        @click="addOption"
       >
         Add option with illegal value
       </button>

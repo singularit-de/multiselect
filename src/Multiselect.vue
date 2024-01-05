@@ -66,8 +66,8 @@
         data-cy="optionList"
       >
         <li
-          v-for="(option) in shownOptions"
-          :key="optionValue(option)"
+          v-for="(option, i) in shownOptions"
+          :key="i"
           :class="classList.option(option)"
           data-cy="option"
           @click="handleOptionClick(option)"
@@ -220,7 +220,7 @@ export default defineComponent({
      * By default, it returns the label attribute of the passed option.
      */
     optionLabel: {
-      type: Function as PropType<((option: Option | unknown, selectedOptions: Array<Option | unknown>) => string)>,
+      type: Function as PropType<((option: Option | unknown, selectedOptions?: Array<Option | unknown>) => string)>,
       required: false,
       default: (option: Option | unknown) => {
         if (option)
