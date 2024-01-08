@@ -27,9 +27,9 @@
               "description": "Is the value, that's used externally.",
               "value": {
                 "kind": "expression",
-                "type": "undefined"
+                "type": "unknown"
               },
-              "default": "(props: {multiple: boolean}) => props.multiple ? [] : undefined"
+              "default": "(props: {multiple: boolean}) => props.multiple ? [] as unknown[] : undefined as unknown"
             },
             {
               "name": "selectOptions",
@@ -87,7 +87,7 @@
               "description": "Function which determines if an option is disabled.\nThe passed parameters are an option and an array of all selected options.\nBy default, it returns the disabled attribute of the passed option.",
               "value": {
                 "kind": "expression",
-                "type": "(option: Option | unknown, selectedOptions: Array<Option | unknown>) => boolean"
+                "type": "(option: Option | unknown, selectedOptions?: Array<Option | unknown>) => boolean"
               },
               "default": "(option: Option | unknown) => {\r\n  return (option as Option).disabled\r\n}"
             },
