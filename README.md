@@ -62,7 +62,7 @@ npm install @singularit/multiselect
 |-----------------|---------------------|----------------------------------------------------------------------------------------------------------------------------------------|
 | placeholder     |                     | Rendered as placeholder when no option is selected and `placeholder` prop is defined.                                                  |
 | value-display   | `selectedOptions`   | Rendered if an option is selected and the search input is empty.                                                                       |
-| optionLabel     | `option,isSelected` | Renders an option in the selection dropdown. `isSelected` is provided to determine the state.                                          |
+| option-label    | `option,isSelected` | Renders an option in the selection dropdown. `isSelected` is provided to determine the state.                                          |
 | clear           | `clear`             | Renders a remove icon if any option is selected and `clearable` prop is true. The `clear` method should be used on `@mousedown` event. |
 | no-options      |                     | Rendered if the options list is empty. By default renders `noOptionsText`.                                                             |
 | no-results      |                     | Rendered if there are no search results. By default renders `noResultsText`.                                                           |

@@ -19,8 +19,6 @@ export default function useSearch(context: SetupContext) {
       search.value = ''
   }
 
-
-
   return {
     search,
     clearSearch,

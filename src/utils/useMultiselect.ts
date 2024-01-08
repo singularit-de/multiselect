@@ -37,7 +37,6 @@ export default function useMultiselect(searchable: Ref<boolean>,
     }
   }
 
-
   function handleFocus() {
     input.value?.focus()
   }
