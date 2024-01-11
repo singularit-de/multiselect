@@ -164,7 +164,7 @@ export default defineComponent({
       default: false,
     },
     /**
-     * Is the value, that's used externally.
+     * Is the value, that's used externally. Type `null` allows every type.
      */
     modelValue: {
       type: null,
