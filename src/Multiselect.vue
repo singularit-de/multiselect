@@ -167,9 +167,9 @@ export default defineComponent({
      * Is the value, that's used externally.
      */
     modelValue: {
-      type: Object as PropType<unknown>,
+      type: null,
       required: false,
-      default: (props: {multiple: boolean}) => props.multiple ? [] as unknown[] : undefined as unknown,
+      default: (props: {multiple: boolean}) => props.multiple ? [] : undefined,
     },
     /**
      * Array of options that can be selected.
