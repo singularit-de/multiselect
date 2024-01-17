@@ -16,7 +16,7 @@
 
 
 .multiselect-dropdown {
-    @apply max-h-60 absolute -left-px -right-px bottom-0 transform translate-y-full border border-gray-300 -mt-px overflow-y-scroll z-50 bg-white flex flex-col rounded-b;
+    @apply max-h-60 absolute -left-px -right-px bottom-0 transform translate-y-full border border-gray-300 -mt-px overflow-y-auto z-50 bg-white flex flex-col rounded-b;
 }
 
 .multiselect-dropdown.is-hidden {
