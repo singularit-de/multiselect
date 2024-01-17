@@ -98,7 +98,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          npx semantic-release
+          npx semantic-release@22
   docs:
     name: 📚 Generate docs
     runs-on: ubuntu-latest
