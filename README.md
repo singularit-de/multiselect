@@ -85,7 +85,7 @@ These are the default Tailwind classes used for styling the component.
     placeholder: 'flex items-center h-full absolute left-0 top-0 pointer-events-none bg-transparent leading-snug pl-3.5 text-gray-400',
     clear: 'pr-3.5 relative z-10 opacity-40 transition duration-300 flex-shrink-0 flex-grow-0 flex hover:opacity-80',
     clearIcon: 'text-lg font-bold text-center pl-3',
-    dropdown: 'max-h-60 absolute -left-px -right-px bottom-0 transform translate-y-full border border-gray-300 -mt-px overflow-y-scroll z-50 bg-white flex flex-col rounded-b',
+    dropdown: 'max-h-60 absolute -left-px -right-px bottom-0 transform translate-y-full border border-gray-300 -mt-px overflow-hidden overflow-y-auto z-50 bg-white flex flex-col rounded-b',
     dropdownHidden: 'hidden',
     options: 'flex flex-col p-0 m-0 list-none',
     option: 'flex items-center justify-start box-border text-left cursor-pointer text-base leading-snug py-2 px-3 hover:text-gray-800 hover:bg-gray-100',
