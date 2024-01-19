@@ -67,7 +67,7 @@
       >
         <li
           v-for="(option) in shownOptions"
-          :key="optionValue(option)"
+          :key="String(optionValue(option))"
           :class="classList.option(option)"
           data-cy="option"
           @click="handleOptionClick(option)"
