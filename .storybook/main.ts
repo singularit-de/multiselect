@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   "stories": [
     "../src/**/*.stories.mdx",
     "../src/**/*.stories.@(js|jsx|ts|tsx)"
@@ -7,7 +7,8 @@ module.exports = {
   "addons": [
     "@storybook/addon-links",
     "@storybook/addon-essentials",
-    "@storybook/addon-interactions"
+    "@storybook/addon-interactions",
+    "@chromatic-com/storybook"
   ],
 
   "framework": {
@@ -15,11 +16,5 @@ module.exports = {
     options: {}
   },
 
-  "features": {
-    "storyStoreV7": true
-  },
-
-  docs: {
-    autodocs: true
-  }
+  docs: {}
 }

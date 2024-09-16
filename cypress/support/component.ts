@@ -1,5 +1,5 @@
 // ***********************************************************
-// This example support/component.js is processed and
+// This example support/component.mjs is processed and
 // loaded automatically before your test files.
 //
 // This is a great place to put global configuration and
@@ -13,7 +13,7 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
-// Import commands.js using ES2015 syntax:
+// Import commands.ts using ES2015 syntax:
 import './commands'
 
 // Alternatively you can use CommonJS syntax:
@@ -23,5 +23,5 @@ import {mount} from 'cypress/vue'
 // Ensure global styles are loaded
 import '../../src/index.css'
 
-// eslint-disable-next-line no-undef
+// @ts-expect-error not assignable to type
 Cypress.Commands.add('mount', mount)

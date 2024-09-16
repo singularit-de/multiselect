@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [18,19,20]
+        node: [18, 19, 20]
     name: 🧪 Run Component tests on Node v${{ matrix.node }}
     steps:
       - name: Setup Node
