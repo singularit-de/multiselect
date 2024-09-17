@@ -6,6 +6,7 @@ export default function useMultiselect(
   searchable: Ref<boolean>,
   disabled: Ref<boolean>,
   context: SetupContext,
+  dropdown: Ref<HTMLDivElement | undefined>,
   openDropdown: () => void,
   closeDropdown: () => void,
   clearSearch: () => void,
@@ -35,6 +36,15 @@ export default function useMultiselect(
         }
       }, 1)
     }
+  }
+
+  // don't deactivate when focusing option dropdown
+  function handleFocusOut(e: FocusEvent) {
+    const relatedTarget = e.relatedTarget as Node
+    if (dropdown.value && relatedTarget && dropdown.value.contains(relatedTarget))
+      e.preventDefault()
+    else
+      deactivate()
   }
 
   function handleFocus() {
@@ -71,5 +81,6 @@ export default function useMultiselect(
     deactivate,
     handleMousedown,
     handleFocus,
+    handleFocusOut,
   }
 }

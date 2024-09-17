@@ -7,7 +7,7 @@
         :tabindex="tabindex"
         data-cy="multiselect"
         @focusin="activate"
-        @focusout="deactivate"
+        @focusout="handleFocusOut"
         @focus="handleFocus"
         @mousedown.self="handleMousedown"
       >
@@ -65,7 +65,8 @@
           <span
             :class="classList.clear"
             data-cy="clear"
-            @mousedown="clear"
+            @mousedown.prevent
+            @click="clear"
           ><span
             :class="classList.clearIcon"
           ><!-- clear icon? --> x</span></span>
@@ -78,8 +79,9 @@
         />
       </div>
     </v-target>
+    <!-- always show but hide content to avoid weird dropdown ref behaviour -->
     <v-follower
-      :show="multiselectContainer && dropdownOpen"
+      :show="true"
       :placement="dropdownPlacement"
     >
       <!--option dropdown-->
@@ -88,7 +90,9 @@
         :class="classList.dropdown"
         data-cy="dropdown"
         :style="dropdownStyle"
+        tabindex="0"
         @scroll="handleScroll"
+        @focusout="handleFocusOut"
       >
         <ul
           v-if="shownOptions.length > 0 && (!loadingOptions || infinite)"
@@ -433,6 +437,7 @@ export default defineComponent({
       searchable,
       disabled,
       context,
+      dropdown.dropdown,
       dropdown.openDropdown,
       dropdown.closeDropdown,
       search.clearSearch,
