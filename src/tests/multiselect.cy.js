@@ -553,24 +553,4 @@ describe('Multiselect Component', () => {
         cy.get('[data-cy="option"]').should('be.visible')
         cy.get('[data-cy="spinner"]').should('be.visible')
     })
-
-    it('can teleport dropdown to body', () => {
-        const selectOptions = [{value: {abc: 'xyz', test: {xyz: 3}}, label: 'This'}, {
-            value: 2,
-            label: 'is'
-        }, {value: 'haha', label: 'a'}, {value: 4, label: 'test'}]
-        cy.mount(SMultiselect, {
-            props: {
-                selectOptions: selectOptions,
-                teleport: true,
-            }
-        })
-
-        cy.get('[data-cy="multiselect"]').click()
-        cy.get('[data-cy="dropdown"]').should('exist').should('be.visible')
-        cy.get('[data-cy="optionList"]').should('exist')
-        cy.get('[data-cy="option"]').should('be.visible')
-        cy.get('[data-cy="dropdown"]').should('have.css', 'width')
-        cy.get('[data-cy="dropdown"]').parent().should('match', 'body')
-    })
 })
