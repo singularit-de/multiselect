@@ -22,6 +22,7 @@
       :loading-options="loadingOptions"
       :max-options="maxOptions"
       :infinite="infinite"
+      :teleport="teleport"
     />
     <Multiselect
       v-else
@@ -45,6 +46,7 @@
       :loading-options="loadingOptions"
       :max-options="maxOptions"
       :infinite="infinite"
+      :teleport="teleport"
     />
     <div v-if="vModel">
       <button
@@ -262,6 +264,11 @@ export default defineComponent({
       default: 1000,
     },
     loadingOptions: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    teleport: {
       type: Boolean,
       required: false,
       default: false,

@@ -46,7 +46,8 @@
   "dependencies": {
     "@vueuse/core": "^11.1.0",
     "lodash": "^4.17.21",
-    "vue": "^3.5"
+    "vue": "^3.5",
+    "vueuc": "^0.4.58"
   },
   "devDependencies": {
     "@babel/core": "^7.18.2",
