@@ -1,6 +1,6 @@
-const {defineConfig} = require('cypress')
+import {defineConfig} from 'cypress'
 
-module.exports = defineConfig({
+export default defineConfig({
   projectId: '7fev1t',
   component: {
     devServer: {
