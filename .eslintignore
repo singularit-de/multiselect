@@ -2,4 +2,3 @@
 *.cy.js
 *.d.ts
 ./public
-dist

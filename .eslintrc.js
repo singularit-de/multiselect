@@ -3,7 +3,7 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: '@singularit/eslint-config-vue',
+  extends: '@singularit',
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',

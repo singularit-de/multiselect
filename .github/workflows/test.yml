@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [18, 19, 20]
+        node: [14, 15, 16, 18]
     name: 🧪 Run Component tests on Node v${{ matrix.node }}
     steps:
       - name: Setup Node
@@ -39,12 +39,12 @@ jobs:
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v2
         if: failure()
         with:
           name: cypress-screenshots
           path: cypress/screenshots
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v2
         if: failure()
         with:
           name: cypress-videos

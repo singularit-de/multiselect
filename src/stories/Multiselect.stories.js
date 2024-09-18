@@ -1,19 +1,34 @@
-import {fn} from '@storybook/test'
 import Multiselect from '../Multiselect.vue'
 import '../index.css'
 
 export default {
   title: 'Component/Multiselect',
   component: Multiselect,
-  args: {
-    'onSelect': fn(),
-    'onDeselect': fn(),
-    'onOpen': fn(),
-    'onClose': fn(),
-    'onSearchChange': fn(),
-    'onClear': fn(),
-    'onUpdate:modelValue': fn(),
-    'onLoadMore': fn(),
+  argTypes: {
+    'onSelect': {
+      action: 'selected',
+    },
+    'onDeselect': {
+      action: 'deselect',
+    },
+    'onOpen': {
+      action: 'open',
+    },
+    'onClose': {
+      action: 'close',
+    },
+    'onSearchChange': {
+      action: 'search-change',
+    },
+    'onClear': {
+      action: 'clear',
+    },
+    'onUpdate:modelValue': {
+      action: 'update:modelValue',
+    },
+    'onLoadMore': {
+      action: 'loadMore',
+    },
   },
 }
 
@@ -28,10 +43,5 @@ const Template = args => ({
 export const MultiselectComponent = Template.bind({})
 MultiselectComponent.args = {
   placeholder: 'huhu',
-  selectOptions: [
-    {value: 1, label: 'Wie'},
-    {value: 'hallo', label: 'geht'},
-    {value: {nested: 'juhu'}, label: 'es'},
-    {value: true, label: 'dir'},
-  ],
+  selectOptions: [{value: 1, label: 'Wie'}, {value: 'hallo', label: 'geht'}, {value: {nested: 'juhu'}, label: 'es'}, {value: true, label: 'dir'}],
 }

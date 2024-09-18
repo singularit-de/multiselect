@@ -2,7 +2,7 @@ import type {SetupContext} from 'vue'
 import {computed, ref} from 'vue'
 
 export default function useSearch(context: SetupContext) {
-  const input = ref<HTMLInputElement>()
+  const input = ref<HTMLInputElement | null>(null)
   const searchString = ref('')
   const search = computed<string>({
     get() {

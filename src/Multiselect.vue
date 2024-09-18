@@ -1,165 +1,149 @@
 <template>
-  <v-binder>
-    <v-target>
-      <div
-        ref="multiselectContainer"
-        :class="classList.container"
-        :tabindex="tabindex"
-        data-cy="multiselect"
-        @focusin="activate"
-        @focusout="handleFocusOut"
-        @focus="handleFocus"
-        @mousedown.self="handleMousedown"
+  <div
+    ref="multiselect"
+    :class="classList.container"
+    :tabindex="tabindex"
+    data-cy="multiselect"
+    @focusin="activate"
+    @focusout="deactivate"
+    @focus="handleFocus"
+    @mousedown.self="handleMousedown"
+  >
+    <select
+      v-model="selectedOptionsRef"
+      :multiple="multiple"
+      v-bind="selectProps"
+      class="hidden"
+    />
+
+    <!-- search -->
+    <template v-if="searchable && !disabled">
+      <input
+        ref="input"
+        v-model="search"
+        :class="classList.search"
+        v-bind="searchProps"
+        data-cy="search-input"
       >
-        <select
-          v-model="selectedOptionsRef"
-          :multiple="multiple"
-          v-bind="selectProps"
-          class="hidden"
-        />
+    </template>
 
-        <!-- search -->
-        <template v-if="searchable && !disabled">
-          <input
-            ref="input"
-            v-model="search"
-            :class="classList.search"
-            v-bind="searchProps"
-            data-cy="search-input"
-          >
-        </template>
-
-        <!-- placeholder -->
-        <template v-if="placeholder && noSelection && !search">
-          <slot name="placeholder">
-            <div
-              :class="classList.placeholder"
-              data-cy="placeholder"
-            >
-              {{ placeholder }}
-            </div>
-          </slot>
-        </template>
-
-        <!-- display selected values -->
-        <template v-if="!noSelection && !search">
-          <slot
-            name="value-display"
-            :selected-options="selectedOptions"
-          >
-            <div
-              :class="classList.label"
-              data-cy="value-display"
-            >
-              {{ valueDisplayText }}
-            </div>
-          </slot>
-        </template>
-
-        <!-- clear -->
-        <slot
-          v-if="!noSelection && clearable && !disabled"
-          :clear="clear"
-          name="clear"
-        >
-          <span
-            :class="classList.clear"
-            data-cy="clear"
-            @mousedown.prevent
-            @click="clear"
-          ><span
-            :class="classList.clearIcon"
-          ><!-- clear icon? --> x</span></span>
-        </slot>
-
-        <!-- space -->
+    <!-- placeholder -->
+    <template v-if="placeholder && noSelection && !search">
+      <slot name="placeholder">
         <div
-          :class="classList.spacer"
-          data-cy="spacer"
-        />
-      </div>
-    </v-target>
-    <!-- always show but hide content to avoid weird dropdown ref behaviour -->
-    <v-follower
-      :show="true"
-      :placement="dropdownPlacement"
-    >
-      <!--option dropdown-->
-      <div
-        ref="dropdown"
-        :class="classList.dropdown"
-        data-cy="dropdown"
-        :style="dropdownStyle"
-        tabindex="0"
-        @scroll="handleScroll"
-        @focusout="handleFocusOut"
+          :class="classList.placeholder"
+          data-cy="placeholder"
+        >
+          {{ placeholder }}
+        </div>
+      </slot>
+    </template>
+
+    <!-- display selected values -->
+    <template v-if="!noSelection && !search">
+      <slot
+        name="value-display"
+        :selected-options="selectedOptions"
       >
-        <ul
-          v-if="shownOptions.length > 0 && (!loadingOptions || infinite)"
-          :class="classList.options"
-          data-cy="optionList"
+        <div
+          :class="classList.label"
+          data-cy="value-display"
         >
-          <li
-            v-for="(option) in shownOptions"
-            :key="String(optionValue(option))"
-            :class="classList.option(option)"
-            data-cy="option"
-            @click="handleOptionClick(option)"
+          {{ valueDisplayText }}
+        </div>
+      </slot>
+    </template>
+
+    <!--option dropdown-->
+    <div
+      :class="classList.dropdown"
+      data-cy="dropdown"
+      @scroll="handleScroll"
+    >
+      <ul
+        v-if="shownOptions.length > 0 && (!loadingOptions || infinite)"
+        :class="classList.options"
+        data-cy="optionList"
+      >
+        <li
+          v-for="(option) in shownOptions"
+          :key="optionValue(option)"
+          :class="classList.option(option)"
+          data-cy="option"
+          @click="handleOptionClick(option)"
+        >
+          <slot
+            :is-selected="isSelected"
+            :option="option"
+            name="option-label"
           >
-            <slot
-              :is-selected="isSelected"
-              :option="option"
-              name="option-label"
-            >
-              <span data-cy="option-label">{{ optionLabel(option) }}</span>
-            </slot>
-          </li>
-        </ul>
+            <span data-cy="option-label">{{ optionLabel(option) }}</span>
+          </slot>
+        </li>
+      </ul>
 
-        <slot
-          v-if="loadingOptions"
-          name="loading-options"
-        >
-          <hr>
-          <div class="flex justify-center items-center py-2">
-            <div
-              :class="classList.spinner"
-              data-cy="spinner"
-            />
-          </div>
-        </slot>
-
-        <slot
-          v-if="noOptions && !loadingOptions"
-          name="no-options"
-        >
+      <slot
+        v-if="loadingOptions"
+        name="loading-options"
+      >
+        <hr>
+        <div class="flex justify-center items-center py-2">
           <div
-            :class="classList.noOptions"
-          >
-            {{ noOptionsText }}
-          </div>
-        </slot>
+            :class="classList.spinner"
+            data-cy="spinner"
+          />
+        </div>
+      </slot>
 
-        <slot
-          v-if="noResults && !loadingOptions"
-          name="no-results"
+      <slot
+        v-if="noOptions && !loadingOptions"
+        name="no-options"
+      >
+        <div
+          :class="classList.noOptions"
         >
-          <div
-            :class="classList.noResults"
-          >
-            {{ noResultsText }}
-          </div>
-        </slot>
-      </div>
-    </v-follower>
-  </v-binder>
+          {{ noOptionsText }}
+        </div>
+      </slot>
+
+      <slot
+        v-if="noResults && !loadingOptions"
+        name="no-results"
+      >
+        <div
+          :class="classList.noResults"
+        >
+          {{ noResultsText }}
+        </div>
+      </slot>
+    </div>
+
+    <!-- clear -->
+    <slot
+      v-if="!noSelection && clearable && !disabled"
+      :clear="clear"
+      name="clear"
+    >
+      <span
+        :class="classList.clear"
+        data-cy="clear"
+        @mousedown="clear"
+      ><span
+        :class="classList.clearIcon"
+      ><!-- clear icon? --> x</span></span>
+    </slot>
+
+    <!-- space -->
+    <div
+      :class="classList.spacer"
+      data-cy="spacer"
+    />
+  </div>
 </template>
 
 <script lang="ts">
 import type {InputHTMLAttributes, PropType, SelectHTMLAttributes, SetupContext} from 'vue'
-import {defineComponent, ref, toRefs} from 'vue'
-
-import {VBinder, VFollower, VTarget} from 'vueuc'
+import {defineComponent, toRefs} from 'vue'
 import useMultiselect from './utils/useMultiselect'
 import useDropdown from './utils/useDropdown'
 import useSearch from './utils/useSearch'
@@ -167,10 +151,8 @@ import useOptions from './utils/useOptions'
 import useClasses from './utils/useClasses'
 import type {Classes, Option} from './types'
 import useScroll from './utils/useScroll'
-
 export default defineComponent({
   name: 'SMultiselect',
-  components: {VTarget, VFollower, VBinder},
   props: {
     /**
      * Allows selecting multiple options. If true, the model value will be an array of selected values,
@@ -405,14 +387,6 @@ export default defineComponent({
       required: false,
       default: false,
     },
-    /**
-     * Where the dropdown menu should be positioned. By default, it chooses for itself depending on space.
-     */
-    position: {
-      type: String as PropType<'bottom' | 'top' | 'auto'>,
-      required: false,
-      default: 'auto',
-    },
   },
   emits: {
     'open': () => true,
@@ -425,19 +399,17 @@ export default defineComponent({
     'loadMore': () => true,
   },
   setup(props, context: SetupContext) {
-    const multiselectContainer = ref<HTMLDivElement>()
     const {
-      multiple, modelValue, searchable, disabled, closeOnSelect, selectOptions, displaySelectedValues, optionValue,
-      optionLabel, optionDisabled, optionSearchValue, classes, infinite, maxOptions, loadingOptions, position,
+      multiple, modelValue, searchable, disabled, closeOnSelect, selectOptions, displaySelectedValues,
+      optionValue, optionLabel, optionDisabled, optionSearchValue, classes, infinite, maxOptions, loadingOptions,
     } = toRefs(props)
-    const dropdown = useDropdown(context, position, multiselectContainer)
+    const dropdown = useDropdown(context)
     const search = useSearch(context)
     const multiselect = useMultiselect(
-      multiselectContainer,
       searchable,
       disabled,
+      multiple,
       context,
-      dropdown.dropdown,
       dropdown.openDropdown,
       dropdown.closeDropdown,
       search.clearSearch,
@@ -477,7 +449,6 @@ export default defineComponent({
     )
 
     return {
-      multiselectContainer,
       ...dropdown,
       ...search,
       ...options,
