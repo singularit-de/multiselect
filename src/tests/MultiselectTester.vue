@@ -22,6 +22,7 @@
       :loading-options="loadingOptions"
       :max-options="maxOptions"
       :infinite="infinite"
+      :position="position"
     />
     <Multiselect
       v-else
@@ -45,6 +46,7 @@
       :loading-options="loadingOptions"
       :max-options="maxOptions"
       :infinite="infinite"
+      :position="position"
     />
     <div v-if="vModel">
       <button
@@ -265,6 +267,11 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false,
+    },
+    position: {
+      type: String as PropType<'auto' | 'bottom' | 'top'>,
+      required: false,
+      default: 'auto',
     },
   },
   setup(props) {

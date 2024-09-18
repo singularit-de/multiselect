@@ -1,17 +1,18 @@
 import type {Ref, SetupContext} from 'vue'
 import {computed, ref} from 'vue'
 
-export default function useMultiselect(searchable: Ref<boolean>,
+export default function useMultiselect(
+  multiselectContainer: Ref<HTMLDivElement | undefined>,
+  searchable: Ref<boolean>,
   disabled: Ref<boolean>,
-  multiple: Ref<boolean>,
   context: SetupContext,
+  dropdown: Ref<HTMLDivElement | undefined>,
   openDropdown: () => void,
   closeDropdown: () => void,
   clearSearch: () => void,
   dropdownOpen: Ref<boolean>,
-  input: Ref<HTMLInputElement | null>,
+  input: Ref<HTMLInputElement | undefined>,
 ) {
-  const multiselect = ref<HTMLDivElement | null>(null)
   const isActive = ref(false)
 
   const tabindex = computed(() => searchable.value || disabled.value ? -1 : 0)
@@ -37,6 +38,15 @@ export default function useMultiselect(searchable: Ref<boolean>,
     }
   }
 
+  // don't deactivate when focusing option dropdown
+  function handleFocusOut(e: FocusEvent) {
+    const relatedTarget = e.relatedTarget as Node
+    if (dropdown.value && relatedTarget && dropdown.value.contains(relatedTarget))
+      e.preventDefault()
+    else
+      deactivate()
+  }
+
   function handleFocus() {
     input.value?.focus()
   }
@@ -54,23 +64,23 @@ export default function useMultiselect(searchable: Ref<boolean>,
 
   context.expose({
     focus: () => {
-      multiselect.value?.focus()
+      multiselectContainer.value?.focus()
     },
     blur: () => {
       if (searchable.value)
         input.value?.blur()
 
-      multiselect.value?.blur()
+      multiselectContainer.value?.blur()
     },
   })
 
   return {
-    multiselect,
     isActive,
     tabindex,
     activate,
     deactivate,
     handleMousedown,
     handleFocus,
+    handleFocusOut,
   }
 }
