@@ -12,7 +12,7 @@ export default function useDropdown(context: SetupContext, position: MaybeRefOrG
     }
     else if (dropdown.value !== undefined) {
       const {bottom} = dropdown.value.getBoundingClientRect()
-      return window.innerHeight - bottom < dropdown.value?.scrollHeight ? 'top' : 'bottom'
+      return window.innerHeight - bottom < dropdown.value?.clientHeight ? 'top' : 'bottom'
     }
     return 'bottom'
   })
