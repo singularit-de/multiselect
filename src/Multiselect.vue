@@ -79,9 +79,8 @@
         />
       </div>
     </v-target>
-    <!-- always show but hide content to avoid weird dropdown ref behaviour -->
     <v-follower
-      :show="true"
+      :show="dropdownOpen"
       :placement="dropdownPlacement"
     >
       <!--option dropdown-->
