@@ -6,17 +6,20 @@ export default function useDropdown(context: SetupContext, position: MaybeRefOrG
   const dropdownStyle = ref<CSSProperties>({})
   const dropdownOpen = ref(false)
 
+  const windowInnerHeight = ref(window.innerHeight)
+
   const dropdownPlacement = computed(() => {
     if (toValue(position) !== 'auto') {
       return toValue(position as 'bottom' | 'top')
     }
     else if (dropdown.value !== undefined) {
       const {bottom} = dropdown.value.getBoundingClientRect()
-      return window.innerHeight - bottom < dropdown.value?.clientHeight ? 'top' : 'bottom'
+      return windowInnerHeight.value - bottom < dropdown.value?.clientHeight ? 'top' : 'bottom'
     }
     return 'bottom'
   })
   function updateWidth() {
+    windowInnerHeight.value = window.innerHeight
     if (container.value) {
       const {width: containerWidth} = container.value.getBoundingClientRect()
       dropdownStyle.value.width = `${containerWidth}px`
