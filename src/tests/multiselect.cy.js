@@ -32,7 +32,7 @@ describe('Multiselect Component', () => {
         })
 
         cy.get('[data-cy="multiselect"]').should('exist')
-        cy.get('[data-cy="dropdown"]').should('not.be.visible')
+        cy.get('[data-cy="dropdown"]').should('not.exist')
         cy.get('[data-cy="multiselect"]').click()
         cy.get('[data-cy="dropdown"]').should('be.visible')
         cy.get('[data-cy="option"]').eq(3).click()
@@ -78,7 +78,7 @@ describe('Multiselect Component', () => {
             },
         })
 
-        cy.get('[data-cy="dropdown"]').should('not.be.visible')
+        cy.get('[data-cy="dropdown"]').should('not.exist')
         cy.get('[data-cy="multiselect"]').click()
         cy.get('[data-cy="dropdown"]').should('be.visible')
         cy.get('[data-cy="option"]').eq(3).click()
@@ -216,7 +216,7 @@ describe('Multiselect Component', () => {
             },
         })
 
-        cy.get('[data-cy="dropdown"]').should('not.be.visible')
+        cy.get('[data-cy="dropdown"]').should('not.exist')
         cy.get('[data-cy="multiselect"]').click()
         cy.get('[data-cy="dropdown"]').should('be.visible')
         cy.get('[data-cy="option"]').eq(3).click()
@@ -237,7 +237,7 @@ describe('Multiselect Component', () => {
             },
         })
 
-        cy.get('[data-cy="dropdown"]').should('not.be.visible')
+        cy.get('[data-cy="dropdown"]').should('not.exist')
         cy.get('[data-cy="multiselect"]').click()
         cy.get('[data-cy="dropdown"]').should('be.visible')
         cy.get('[data-cy="search-input"]').should('be.focused')
@@ -265,7 +265,7 @@ describe('Multiselect Component', () => {
             },
         })
 
-        cy.get('[data-cy="dropdown"]').should('not.be.visible')
+        cy.get('[data-cy="dropdown"]').should('not.exist')
         cy.get('[data-cy="multiselect"]').click()
         cy.get('[data-cy="dropdown"]').should('be.visible')
         cy.get('[data-cy="search-input"]').should('be.focused')
@@ -289,9 +289,9 @@ describe('Multiselect Component', () => {
             },
         })
 
-        cy.get('[data-cy="dropdown"]').should('not.be.visible')
+        cy.get('[data-cy="dropdown"]').should('not.exist')
         cy.get('[data-cy="multiselect"]').click()
-        cy.get('[data-cy="dropdown"]').should('not.be.visible')
+        cy.get('[data-cy="dropdown"]').should('not.exist')
 
     })
 
@@ -326,7 +326,7 @@ describe('Multiselect Component', () => {
             },
         })
 
-        cy.get('[data-cy="dropdown"]').should('not.be.visible')
+        cy.get('[data-cy="dropdown"]').should('not.exist')
         cy.get('[data-cy="multiselect"]').click()
         cy.get('[data-cy="dropdown"]').should('be.visible')
         cy.get('[data-cy="option"]').eq(3).click()
@@ -438,7 +438,7 @@ describe('Multiselect Component', () => {
             }
         })
 
-        cy.get('[data-cy="dropdown"]').should('not.be.visible')
+        cy.get('[data-cy="dropdown"]').should('not.exist')
         cy.get('[data-cy="blurButton"]').click()
         cy.get('[data-cy="focusButton"]').click()
         cy.get('[data-cy="dropdown"]').should('be.visible')
@@ -527,7 +527,7 @@ describe('Multiselect Component', () => {
             }
         })
 
-        cy.get('[data-cy="spinner"]').should('not.be.visible')
+        cy.get('[data-cy="spinner"]').should('not.exist')
         cy.get('[data-cy="multiselect"]').click()
         cy.get('[data-cy="optionList"]').should('not.exist')
         cy.get('[data-cy="spinner"]').should('be.visible')
@@ -547,7 +547,7 @@ describe('Multiselect Component', () => {
             }
         })
 
-        cy.get('[data-cy="spinner"]').should('not.be.visible')
+        cy.get('[data-cy="spinner"]').should('not.exist')
         cy.get('[data-cy="multiselect"]').click()
         cy.get('[data-cy="optionList"]').should('exist')
         cy.get('[data-cy="option"]').should('be.visible')
